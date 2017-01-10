@@ -1,0 +1,53 @@
+#	 * Project: PanelDev
+#	 * License: GPL3.0 All ©All right reserved
+#	 * User: WinXaito
+
+#RewriteEngine
+    RewriteEngine on
+
+#RewriteRule
+    RewriteRule ^$ controllers/home/home.php [L]
+
+    #Authenticate
+        RewriteRule ^login$ controllers/authenticate/login.php [L]
+        RewriteRule ^logout$ controllers/authenticate/logout.php [L]
+        RewriteRule ^register$ controllers/authenticate/register.php [L]
+
+    #Profile
+        RewriteRule ^profile$ controllers/profile/profile.php [L]
+
+    #Projects
+        RewriteRule ^projects$ controllers/projects/projects.php [L]
+        RewriteRule ^project/new$ controllers/projects/newproject.php [L]
+
+        RewriteRule ^project/(\w+)/view$ controllers/projects/viewproject.php?url=$1 [L]
+            RewriteRule ^project/(\w+)/view/users$ controllers/projects/usersproject.php?url=$1 [L]
+            RewriteRule ^project/(\w+)/view/analytics$ controllers/projects/analyticsproject.php?url=$1 [L]
+            RewriteRule ^project/(\w+)/view/documentation$ controllers/projects/documentationproject.php?url=$1 [L]
+        RewriteRule ^project/(\w+)/update$ controllers/projects/updateproject.php?url=$1 [L]
+        RewriteRule ^project/(\w+)/remove$ controllers/projects/removeproject.php?url=$1 [L]
+
+	#Options
+		RewriteRule ^options$ controllers/options/options.php [L]
+
+    #Help
+        RewriteRule ^help$ controllers/help/help.php [L]
+
+	#Historic
+		RewriteRule ^historic$ controllers/historic/historic.php [L]
+			RewriteRule ^historic/remove$ controllers/historic/removehistoric.php [L]
+			RewriteRule ^historic/desactive$ controllers/historic/desactivehistoric.php [L]
+			RewriteRule ^historic/active$ controllers/historic/activehistoric.php [L]
+
+    #Error
+        RewriteRule ^error/500$ views/errors/500.html
+        RewriteRule ^error/(\d+)$ views/errors/errors.php?error=$1
+
+
+#ErrorDocument
+    ErrorDocument 400 /winxaito/paneldev/error/400
+    ErrorDocument 401 /winxaito/paneldev/error/401
+    ErrorDocument 402 /winxaito/paneldev/error/402
+    ErrorDocument 403 /winxaito/paneldev/error/403
+    ErrorDocument 404 /winxaito/paneldev/error/404
+    ErrorDocument 500 /winxaito/paneldev/error/500
