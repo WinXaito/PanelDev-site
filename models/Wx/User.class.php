@@ -5,7 +5,7 @@
      * User: WinXaito
      */
 
-    class User{
+    class Wx_User{
         private $_id;
         private $_name;
         private $_password;
@@ -174,9 +174,9 @@
         }
 
         /**
-         * @param User $user
+         * @param Wx_User $user
          */
-        public function deconnect(User $user){
+        public function deconnect(Wx_User $user){
             unset($user);
             session_destroy();
         }

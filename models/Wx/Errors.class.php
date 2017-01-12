@@ -5,7 +5,7 @@
      * User: WinXaito
      */
 
-    class Errors{
+    class Wx_Errors{
         private $_error;
 
         /**

@@ -28,7 +28,7 @@
             $_add = '<p class="bg-primary message">Votre profile à bien été modifié</p>';
     }
 
-	$breadcrum = new Breadcrum(
+	$breadcrum = new Wx_Breadcrum(
 		false,
 		[
 			'Accueil' => '',

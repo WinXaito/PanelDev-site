@@ -12,16 +12,16 @@
     if(!isset($_GET['url']))
         $_GET['url'] = "";
 
-    $projectManager = new ProjectManager($bdd, $_HistoricManager, $_User);
+    $projectManager = new Wx_ProjectManager($bdd, $_HistoricManager, $_User);
     $project = $projectManager->get($_GET['url']);
 
-    $error = new Errors();
+    $error = new Wx_Errors();
     if(!$project)
         $error->setAndShowError(404);
     if($project->getOwner() != $_User->getId())
         $error->setAndShowError(403);
 
-    $breadcrum = new Breadcrum(
+    $breadcrum = new Wx_Breadcrum(
         true,
         [
             'Accueil' => "",

@@ -18,8 +18,8 @@
 		    if(!filter_var($_POST['project_url'], FILTER_VALIDATE_URL))
 		        $_POST['project_url'] = '';
 
-			$projectManager = new ProjectManager($bdd , $_HistoricManager, $_User);
-            $projectContent = new Project(
+			$projectManager = new Wx_ProjectManager($bdd , $_HistoricManager, $_User);
+            $projectContent = new Wx_Project(
                 $_POST['project_name'],
                 $_User->getId(),
                 "",
@@ -42,7 +42,7 @@
 	}
 
 
-	$breadcrum = new Breadcrum(
+	$breadcrum = new Wx_Breadcrum(
 		true,
 		[
 			'Accueil' => '',

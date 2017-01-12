@@ -8,20 +8,21 @@
     //Load Required file
 	require_once __DIR__.'/../config.php';
     require_once __DIR__.'/../models/bdd.php';
+    require_once __DIR__.'/../models/Autoload.php';
 
     //Start Session
     if(session_id() == null)
 	    session_start();
 
     //Active AutoClassCharger
-    spl_autoload_register('personnalClass');
+    spl_autoload_register('autoload');
 
 
     //Check Authentification
     if(isset($_SESSION['user']['id'])){
-        $_UserManager = new UserManager($bdd);
+        $_UserManager = new Wx_UserManager($bdd);
         $_User = $_UserManager->getUserById($_SESSION['user']['id']);
-        $_HistoricManager = new HistoricManager($bdd, $_User);
+        $_HistoricManager = new Wx_HistoricManager($bdd, $_User);
         $_UserManager->setHistoricManager($_HistoricManager);
     }else{
         if($_SERVER['REQUEST_URI'] != URL_PATH."/login" && $_SERVER['REQUEST_URI'] != URL_PATH."/register")

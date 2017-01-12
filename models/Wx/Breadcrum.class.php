@@ -5,7 +5,7 @@
      * User: WinXaito
      */
 
-    class Breadcrum{
+    class Wx_Breadcrum{
         private $_breadcrum;
         private $_url;
 

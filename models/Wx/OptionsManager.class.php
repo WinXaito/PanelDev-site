@@ -5,7 +5,7 @@
      * User: WinXaito
      */
 
-    class OptionsManager{
+    class Wx_OptionsManager{
         private $_db;
 
         /**

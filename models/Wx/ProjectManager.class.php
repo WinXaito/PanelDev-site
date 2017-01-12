@@ -5,7 +5,7 @@
      * User: WinXaito
      */
 
-    class ProjectManager{
+    class Wx_ProjectManager{
         private $_db;
         private $_historicManager;
         private $_user;
@@ -13,10 +13,10 @@
 
         /**
          * @param PDO $db
-         * @param HistoricManager $historicManager
-         * @param User $user
+         * @param Wx_HistoricManager $historicManager
+         * @param Wx_User $user
          */
-        public function __construct(PDO $db, HistoricManager $historicManager, User $user){
+        public function __construct(PDO $db, Wx_HistoricManager $historicManager, Wx_User $user){
             $this->_db = $db;
             $this->_historicManager = $historicManager;
             $this->_user = $user;
@@ -31,7 +31,7 @@
 
         /**
          * @param $url
-         * @return Project
+         * @return Wx_Project
          */
         public function get($url){
             $q = $this->_db->prepare("
@@ -45,7 +45,7 @@
             $result = $q->fetch();
 
             if($result){
-                $project = new Project(
+                $project = new Wx_Project(
                     $result['name'],
                     $result['owner'],
                     $result['users'],
@@ -65,9 +65,9 @@
         }
 
         /**
-         * @param Project $project
+         * @param Wx_Project $project
          */
-        public function add(Project $project){
+        public function add(Wx_Project $project){
             $q = $this->_db->prepare("
                     INSERT INTO projects
                     (name, owner, users, type, description, url, project_url, date_creation, date_modification)
@@ -91,7 +91,7 @@
             else
                 $historic_content = $project->getName().' ('.$project->getUrl().')';
 
-            $historic = new Historic($this->_user, Historic::TYPE_PROJECT, "Création d'un projet",
+            $historic = new Wx_Historic($this->_user, Wx_Historic::TYPE_PROJECT, "Création d'un projet",
                 $historic_content, time(), $_SERVER['REMOTE_ADDR']);
 
             $this->_historicManager->add($historic);
@@ -101,7 +101,7 @@
          * @param Project $project
          * @param $url
          */
-        public function update(Project $project, $url){
+        public function update(Wx_Project $project, $url){
             $q = $this->_db->prepare("
                     UPDATE projects
                     SET name = :name,
@@ -131,7 +131,7 @@
             else
                 $historic_content = $project->getName().' ('.$project->getUrl().')';
 
-            $historic = new Historic($this->_user, Historic::TYPE_PROJECT, "Modification d'un projet",
+            $historic = new Wx_Historic($this->_user, Wx_Historic::TYPE_PROJECT, "Modification d'un projet",
                 $historic_content, time(), $_SERVER['REMOTE_ADDR']);
             $this->_historicManager->add($historic);
         }
@@ -148,7 +148,7 @@
                 $url,
             ));
 
-            $historic = new Historic($this->_user, Historic::TYPE_PROJECT, "Suppression d'un projet", "Name", time(), $_SERVER['REMOTE_ADDR']);
+            $historic = new Wx_Historic($this->_user, Wx_Historic::TYPE_PROJECT, "Suppression d'un projet", "Name", time(), $_SERVER['REMOTE_ADDR']);
             $this->_historicManager->add($historic);
         }
 
@@ -188,11 +188,11 @@
         }
 
         /**
-         * @param Project $project
+         * @param Wx_Project $project
          * @param $userid
          * @param $username
          */
-        public function addUser(Project $project, $userid, $username){
+        public function addUser(Wx_Project $project, $userid, $username){
             $users = $project->getUsers(true);
 
             if($users){
@@ -208,22 +208,22 @@
             $project->setUsers($users, false);
             $this->update($project, $project->getUrl());
 
-            $historic = new Historic($this->_user, Historic::TYPE_PROJECT, "Ajout d'un utilisateur", "Name + URL + Username", time(), $_SERVER['REMOTE_ADDR']);
+            $historic = new Wx_Historic($this->_user, Wx_Historic::TYPE_PROJECT, "Ajout d'un utilisateur", "Name + URL + Username", time(), $_SERVER['REMOTE_ADDR']);
             $this->_historicManager->add($historic);
         }
 
         /**
-         * @param Project $project
+         * @param Wx_Project $project
          * @param $username
          */
-        public function removeUser(Project $project, $username){
+        public function removeUser(Wx_Project $project, $username){
             $users = $project->getUsers();
             if(isset($users[$username])){
                 unset($users[$username]);
                 $project->setUsers($users, false);
                 $this->update($project, $project->getUrl());
 
-                $historic = new Historic($this->_user, Historic::TYPE_PROJECT, "Suppression d'un utilisateur", "Name + URL + Username", time(), $_SERVER['REMOTE_ADDR']);
+                $historic = new Wx_Historic($this->_user, Wx_Historic::TYPE_PROJECT, "Suppression d'un utilisateur", "Name + URL + Username", time(), $_SERVER['REMOTE_ADDR']);
                 $this->_historicManager->add($historic);
             }
         }
@@ -249,19 +249,19 @@
         }
 
         /**
-         * @param User $_User
+         * @param Wx_User $_User
          * @return bool
          */
-        public function hasProjects(User $_User){
+        public function hasProjects(Wx_User $_User){
             return !empty($this->getUserProjects($_User));
         }
 
         /**
-         * @param User $_User
+         * @param Wx_User $_User
          * @param bool|false $little
          * @return string
          */
-        public function showAllProjectsTable(User $_User, $little=false){
+        public function showAllProjectsTable(Wx_User $_User, $little=false){
             $allProjects = $this->getUserProjects($_User);
 
             if(!$little){
@@ -318,10 +318,10 @@
         }
 
         /**
-         * @param User $_User
+         * @param Wx_User $_User
          * @return array
          */
-        public function getUserProjects(User $_User){
+        public function getUserProjects(Wx_User $_User){
             $q = $this->_db->prepare("
                 SELECT *
                 FROM projects

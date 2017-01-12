@@ -5,7 +5,7 @@
      * User: WinXaito
      */
 
-    class Historic{
+    class Wx_Historic{
         private $_User;
         private $_id;
         private $_type;
@@ -21,7 +21,7 @@
 
 
         /**
-         * @param User $_User
+         * @param Wx_User $_User
          * @param $type
          * @param $title
          * @param $content
@@ -29,7 +29,7 @@
          * @param $ip
          * @param int $id
          */
-        public function __construct(User $_User, $type, $title, $content, $time, $ip, $id=0){
+        public function __construct(Wx_User $_User, $type, $title, $content, $time, $ip, $id=0){
             $this->_User = $_User;
             $this->setType($type);
             $this->setTitle($title);
@@ -40,9 +40,9 @@
         }
 
         /**
-         * @param User $user
+         * @param Wx_User $user
          */
-        public function setUser(User $user){
+        public function setUser(Wx_User $user){
             $this->_User = $user;
         }
 

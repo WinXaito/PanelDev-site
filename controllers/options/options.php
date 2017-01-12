@@ -8,12 +8,12 @@
     require_once __DIR__.'/../init.php';
     require_once PATH.'/models/bdd.php';
 
-    $optionsManager = new OptionsManager($bdd);
+    $optionsManager = new Wx_OptionsManager($bdd);
     $options = $optionsManager->get($_User->getId());
 
 
     $tab['options'] = "active";
-    $breadcrum = new Breadcrum(
+    $breadcrum = new Wx_Breadcrum(
         false,
         [
             'Accueil' => URL_PATH_HOME,

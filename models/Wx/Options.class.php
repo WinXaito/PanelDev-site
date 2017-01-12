@@ -5,7 +5,7 @@
      * User: WinXaito
      */
 
-    class Options{
+    class Wx_Options{
         private $_user;
         private $_id;
         private $_opt_projects;

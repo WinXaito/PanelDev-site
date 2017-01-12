@@ -6,7 +6,7 @@
      */
 
 
-    class UserManager{
+    class Wx_UserManager{
         private $_db;
         private $_errors;
         private $_historicManager;
@@ -33,10 +33,10 @@
         }
 
         /**
-         * @param User $user
+         * @param Wx_User $user
          * @return bool
          */
-        public function add(User $user){
+        public function add(Wx_User $user){
             $this->checkUsername($user);
             $this->checkEmail($user);
             $this->checkPassword($user);
@@ -62,10 +62,10 @@
         }
 
         /**
-         * @param User $user
+         * @param Wx_User $user
          * @return bool
          */
-        public function update(User $user){
+        public function update(Wx_User $user){
             $this->checkPassword($user);
             $this->checkEmail($user);
 
@@ -101,7 +101,7 @@
 
         /**
          * @param $username
-         * @return bool
+         * @return bool|Wx_User
          */
         public function getUserByName($username){
             $q = $this->_db->prepare("
@@ -115,7 +115,7 @@
             $result = $q->fetch();
 
             if($result){
-                $users = new User(
+                $users = new Wx_User(
                     $result['name'],
                     $result['password'],
                     $result['email'],
@@ -132,7 +132,7 @@
 
         /**
          * @param $userid
-         * @return bool|User
+         * @return bool|Wx_User
          */
         public function getUserById($userid){
             $q = $this->_db->prepare("
@@ -146,7 +146,7 @@
             $result = $q->fetch();
 
             if($result){
-                $users = new User(
+                $users = new Wx_User(
                     $result['name'],
                     $result['password'],
                     $result['email'],
@@ -163,9 +163,9 @@
 
 
         /**
-         * @param User $user
+         * @param Wx_User $user
          */
-        private function checkUsername(User $user){
+        private function checkUsername(Wx_User $user){
             $existUser = $this->getUserByName($user->getName());
 
             if($existUser)
@@ -175,17 +175,17 @@
         }
 
         /**
-         * @param User $user
+         * @param Wx_User $user
          */
-        private function checkPassword(User $user){
+        private function checkPassword(Wx_User $user){
             if(strlen($user->getPassword()) < 6 || $user->getPassword() != $user->getPasswordConfirm())
                 $this->addError('<p class="bg-primary message">Le mot de passe doit faire au moins 6 caractères et doit correspondre à sa confirmation</p>');
         }
 
         /**
-         * @param User $user
+         * @param Wx_User $user
          */
-        private function checkEmail(User $user){
+        private function checkEmail(Wx_User $user){
             if(!filter_var($user->getEmail(), FILTER_VALIDATE_EMAIL))
                 $this->addError('<p class="bg-primary message">L\'adresse email indiqué n\'est pas correcte</p>');
         }

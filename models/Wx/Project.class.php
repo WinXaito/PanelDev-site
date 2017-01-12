@@ -5,7 +5,7 @@
      * User: WinXaito
      */
 
-    class Project{
+    class Wx_Project{
         private $_id;
         private $_name;
         private $_owner;

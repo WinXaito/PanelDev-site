@@ -11,8 +11,8 @@
 	$_add = "";
 	if(isset($_POST['username'])&&isset($_POST['email'])&&isset($_POST['password'])&&isset($_POST['confirmPassword'])){
 		if(!empty($_POST['username'])&&!empty($_POST['email'])&&!empty($_POST['password'])&&!empty($_POST['confirmPassword'])){
-            $_UserManager = new UserManager($bdd);
-            $_User = new User($_POST['username'], $_POST['password'], $_POST['email'], "", "", User::GRADE_INITIAL);
+            $_UserManager = new Wx_UserManager($bdd);
+            $_User = new Wx_User($_POST['username'], $_POST['password'], $_POST['email'], "", "", Wx_User::GRADE_INITIAL);
             $_User->setPasswordConfirm($_POST['confirmPassword']);
             $_UserManager->add($_User);
 

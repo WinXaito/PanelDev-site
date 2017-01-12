@@ -8,7 +8,7 @@
 	require_once __DIR__.'/../init.php';
 
 	$tab['help'] = "active";
-	$breadcrum = new Breadcrum(
+	$breadcrum = new Wx_Breadcrum(
         false,
 		[
             'Accueil' => '',

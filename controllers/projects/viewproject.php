@@ -8,9 +8,9 @@
 require_once __DIR__.'/../init.php';
 
 $url = isset($_GET['url']) ? $_GET['url'] : "";
-$projectManager = new ProjectManager($bdd, $_HistoricManager, $_User);
+$projectManager = new Wx_ProjectManager($bdd, $_HistoricManager, $_User);
 $projectContent = $projectManager->get($_GET['url']);
-$error = new Errors();
+$error = new Wx_Errors();
 
 if(!$projectContent)
     $error->setAndShowError(404);
@@ -18,7 +18,7 @@ if($projectContent->getOwner() !=$_User->getId() && !in_array($projectContent->g
     $error->setAndShowError(403);
 
 
-$breadcrum = new Breadcrum(
+$breadcrum = new Wx_Breadcrum(
     true,
     [
         'Accueil' => '',

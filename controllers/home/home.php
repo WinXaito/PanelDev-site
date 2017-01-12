@@ -7,10 +7,10 @@
 
 	require_once __DIR__.'/../init.php';
 
-    $projectManager = new ProjectManager($bdd, $_HistoricManager, $_User);
+    $projectManager = new Wx_ProjectManager($bdd, $_HistoricManager, $_User);
 
 	$tab['home'] = "active";
-	$breadcrum = new Breadcrum(false, ['Accueil' => '']);
+	$breadcrum = new Wx_Breadcrum(false, ['Accueil' => '']);
 
 	$complement['content'] = include PATH.'/views/templates_pages/home/content_home.php';
 	$complement['js'] = include PATH.'/views/templates_pages/home/js_home.php';

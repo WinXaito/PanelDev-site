@@ -9,9 +9,9 @@
 
 	$tab['projects'] = "active";
 
-    $projectManager = new ProjectManager($bdd , $_HistoricManager, $_User);
+    $projectManager = new Wx_ProjectManager($bdd , $_HistoricManager, $_User);
 
-	$breadcrum = new Breadcrum(
+	$breadcrum = new Wx_Breadcrum(
         false,
         [
             'Accueil' => '',

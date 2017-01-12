@@ -5,7 +5,7 @@
      * User: WinXaito
      */
 
-    class HistoricManager{
+    class Wx_HistoricManager{
         private $_db;
         private $_User;
 
@@ -13,7 +13,7 @@
          * @param $db
          * @param $_User
          */
-        public function __construct(PDO $db, User $_User){
+        public function __construct(PDO $db, Wx_User $_User){
             $this->_db = $db;
             $this->_User = $_User;
         }
@@ -35,7 +35,7 @@
             $i = 0;
             $return = [];
             while($result = $q->fetch()){
-                $return[$i] = new Historic($this->_User, $result['type'], $result['title'],$result['content'], $result['time'], $result['ip'], $result['id']);
+                $return[$i] = new Wx_Historic($this->_User, $result['type'], $result['title'],$result['content'], $result['time'], $result['ip'], $result['id']);
                 $i++;
             }
             return $return;
@@ -77,10 +77,10 @@
         }
 
         /**
-         * @param Historic $historic
+         * @param Wx_Historic $historic
          * @return void
          */
-        public function add(Historic $historic){
+        public function add(Wx_Historic $historic){
             $q = $this->_db->prepare("
                 INSERT INTO historic
                 (user, type, title, content, time, ip)
