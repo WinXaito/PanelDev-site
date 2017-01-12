@@ -19,7 +19,6 @@
 			</div>
 			<div>
 				<h3>Liste de vos projets</h3>
-
 			    '.$projects.'
 			</div>
 		</div>

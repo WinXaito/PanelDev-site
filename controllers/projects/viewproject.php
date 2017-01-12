@@ -6,7 +6,6 @@
  */
 
 require_once __DIR__.'/../init.php';
-require_once PATH.'/models/bdd.php';
 
 $url = isset($_GET['url']) ? $_GET['url'] : "";
 $projectManager = new ProjectManager($bdd, $_HistoricManager, $_User);
