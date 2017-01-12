@@ -21,6 +21,7 @@
          * @param $name
          * @param $owner
          * @param $users
+         * @param $type
          * @param $description
          * @param $url
          * @param $urlProject
@@ -77,6 +78,7 @@
         }
 
         /**
+         * Return all users ID
          * @param bool|false $unserialize
          * @return mixed
          */

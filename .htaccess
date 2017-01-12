@@ -41,7 +41,7 @@
 
     #Error
         RewriteRule ^error/500$ views/errors/500.html
-        RewriteRule ^error/(\d+)$ views/errors/errors.php?error=$1
+        RewriteRule ^error/(\d+)$ controllers/errors/errors.php?error=$1
 
 
 #ErrorDocument

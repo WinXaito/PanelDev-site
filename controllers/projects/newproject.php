@@ -14,7 +14,10 @@
 		$value__project_description = $_POST['project_description'];
 		$value__project_url = $_POST['project_url'];
 
-		if(!empty($_POST['project_name'])&&!empty($_POST['project_url'])&&!empty($_POST['project_type'])){
+		if(!empty($_POST['project_name'])&&!empty($_POST['project_type'])){
+		    if(!filter_var($_POST['project_url'], FILTER_VALIDATE_URL))
+		        $_POST['project_url'] = '';
+
 			$projectManager = new ProjectManager($bdd , $_HistoricManager, $_User);
             $projectContent = new Project(
                 $_POST['project_name'],

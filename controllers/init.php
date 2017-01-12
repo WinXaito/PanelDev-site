@@ -7,13 +7,15 @@
 
     //Load Required file
 	require_once __DIR__.'/../config.php';
-    require_once PATH.'/models/bdd.php';
+    require_once __DIR__.'/../models/bdd.php';
 
     //Start Session
-	session_start();
+    if(session_id() == null)
+	    session_start();
 
     //Active AutoClassCharger
-    spl_autoload_register('autoClass');
+    spl_autoload_register('personnalClass');
+
 
     //Check Authentification
     if(isset($_SESSION['user']['id'])){
@@ -40,6 +42,6 @@
     /**
      * @param $class
      */
-    function autoClass($class){
-        require_once PATH.'/models/class/'.$class.'.class.php';
+    function personnalClass($class){
+        require_once __DIR__ . '/../models/class/' . $class . '.class.php';
     }

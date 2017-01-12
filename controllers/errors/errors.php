@@ -1,13 +1,12 @@
 <?php
 /**
- * Project: PanelDev
- * License: GPL3.0 ©All right reserved
- * User: WinXaito
+ * Project: paneldev
+ * Created by: WinXaito
+ * Date: 12.01.2017
  */
-
-require_once __DIR__.'/../../config.php';
-require_once PATH.'/views/errors/headers.php';
-
+die;
+require_once __DIR__.'/../init.php';
+require_once __DIR__.'/errorsHeader.php';
 
 if(isset($_GET['error'])){
     switch($_GET['error']){
@@ -49,28 +48,21 @@ if(isset($_GET['error'])){
     $error_title = "Erreur inconnu";
     $error_content = "Une erreur inconnu est survenu";
 }
-?>
 
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="<?php echo URL_PATH;?>/assets/libraries/css/bootstrap.css"/>
-    <title>PanelDev - Erreur</title>
-</head>
-<body>
-<div class="container">
-    <header>
-        <h1><a href="<?php echo URL_PATH_HOME;?>">PanelDev</a></h1>
-        <h2>Erreur</h2>
-    </header>
-    <section>
-        <article class="text-center">
-            <h3><?php echo $error_title;?></h3>
-            <p><?php echo $error_content;?></p>
-        </article>
-    </section>
-</div>
-</body>
-</html>
+$complement['content'] = '
+    <h3>'.$error_title.'</h3>
+    <p><'.$error_content.'</p>
+';
+
+
+$breadcrum = new Breadcrum(
+    false,
+    [
+        'Accueil' => '',
+        'Erreur' => ''
+    ]
+);
+//$complement['content'] = include PATH.'/views/templates_pages/help/content_help.php';
+
+ob_end_clean();
+require_once PATH.'/views/default.php';

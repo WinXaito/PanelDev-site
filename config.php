@@ -9,8 +9,8 @@
 		define("PATH", __DIR__);
 
 	//Url
-		define("URL_PATH", "/winxaito/paneldev/0.0.2");
-		define("URL_PATH_HOME", "/winxaito/paneldev/0.0.2/");
+		define("URL_PATH", "/winxaito/paneldev");
+		define("URL_PATH_HOME", "/winxaito/paneldev/");
 		define("URL_PROJECTS_LENGTH", 6);
 
 	//BDD
