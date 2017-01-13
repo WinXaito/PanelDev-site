@@ -7,6 +7,8 @@
 
 require_once __DIR__.'/../init.php';
 
+$tab['projects'] = "active";
+
 $url = isset($_GET['url']) ? $_GET['url'] : "";
 $projectManager = new Wx_ProjectManager($bdd, $_HistoricManager, $_User);
 $projectContent = $projectManager->get($_GET['url']);

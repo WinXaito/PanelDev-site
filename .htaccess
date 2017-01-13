@@ -7,7 +7,7 @@
 
 #RewriteRule
     RewriteRule ^$ controllers/home/home.php [L]
-    RewriteRule ^test$ controllers/twigtest.php [L]
+    RewriteRule ^test$ controllers/test.php [L]
 
     #Authenticate
         RewriteRule ^login$ controllers/authenticate/login.php [L]

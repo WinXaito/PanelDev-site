@@ -1,0 +1,33 @@
+<script src="assets/libraries/js/chart.js"></script>
+<script>
+    var config = {
+        data: {
+            datasets: [{
+                data: [
+                    1000,
+                    780,
+                    100,
+                    50
+                ],
+                backgroundColor: [
+                    "#EEE",
+                    "#5c92c1",
+                    "#337AB7",
+                    "#7e9bb4"
+                ]
+            }],
+            labels: [
+                "200",
+                "404",
+                "500",
+                "autres"
+            ]
+        }
+    };
+
+    window.onload = function() {
+        var ctx = document.getElementById("chart-area").getContext("2d");
+        window.myDoughnut = Chart.Doughnut(ctx, config);
+        console.log(window.myDoughnut);
+    };
+</script>

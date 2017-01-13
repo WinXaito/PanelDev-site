@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="fr">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        {% block complement_meta %}{% endblock %}
+        <link rel="stylesheet" href="{{ URL }}/assets/css/default.css"/>
+        <link rel="stylesheet" href="{{ URL }}/assets/libraries/css/bootstrap.css"/>
+        {% block complement_css %}{% endblock %}
+        <title>Panel Gestion{% if title is defined %} - {{ title }}{% endif %}</title>
+    </head>
+    <body>
+        <div class="container">
+            {% include 'templates/header.twig' %}
+
+            <section class="col-lg-12">
+                {% include 'templates/navigation.twig' %}
+
+                <article class="col-md-10">
+                    {% if breadcrum is defined %}
+                        <p class="breadcrum">
+                        {% for name, url in breadcrum %}
+                            {% if loop.last %}
+                                <span class="breadcrum-nolink">{{ name }}</span>
+                            {% else %}
+                                <span><a href="{{ url }}">{{ name }}</a></span> ›
+                            {% endif %}
+                        {% endfor %}
+                        </p>
+                    {% endif %}
+
+                    {% block content %}{% endblock %}
+                </article>
+            </section>
+        </div>
+
+    {% block complement_js %}{% endblock %}
+    </body>
+</html>
