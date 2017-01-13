@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    {% block complement_meta %}{% endblock %}
+    <link rel="stylesheet" href="{{ URL }}/assets/css/default.css"/>
+    <link rel="stylesheet" href="{{ URL }}/assets/libraries/css/bootstrap.css"/>
+    {% block complement_css %}{% endblock %}
+    <title>Panel Gestion{% if title is defined %} - {{ title }}{% endif %}</title>
+</head>
+<body>
+{# Page generated with twig informations #}
+<div style="background-color:darkred;color:rgb(220,220,200);text-align:center">
+    <p>Generated with Twig</p>
+</div>
+
+{% block container %}
+<div class="container">
+    {% include 'templates/header.twig' %}
+
+    <section class="col-lg-12">
+        {% block section %}
+            {% include 'templates/navigation.twig' %}
+
+            <article class="col-md-10">
+                {% block article %}
+                    {% block content %}{% endblock %}
+                {% endblock %}
+            </article>
+        {% endblock %}
+    </section>
+</div>
+{% endblock %}
+
+{% block complement_js %}{% endblock %}
+</body>
+</html>

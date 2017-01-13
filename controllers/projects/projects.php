@@ -1,23 +1,27 @@
 <?php
-	/**
-	 * Project: PanelDev
-	 * License: GPL3.0 ©All right reserved
-	 * User: WinXaito
-	 */
+/**
+ * Project: PanelDev
+ * License: GPL3.0 ©All right reserved
+ * User: WinXaito
+ */
 
-	require_once __DIR__.'/../init.php';
+require_once __DIR__.'/../init.php';
 
-	$tab['projects'] = "active";
+$tab['projects'] = "active";
 
-    $projectManager = new Wx_ProjectManager($bdd , $_HistoricManager, $_User);
+$projectManager = new Wx_ProjectManager($bdd , $_HistoricManager, $_User);
+$projects = $projectManager->getOwnerProjects($_User);
 
-	$breadcrum = new Wx_Breadcrum(
-        false,
-        [
-            'Accueil' => '',
-            'Projets' => 'projects'
-        ]
-    );
-	$complement['content'] = include PATH.'/views/templates_pages/projects/content_projects.php';
+$breadcrum = new Wx_Breadcrum(
+    false,
+    [
+        'Accueil' => '',
+        'Projets' => 'projects'
+    ]
+);
 
-	require_once PATH.'/views/default.php';
+echo $twig->render('templates_pages/projects/content_projects.twig', [
+    'tab' => $tab,
+    'breadcrum' => $breadcrum->getBreadcrum(),
+    'projects' => $projects,
+]);

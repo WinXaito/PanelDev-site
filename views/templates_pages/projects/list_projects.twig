@@ -1,0 +1,28 @@
+<table class="table table-striped">
+    <thead>
+    {% block projectsHead %}
+        <th>ID</th>
+        <th>Nom</th>
+        <th>Date de création</th>
+        <th>Date de modification</th>
+        <th></th>
+    {% endblock %}
+    </thead>
+    <tbody>
+    {% for project in projects %}
+        <tr>
+            {% block projectsBody %}
+                <td>#{{ project.id }}</td>
+                <td><a href="{{ URL }}/project/{{ project.url }}/view">{{ project.name }}</a></td>
+                <td>{{ project.date_creation|date('d/m/Y') }}</td>
+                {% if project.date_modification == 0 %}
+                    <td>-</td>
+                {% else %}
+                    <td>{{ project.date_modification|date('d/m/Y') }}</td>
+                {% endif %}
+                <td><a href="{{ URL }}/project/{{ project.url }}/remove">Supprimer</a></td>
+            {% endblock %}
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>

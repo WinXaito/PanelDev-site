@@ -177,10 +177,12 @@
             $this->_date_modification = $date_modification;
         }
 
+
         /**
          * @return string
          */
         public function showUsersTable(){
+            //TODO: new tabe with .join (jointure)
             $users = $this->getUsers(true);
 
             if(empty($users)){

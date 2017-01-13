@@ -1,0 +1,11 @@
+{% extends 'default.twig' %}
+
+{% block content %}
+    <div class="sidebar">
+        <span><a href="{{ URL }}/historic/desactive">Désactiver</a></span>
+        <span><a href="{{ URL }}/historic/remove">Supprimer</a></span>
+    </div>
+
+    <h3 class="page-title">Historique</h3>
+    '.$historicManager->showAllHistoricTable().'
+{% endblock %}

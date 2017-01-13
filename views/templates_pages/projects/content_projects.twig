@@ -1,0 +1,11 @@
+{% extends 'default.twig' %}
+
+{% block content %}
+    <div>
+        <a href="{{ URL }}/project/new" class="">Créer un nouveau projet</a>
+    </div>
+    <div>
+        <h3>Liste de vos projets</h3>
+        {% include 'templates_pages/projects/list_projects.twig' %}
+    </div>
+{% endblock %}

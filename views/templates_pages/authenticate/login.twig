@@ -1,0 +1,20 @@
+{% extends 'base.twig' %}
+
+{% block section %}
+    <article class="col-lg-4 col-lg-offset-4">
+        <form class="form col-md-12 center-block" method="POST" action="">
+            <div class="form-group">
+                <input class="form-control input-lg" placeholder="Identifiant" name="username" type="text">
+            </div>
+            <div class="form-group">
+                <input class="form-control input-lg" placeholder="Mot de passe" name="password" type="password">
+            </div>
+            <div class="form-group">
+                <button class="btn btn-primary btn-lg btn-block">Connexion</button>
+                <span class="pull-right"><a href="{{ URL }}/register">Inscription</a></span><span><a href="#">Besoin d'aide ?</a></span>
+            </div>
+
+            {{ message|raw }}
+        </form>
+    </article>
+{% endblock %}

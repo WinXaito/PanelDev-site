@@ -17,4 +17,7 @@
     );
 	$complement['content'] = include PATH.'/views/templates_pages/help/content_help.php';
 
-	require_once PATH.'/views/default.php';
+	echo $twig->render('templates_pages/help/content_help.twig', [
+	    'breadcrum' => $breadcrum->getBreadcrum(),
+	    'tab' => $tab,
+    ]);

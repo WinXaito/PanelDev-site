@@ -1,0 +1,24 @@
+{% extends 'default.twig' %}
+
+{% block content %}
+    <form action="" method="POST">
+        <div class="form-group">
+            <select name="project_type" class="form-control" style="margin-bottom:10px">
+                <option value="general" selected>Générale</option>
+                <option value="website">Site web</option>
+                <option value="game">Jeu vidéo</option>
+                <option value="general-idea">Idée générale</option>
+            </select>
+            <input type="text" name="project_name" placeholder="Nom du projet" class="form-control" style="margin-bottom:10px" value="{{ value.name }}"/>
+            <textarea name="project_description" placeholder="Description du projet (optionnel)"
+                      class="form-control" style="margin-bottom:10px">{{ value.description }}</textarea>
+            <input type="text" name="project_url" placeholder="Url du projet" class="form-control" style="margin-bottom:10px" value="{{ value.url }}"/>
+        </div>
+        <div class="form-group text-center">
+            <input type="submit" class="btn btn-default" value="Créer le projet" name="submit"/>
+        </div>
+    </form>
+    <div>
+        {{ message|raw }}
+    </div>
+{% endblock %}

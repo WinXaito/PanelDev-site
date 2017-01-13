@@ -14,9 +14,12 @@
         false,
         [
             'Accueil' => '',
-            'Historique' => '/historic',
+            'Historique' => 'historic',
         ]
     );
     $complement['content'] = require_once PATH.'/views/templates_pages/historic/content_historic.php';
 
-    require_once PATH.'/views/default.php';
+    echo $twig->render('templates_pages/historic/content_historic.twig', [
+        'tab' => $tab,
+        'breadcrum' => $breadcrum->getBreadcrum(),
+    ]);

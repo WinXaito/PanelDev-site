@@ -1,0 +1,17 @@
+{% extends 'templates_pages/projects/list_projects.twig' %}
+
+{% block projectsHead %}
+    <th>Nom</th>
+    <th>Date de création</th>
+    <th>Date de modification</th>
+{% endblock %}
+
+{% block projectsBody %}
+    <td><a href="{{ URL }}/project/{{ project.url }}/view">{{ project.name }}</a></td>
+    <td>{{ project.date_creation|date('d/m/Y') }}</td>
+    {% if project.date_modification == 0 %}
+        <td>-</td>
+    {% else %}
+        <td>{{ project.date_modification|date('d/m/Y') }}</td>
+    {% endif %}
+{% endblock %}

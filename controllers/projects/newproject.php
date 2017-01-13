@@ -9,10 +9,11 @@
 
 	//Treatment
 	$add_informations = "";
+    $value = [];
 	if(isset($_POST['project_name'])&&isset($_POST['project_type'])&&isset($_POST['project_description'])&&isset($_POST['project_url'])){
-		$value__project_name = $_POST['project_name'];
-		$value__project_description = $_POST['project_description'];
-		$value__project_url = $_POST['project_url'];
+        $value['name'] = $_POST['project_name'];
+        $value['description'] = $_POST['project_description'];
+        $value['url'] = $_POST['project_url'];
 
 		if(!empty($_POST['project_name'])&&!empty($_POST['project_type'])){
 		    if(!filter_var($_POST['project_url'], FILTER_VALIDATE_URL))
@@ -43,15 +44,20 @@
 
 
 	$breadcrum = new Wx_Breadcrum(
-		true,
+		false,
 		[
 			'Accueil' => '',
-			'Projets' => '/projects',
-			'Nouveau' => '/project/new',
+			'Projets' => 'projects',
+			'Nouveau' => '/new',
 		]
 	);
 	$tab['projects'] = "active";
 
 	$complement['content'] = include PATH.'/views/templates_pages/projects/content_newproject.php';
 
-	require_once PATH.'/views/default.php';
+	echo $twig->render('templates_pages/projects/content_newproject.twig', [
+	    'tab' => $tab,
+        'breadcrum' => $breadcrum->getBreadcrum(),
+        'value' => $value,
+        'message' => $add_informations,
+    ]);

@@ -17,7 +17,7 @@
 
         /**
          * @param $userid
-         * @return Options
+         * @return Wx_Options
          */
         public function get($userid){
             $q = $this->_db->prepare("
@@ -30,7 +30,7 @@
             ));
             $result = $q->fetch();
 
-            $OptionsContent = new Options();
+            $OptionsContent = new Wx_Options();
             $OptionsContent->setId($result['id']);
             $OptionsContent->setUser($userid);
             $OptionsContent->setOptProjects($result['opt_prokects']);
@@ -40,9 +40,9 @@
         }
 
         /**
-         * @param Options $options
+         * @param Wx_Options $options
          */
-        public function add(Options $options){
+        public function add(Wx_Options $options){
             $q = $this->_db->prepare("
                 INSERT INTO options
                 (user, opt_projects, opt_view)
@@ -57,9 +57,9 @@
         }
 
         /**
-         * @param Options $options
+         * @param Wx_Options $options
          */
-        public function update(Options $options){
+        public function update(Wx_Options $options){
             $q = $this->_db->prepare("
                 UPDATE options
                 SET opt_projects = :opt_projects,

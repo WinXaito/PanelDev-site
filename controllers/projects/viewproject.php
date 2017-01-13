@@ -21,10 +21,10 @@ if($projectContent->getOwner() !=$_User->getId() && !in_array($projectContent->g
 
 
 $breadcrum = new Wx_Breadcrum(
-    true,
+    false,
     [
         'Accueil' => '',
-        'Projets' => '/projects',
+        'Projets' => 'projects',
         $projectContent->getName() => '/project/'.$projectContent->getUrl(),
     ]
 );
@@ -40,4 +40,8 @@ switch($projectContent->getType()){
         $error->setAndShowError(500);
 }
 
-require_once PATH.'/views/default.php';
+echo $twig->render('templates_pages/projects/content_viewproject.twig', [
+    'tab' => $tab,
+    'breadcrum' => $breadcrum->getBreadcrum(),
+    'project' => $projectContent,
+]);

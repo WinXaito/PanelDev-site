@@ -5,15 +5,9 @@
     {% if user is defined and user is not empty %}
         <div class="col-md-6 pull-right">
             <p class="text-right" style="margin-top:30px; margin-bottom:5px">
-                <a href="{{ URL }}/profil">Profile</a> | <a href="{{ URL }}/logout">Déconnexion</a>
+                <a href="{{ URL }}/profile">Profile</a> | <a href="{{ URL }}/logout">Déconnexion</a>
             </p>
             <p class="text-right">Connecté sous l'identifiant <strong style="color:#337AB7">{{ user.name }}</strong></p>
-        </div>
-    {% else %}
-        <div class="col-md-6 pull-right">
-            <p class="text-right" style="margin-top:30px; margin-bottom:5px">
-                <a href="{{ URL }}/login">Connexion</a>
-            </p>
         </div>
     {% endif %}
 </header>

@@ -98,7 +98,7 @@
         }
 
         /**
-         * @param Project $project
+         * @param Wx_Project $project
          * @param $url
          */
         public function update(Wx_Project $project, $url){
@@ -253,7 +253,7 @@
          * @return bool
          */
         public function hasProjects(Wx_User $_User){
-            return !empty($this->getUserProjects($_User));
+            return !empty($this->getOwnerProjects($_User));
         }
 
         /**
@@ -262,7 +262,7 @@
          * @return string
          */
         public function showAllProjectsTable(Wx_User $_User, $little=false){
-            $allProjects = $this->getUserProjects($_User);
+            $allProjects = $this->getOwnerProjects($_User);
 
             if(!$little){
                 $th = '
@@ -317,11 +317,19 @@
             return $return;
         }
 
+        public function getAllUserProject(){
+            /*
+             * TODO: Prendre tous les projets auquels l'utilisateur à accès
+             * Créer une base de données pour faire la liaison <Projets - Utilisateur ayant droit (contenant un project_id)
+             * Créer une joiture de table ici
+            */
+        }
+
         /**
          * @param Wx_User $_User
          * @return array
          */
-        public function getUserProjects(Wx_User $_User){
+        public function getOwnerProjects(Wx_User $_User){
             $q = $this->_db->prepare("
                 SELECT *
                 FROM projects

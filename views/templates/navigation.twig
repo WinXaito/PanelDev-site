@@ -1,12 +1,14 @@
-<aside class="col-md-2">
-    <ul class="nav nav-pills nav-stacked">
-        <li class="{{ tab.home }}"><a href="{{ URL }}/">Accueil</a></li>
-        <li class="{{ tab.projects }}"><a href="{{ URL }}/projects">Gestion projets</a></li>
-        <li class="{{ tab.options }}"><a href="{{ URL }}/options">Options</a></li>
-        <li class="{{ tab.history }}"><a href="{{ URL }}/historic">Historique</a></li>
-        <li class="{{ tab.help }}"><a href="{{ URL }}/help">Aide</a></li>
-        {% if user.administrator %}
-            <li class=""><a href="{{ URL }}/administrator">Administration</a></li>
-        {% endif %}
-    </ul>
-</aside>
+{% if user is defined %}
+    <aside class="col-md-2">
+        <ul class="nav nav-pills nav-stacked">
+            <li class="{{ tab.home }}"><a href="{{ URL }}/">Accueil</a></li>
+            <li class="{{ tab.projects }}"><a href="{{ URL }}/projects">Gestion projets</a></li>
+            <li class="{{ tab.options }}"><a href="{{ URL }}/options">Options</a></li>
+            <li class="{{ tab.historic }}"><a href="{{ URL }}/historic">Historique</a></li>
+            <li class="{{ tab.help }}"><a href="{{ URL }}/help">Aide</a></li>
+            {% if user.administrator %}
+                <li class=""><a href="{{ URL }}/administrator">Administration</a></li>
+            {% endif %}
+        </ul>
+    </aside>
+{% endif %}

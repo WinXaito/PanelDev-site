@@ -14,10 +14,13 @@
         false,
         [
             'Accueil' => '',
-            'Historique' => '/historic',
+            'Historique' => 'historic',
             'Suppression' => '/remove',
         ]
     );
     $complement['content'] = require_once PATH.'/views/templates_pages/historic/content_removehistoric.php';
 
-    require_once PATH.'/views/default.php';
+    echo $twig->render('templates_pages/historic/content_removehistoric.twig', [
+        'tab' => $tab,
+        'breadcrum' => $breadcrum->getBreadcrum(),
+    ]);

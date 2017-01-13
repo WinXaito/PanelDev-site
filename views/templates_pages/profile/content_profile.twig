@@ -1,0 +1,34 @@
+{% extends 'default.twig' %}
+
+{% block content %}
+    <div>
+        <h3 class="page-title">Profile - {{ user.name }}</h3>
+
+        <form method="POST" action="">
+            <div class="form-group">
+                <input type="text" name="profile_username" class="form-control" readonly  placeholder="Nom d\'utilisateur" value="{{ user.name }}"/>
+            </div>
+            <div class="form-group">
+                <input type="text" name="profile_email" class="form-control" placeholder="Adresse email" value="{{ user.email }}"/>
+            </div>
+            <div class="form-group">
+                <input type="password" name="profile_password" class="form-control" placeholder="Mot de passe (Laissez vide pour ne pas modifier)"/>
+            </div>
+            <div class="form-group">
+                <input type="password" name="profile_passwordConfirm" class="form-control" placeholder="Confirmation du mot de passe (Laissez vide pour ne pas modifier)"/>
+            </div>
+            <div class="form-group">
+                <input type="text" name="profile_firstname" class="form-control" placeholder="Prénom" value="{{ user.firstname }}"/>
+            </div>
+            <div class="form-group">
+                <input type="text" name="profile_lastname" class="form-control" placeholder="Nom" value="{{ user.lastname }}"/>
+            </div>
+
+            <div class="form-group text-center">
+                <input type="submit" value="Mettre à jour mon profil" class="btn btn-default"/>
+            </div>
+        </form>
+
+        {{ message }}
+    </div>
+{% endblock %}

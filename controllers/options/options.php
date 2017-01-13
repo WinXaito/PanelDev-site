@@ -16,10 +16,13 @@
     $breadcrum = new Wx_Breadcrum(
         false,
         [
-            'Accueil' => URL_PATH_HOME,
-            'Options' => '/options',
+            'Accueil' => '',
+            'Options' => 'options',
         ]
     );
     $complement['content'] = require_once PATH.'/views/templates_pages/options/options_content.php';
 
-    require_once PATH.'/views/default.php';
+    echo $twig->render('templates_pages/options/content_options.twig', [
+        'tab' => $tab,
+        'breadcrum' => $breadcrum->getBreadcrum(),
+    ]);

@@ -37,4 +37,8 @@
 	);
 	$complement['content'] = include PATH.'/views/templates_pages/profile/content_profile.php';
 
-	require_once PATH.'/views/default.php';
+	echo $twig->render('templates_pages/profile/content_profile.twig', [
+	    'tab' => $tab,
+        'breadcrum' => $breadcrum->getBreadcrum(),
+        'message' => $_add,
+    ]);
