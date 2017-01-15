@@ -23,7 +23,7 @@
             $projectContent = new Wx_Project(
                 $_POST['project_name'],
                 $_User->getId(),
-                "",
+                [],
                 $_POST['project_type'],
                 $_POST['project_description'],
                 $projectManager->newUrl(),

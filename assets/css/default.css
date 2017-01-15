@@ -8,7 +8,9 @@
 
 
 /* Generale */
-
+    .margin-top{
+        margin-top:10px;
+    }
 
 /* Header */
 
@@ -39,4 +41,13 @@
     }
     .btn-accessproject{
         margin-bottom:10px;
+    }
+
+    .table-column-date{
+        width:160px;
+        text-align:center;
+    }
+    .table-column-remove{
+        width:100px;
+        text-align: center;
     }

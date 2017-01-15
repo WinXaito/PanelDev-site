@@ -34,7 +34,7 @@
          */
         public function addNameUrlTotal($name, $url, $last){
             $home_url = $url == "" ? URL_PATH_HOME : URL_PATH;
-            $this->_breadcrum[$name] = $url;
+            $this->_breadcrum[$name] = $home_url.$url;
 
             if($last){
                 $this->_breadcrumHtml = $this->_breadcrumHtml.'<span class="breadcrum-nolink">'.$name.'</span>';

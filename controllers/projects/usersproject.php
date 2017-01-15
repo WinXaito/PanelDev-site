@@ -21,19 +21,17 @@ if(!$projectContent)
 if($projectContent->getOwner() != $_SESSION['user']['id'])
     $error->setAndShowError(403);
 
-$add_informations_useradd = "";
-if(isset($_POST['username'])){
-    $addUser = $_UserManager->getUserByName($_POST['username']);
-    if($addUser){
-        if($addUser->getId() == $_User->getId()){
-            $add_informations_useradd .= '<p class="bg-primary message">Vous ne pouvez pas ajouter l\'administrateur du projet à la liste des utilisateurs</p>';
-        }else{
-            $projectManager->addUser($projectContent, $addUser->getId(), $addUser->getName());
+$message = "";
+if(isset($_POST['username']) && isset($_POST['access'])){
+    if($_POST['access'] != 3 && $_POST['access'] != 2 && $_POST['access'] != 1)
+        $_POST['access'] = 3;
 
-            $add_informations_useradd .= $projectManager->getErrors();
-        }
+    $addUser = $_UserManager->getUserByName($_POST['username']);
+
+    if($addUser){
+        $message = $projectManager->addUser($projectContent, $addUser, $_POST['access']);
     }else{
-        $add_informations_useradd .= '<p class="bg-primary message">L\'utilisateur spécifié n\'existe pas</p>';
+        $message = 'L\'utilisateur spécifié n\'existe pas';
     }
 }
 
@@ -41,16 +39,16 @@ $breadcrum = new Wx_Breadcrum(
     true,
     [
         'Accueil' => '',
-        'Projets' => 'projects',
+        'Projets' => '/projects',
         $projectContent->getName() => '/project/'.$projectContent->getUrl().'/view',
         'Utilisateurs' => '/project/'.$projectContent->getUrl().'/users',
     ]
 );
-$complement['content'] = include PATH.'/views/templates_pages/projects/content_usersproject.php';
 
 echo $twig->render('templates_pages/projects/content_usersproject.twig', [
     'tab' => $tab,
     'breadcrum' => $breadcrum->getBreadcrum(),
     'project' => $projectContent,
-    'message' => $add_informations_useradd,
+    'message' => $message,
+    'users' => $projectContent->getUsers()->getUsers(),
 ]);

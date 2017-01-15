@@ -39,29 +39,28 @@
                     FROM projects
                     WHERE url = ?
                 ");
-            $q->execute(array(
-                $url,
-            ));
-            $result = $q->fetch();
+            $q->execute([$url]);
+            $resultProjects = $q->fetch();
+            $q->closeCursor();
 
-            if($result){
+            if($resultProjects){
                 $project = new Wx_Project(
-                    $result['name'],
-                    $result['owner'],
-                    $result['users'],
-                    $result['type'],
-                    $result['description'],
-                    $result['url'],
-                    $result['project_url'],
-                    $result['date_creation'],
-                    $result['date_modification'],
-                    $result['id']
+                    $resultProjects['name'],
+                    $resultProjects['owner'],
+                    $this->getProjectUsers($resultProjects['id']),
+                    $resultProjects['type'],
+                    $resultProjects['description'],
+                    $resultProjects['url'],
+                    $resultProjects['project_url'],
+                    $resultProjects['date_creation'],
+                    $resultProjects['date_modification'],
+                    $resultProjects['id']
                 );
 
                 return $project;
-            }else{
-                return null;
             }
+
+            return null;
         }
 
         /**
@@ -106,7 +105,6 @@
                     UPDATE projects
                     SET name = :name,
                         owner = :owner,
-                        users = :users,
                         description = :description,
                         url = :url,
                         project_url = :project_url,
@@ -117,7 +115,6 @@
             $q->execute(array(
                 'name' => $project->getName(),
                 'owner' => $project->getOwner(),
-                'users' => $project->getUsers(),
                 'description' => $project->getDescription(),
                 'url' => $project->getUrl(),
                 'project_url' => $project->getUrlProject(),
@@ -189,13 +186,14 @@
 
         /**
          * @param Wx_Project $project
-         * @param $userid
-         * @param $username
+         * @param Wx_User $user
+         * @param $access
+         * @internal param $useraccess
+         * @internal param $userid
+         * @internal param $username
          */
-        public function addUser(Wx_Project $project, $userid, $username){
-            $users = $project->getUsers(true);
-
-            if($users){
+        public function addUser(Wx_Project $project, Wx_User $user, $access){
+            /*if($users){
                 if(!isset($users[$userid])){
                     $users[$userid] = $username;
                 }else{
@@ -209,7 +207,25 @@
             $this->update($project, $project->getUrl());
 
             $historic = new Wx_Historic($this->_user, Wx_Historic::TYPE_PROJECT, "Ajout d'un utilisateur", "Name + URL + Username", time(), $_SERVER['REMOTE_ADDR']);
-            $this->_historicManager->add($historic);
+            $this->_historicManager->add($historic);*/
+
+            if(!$project->getUsers()->existUser($user->getId())){
+                $q = $this->_db->prepare("
+                    INSERT INTO projects_users
+                    (project_id, user_id, access, date_added)
+                    VALUES(:p_id, :u_id, :access, :date_added)
+                ");
+                $q->execute([
+                    'p_id' => $project->getId(),
+                    'u_id' => $user->getId(),
+                    'access' => $access,
+                    'date_added' => time(),
+                ]);
+
+                return 'Utilisateur ajouté';
+            }else{
+                return 'L\'utilisateur se trouve déjà dans la liste';
+            }
         }
 
         /**
@@ -317,12 +333,43 @@
             return $return;
         }
 
-        public function getAllUserProject(){
-            /*
-             * TODO: Prendre tous les projets auquels l'utilisateur à accès
-             * Créer une base de données pour faire la liaison <Projets - Utilisateur ayant droit (contenant un project_id)
-             * Créer une joiture de table ici
-            */
+        public function getUserProjects(Wx_User $user){
+            $q = $this->_db->prepare("
+                SELECT *
+                FROM projects_users pu
+                JOIN projects p
+                ON pu.project_id = p.id
+                WHERE pu.user_id = ?
+                AND p.owner != pu.user_id
+            ");
+            $q->execute([$user->getId()]);
+
+            $i = 0;
+            $return = [];
+
+            while($result = $q->fetch()){
+                $return[$i] = $result;
+                $i++;
+            }
+
+            return $return;
+        }
+
+        public function getProjectUsers($project_id){
+            $q = $this->_db->prepare("
+                SELECT pu.*, u.name
+                FROM projects_users pu JOIN users u
+                 ON u.id = pu.user_id
+                WHERE pu.project_id = ?
+            ");
+            $q->execute([$project_id]);
+
+            $users = new Wx_Project_PUsers();
+            while($data = $q->fetch()){
+                $users->addUser($data['id'], $data['user_id'], $data['access'], $data['date_added'], $data['name']);
+            }
+
+            return $users;
         }
 
         /**
@@ -350,10 +397,16 @@
             return $return;
         }
 
+        public function getAllProjects(Wx_User $user){
+            $projects = $this->getOwnerProjects($user);
+            $projectsUser = $this->getUserProjects($user);
+            return array_merge($projects, $projectsUser);
+        }
+
         /**
          * @return array
          */
-        public function getAllProjects(){
+        /*public function getAllProjects(){
             $q = $this->_db->prepare("
                 SELECT *
                 FROM projects
@@ -369,5 +422,5 @@
             }
 
             return $return;
-        }
+        }*/
     }

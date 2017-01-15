@@ -11,27 +11,13 @@
 function autoload($class){
     $path = autoloadStripPath($class);
 
-    if(substr($class, 0, 4) == 'Twig'){
+    if(substr($class, 0, 4) == 'Twig')
         $finalPath = __DIR__ . '/../lib/'.$path.'.php';
-
-        if (file_exists($finalPath)) {
-            require_once $finalPath;
-            return;
-        }
-    }else if(substr($class, 0, 2) == "Wx"){
+    else if(substr($class, 0, 2) == "Wx")
         $finalPath = __DIR__.'/'.$path.'.class.php';
 
-        if (file_exists($finalPath)) {
-            require_once $finalPath;
-            return;
-        }
-    }else{
-        echo 'Error 500, please contact an administrator<br>
-        Debug:<br>
-          '.$path.'
-        ';
-        die;
-    }
+    if (file_exists($finalPath))
+        require_once $finalPath;
 }
 
 /**

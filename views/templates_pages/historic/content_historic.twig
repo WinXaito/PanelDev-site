@@ -1,11 +1,34 @@
 {% extends 'default.twig' %}
 
 {% block content %}
-    <div class="sidebar">
+    <div class="sidebar" xmlns="http://www.w3.org/1999/html">
         <span><a href="{{ URL }}/historic/desactive">Désactiver</a></span>
         <span><a href="{{ URL }}/historic/remove">Supprimer</a></span>
     </div>
 
     <h3 class="page-title">Historique</h3>
-    '.$historicManager->showAllHistoricTable().'
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Type</th>
+                <th>Titre</th>
+                <th>Détail</th>
+                <th>Adresse IP</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {% for entry in historic %}
+                <tr>
+                    <td>{{ entry.timeReadable }}</td>
+                    <td>{{ entry.typeReadable }}</td>
+                    <td>{{ entry.title }}</td>
+                    <td>{{ entry.content }}</td>
+                    <td>{{ entry.ip }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 {% endblock %}

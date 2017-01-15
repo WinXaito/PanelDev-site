@@ -14,6 +14,7 @@ if(isset($_POST['username'])&&isset($_POST['email'])&&isset($_POST['password'])&
         $_UserManager = new Wx_UserManager($bdd);
         $_User = new Wx_User($_POST['username'], $_POST['password'], $_POST['email'], "", "", Wx_User::GRADE_INITIAL);
         $_User->setPasswordConfirm($_POST['confirmPassword']);
+        var_dump($_User);
         $_UserManager->add($_User);
 
         $_add .= $_UserManager->getErrors();

@@ -8,7 +8,7 @@
     {% endblock %}
     </thead>
     <tbody>
-    {% for project in projects if project.owner == user.id %}
+    {% for project in projects if project.owner != user.id %}
         <tr>
             {% block projectsBody %}
                 <td><a href="{{ URL }}/project/{{ project.url }}/view">{{ project.name }}</a></td>
@@ -18,7 +18,7 @@
                 {% else %}
                     <td class="table-column-date">{{ project.date_modification|date('d/m/Y') }}</td>
                 {% endif %}
-                <td class="table-column-remove"><a href="{{ URL }}/project/{{ project.url }}/remove">Supprimer</a></td>
+                <td></td>
             {% endblock %}
         </tr>
     {% endfor %}

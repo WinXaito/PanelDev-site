@@ -7,21 +7,4 @@
     <div>
         <p>{{ project.description }}</p>
     </div>
-
-    <div class="col-md-6 viewproject-block">
-        <h4 class="text-center"><a href="{{ URL }}/project/{{ project.url }}/view/analytics">Analyse</a></h4>
-        <p>Analyse content</p>
-    </div>
-    <div class="col-md-6 viewproject-block">
-        <h4 class="text-center"><a href="{{ URL }}/project/{{ project.url }}/view/users">Utilisateur</a></h4>
-        <table class="table table-striped">
-            <tbody>
-            <tr class="alert-info">
-                <td>{{ user.name }}</td>
-                <td>Administrateur</td>
-            </tr>
-            '.$projectContent->showUsersTable().'
-            </tbody>
-        </table>
-    </div>
 {% endblock %}

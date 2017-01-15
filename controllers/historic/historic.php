@@ -8,6 +8,7 @@
     require_once __DIR__.'/../init.php';
 
     $historicManager = new Wx_HistoricManager($bdd, $_User);
+    $historic = $historicManager->getAllHistoric();
 
     $tab['historic'] = "active";
     $breadcrum = new Wx_Breadcrum(
@@ -17,9 +18,9 @@
             'Historique' => 'historic',
         ]
     );
-    $complement['content'] = require_once PATH.'/views/templates_pages/historic/content_historic.php';
 
     echo $twig->render('templates_pages/historic/content_historic.twig', [
         'tab' => $tab,
         'breadcrum' => $breadcrum->getBreadcrum(),
+        'historic' => $historic,
     ]);

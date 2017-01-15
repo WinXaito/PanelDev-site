@@ -7,6 +7,9 @@
 
 
     class Wx_UserManager{
+        /**
+         * @var PDO $_db
+         */
         private $_db;
         private $_errors;
         private $_historicManager;
@@ -41,7 +44,7 @@
             $this->checkEmail($user);
             $this->checkPassword($user);
 
-            if($this->getErrors() == ""){
+            //if($this->getErrors() == ""){
                 $q = $this->_db->prepare("
                     INSERT INTO users
                     (name, password, email, grade)
@@ -54,11 +57,12 @@
                     'email' => $user->getEmail(),
                     'grade' => $user->getGrade(),
                 ));
+                var_dump($q->errorInfo());
 
                 return true;
-            }else{
+            //}else{
                 return false;
-            }
+            //}
         }
 
         /**

@@ -78,20 +78,10 @@
         }
 
         /**
-         * Return all users ID
-         * @param bool|false $unserialize
-         * @return mixed
+         * @return Wx_Project_PUsers
          */
-        public function getUsers($unserialize=false){
-            return $unserialize ? unserialize($this->_users) : $this->_users;
-        }
-
-        /**
-         * @param $users
-         * @param bool|true $serialize
-         */
-        public function setUsers($users, $serialize=true){
-            $this->_users = $serialize ? $users : serialize($users);
+        public function getUsers(){
+            return $this->_users;
         }
 
         /**
@@ -183,7 +173,7 @@
          */
         public function showUsersTable(){
             //TODO: new tabe with .join (jointure)
-            $users = $this->getUsers(true);
+            /*$users = $this->getUsers(true);
 
             if(empty($users)){
                 return '';
@@ -195,6 +185,6 @@
                 }
 
                 return $return;
-            }
+            }*/
         }
     }
