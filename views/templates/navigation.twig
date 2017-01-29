@@ -10,5 +10,20 @@
                 <li class=""><a href="{{ URL }}/administrator">Administration</a></li>
             {% endif %}
         </ul>
+        {% if fav is not empty %}
+            <hr/>
+            <ul class="nav nav-pills nav-stacked">
+                {% if fav.1 is not empty %}<li class="item-favori {{ tab.fav.1 }}"><a href="">Favori 1</a></li>{% endif %}
+                {% if fav.2 is not empty %}<li class="item-favori {{ tab.fav.2 }}"><a href="">Favori 2</a></li>{% endif %}
+                {% if fav.2 is not empty %}<li class="item-favori {{ tab.fav.3 }}"><a href="">Favori 3</a></li>{% endif %}
+                {% if fav.2 is not empty %}<li class="item-favori {{ tab.fav.4 }}"><a href="">Favori 4</a></li>{% endif %}
+                {% if fav.2 is not empty %}<li class="item-favori {{ tab.fav.5 }}"><a href="">Favori 5</a></li>{% endif %}
+                {% if fav.2 is not empty %}<li class="item-favori {{ tab.fav.6 }}"><a href="">Favori 6</a></li>{% endif %}
+                {% if fav.2 is not empty %}<li class="item-favori {{ tab.fav.7 }}"><a href="">Favori 7</a></li>{% endif %}
+                {% if fav.2 is not empty %}<li class="item-favori {{ tab.fav.8 }}"><a href="">Favori 8</a></li>{% endif %}
+                {% if fav.2 is not empty %}<li class="item-favori {{ tab.fav.9 }}"><a href="">Favori 9</a></li>{% endif %}
+                {% if fav.2 is not empty %}<li class="item-favori {{ tab.fav.10 }}"><a href="">Favori 10</a></li>{% endif %}
+            </ul>
+        {% endif %}
     </aside>
 {% endif %}

@@ -1,3 +1,6 @@
+{% set type = 0 %}
+
+{#<h4>Sites Web</h4>#}
 <table class="table table-striped">
     <thead>
     {% block projectsHead %}
@@ -10,7 +13,6 @@
     <tbody>
     {% for project in projects if project.owner == user.id %}
         <tr>
-            {% block projectsBody %}
                 <td><a href="{{ URL }}/project/{{ project.url }}/view">{{ project.name }}</a></td>
                 <td class="table-column-date">{{ project.date_creation|date('d/m/Y') }}</td>
                 {% if project.date_modification == 0 %}
@@ -19,8 +21,29 @@
                     <td class="table-column-date">{{ project.date_modification|date('d/m/Y') }}</td>
                 {% endif %}
                 <td class="table-column-remove"><a href="{{ URL }}/project/{{ project.url }}/remove">Supprimer</a></td>
-            {% endblock %}
         </tr>
     {% endfor %}
     </tbody>
 </table>
+
+
+{#<h4>Impressions 3D</h4>
+<table class="table table-striped">
+    <thead>
+    {{ block('projectsHead') }}
+    </thead>
+    <tbody>
+    {% for project in projects if project.owner == user.id and project.type == 'print3d' %}
+        <tr>
+            <td><a href="{{ URL }}/project/{{ project.url }}/view">{{ project.name }}</a></td>
+            <td class="table-column-date">{{ project.date_creation|date('d/m/Y') }}</td>
+            {% if project.date_modification == 0 %}
+                <td class="table-column-date">-</td>
+            {% else %}
+                <td class="table-column-date">{{ project.date_modification|date('d/m/Y') }}</td>
+            {% endif %}
+            <td class="table-column-remove"><a href="{{ URL }}/project/{{ project.url }}/remove">Supprimer</a></td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>#}

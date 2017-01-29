@@ -1,0 +1,63 @@
+{% extends 'default.twig' %}
+
+{% block content %}
+    <div class="sidebar">
+        <span><a href="{{ URL }}/project/{{ project.url }}/update">Modifier</a></span>
+        <span><a href="{{ URL }}/project/{{ project.url }}/view/files">Fichiers</a></span>
+        <span><a href="{{ URL }}/project/{{ project.url }}/view/gcode">GCode</a></span>
+        <span><a href="{{ URL }}/project/{{ project.url }}/view/result">Résultat</a></span>
+        <span><a href="{{ URL }}/project/{{ project.url }}/view/infos">Informations</a></span>
+        <span class="pull-right" style="display:inline-block"><a href="{{ URL }}/project/{{ project.url }}/remove">Supprimer</a></span>
+    </div>
+
+    <h3 class="page-title">Impression 3D: {{ project.name }}
+        {% if project.urlProject is not empty %}
+            <span class="pull-right">
+                <a href="{{ project.urlProject }}" class="btn btn-default btn-accessproject">Accéder au projet</a>
+            </span>
+        {% endif %}
+    </h3>
+
+    <div>
+        <p>{{ project.description }}</p>
+    </div>
+
+    {#Block1: Download#}
+    <div class="col-md-6 content-block">
+        <h4>Informations</h4>
+        <p>Je ne suis pas une image</p>
+    </div>
+
+    {#Block3: Result image#}
+    <div class="col-md-6 content-block">
+        <img class="content-block-img" src="https://placeholdit.imgix.net/~text?txtsize=38&txt=Image+result&w=600&h=375&txttrack=0"/>
+    </div>
+
+    {#Block2: Informations#}
+    <div class="col-md-6 content-block">
+        <h4>Téléchargement</h4>
+        <p><a href="">Téléchagrer le fichier STL</a></p>
+        <p><a href="">Téléchagrer le fichier GCode</a></p>
+    </div>
+
+    {#Block4: Result timelaps#}
+    <div class="col-md-6 content-block">
+        <img class="content-block-img" src="https://placeholdit.imgix.net/~text?txtsize=38&txt=Image+result&w=600&h=375&txttrack=0"/>
+    </div>
+
+    <style>
+        .content-block{
+            margin: 10px auto;
+        }
+        .content-block-left{
+
+        }
+        .content-block-right{
+            float:right;
+        }
+        .content-block-img{
+            max-width: 100%;
+            max-height:100%;
+        }
+    </style>
+{% endblock %}

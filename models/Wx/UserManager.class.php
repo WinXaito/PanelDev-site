@@ -165,6 +165,66 @@
             }
         }
 
+        public function addFavorite(Wx_Project $project, Wx_User $user){
+            $q = $this->_db->prepare("
+                INSERT INTO projects_fav
+                (project_id, user_id, date_Created)
+                VALUES
+                (:p_id, :u_id, d_added)
+            ");
+            $q->execute([
+                'p_id' => $project->getId(),
+                'u_id' => $user->getId(),
+                'd_added' => time(),
+            ]);
+        }
+
+        public function removeFavorite($id, Wx_User $user){
+            $q = $this->_db->prepare("
+                DELETE FROM projects_fav
+                WHERE id = :id AND user_id = :u_id
+            ");
+            $q->execute([
+                'id' => $id,
+                'u_id' => $user->getId(),
+            ]);
+
+            if($q->rowCount() == 0)
+                return false;
+            else
+                return true;
+        }
+
+        public function getFavorite($id){
+            $q = $this->_db->prepare("
+                SELECT *
+                FROM projects_fav
+                WHERE id = ?
+            ");
+            $q->execute([$id]);
+            if($data = $q->fetch()){
+                return new Wx_Favorite($data['id'], $data['project_id'], $data['user_id'], $data['date_created']);
+            }else{
+                return null;
+            }
+        }
+
+        public function getFavorites(Wx_User $user){
+            $q = $this->_db->prepare("
+                SELECT *
+                FROM projects_fav
+                WHERE user_id = ?
+            ");
+            $q->execute([$user->getId()]);
+
+            $fav = new Wx_Favorites();
+            while($data = $q->fetch()){
+                $fav->addFavorite($data['id'], $data['project_id'], $data['user_id'], $data['date_created']);
+            }
+
+            return $fav;
+        }
+
 
         /**
          * @param Wx_User $user

@@ -1,0 +1,15 @@
+<div class="sidebar">
+    <span><a href="{{ URL }}/project/{{ project.url }}/view">Retour</a></span>
+</div>
+
+<h3 class="page-title">Impression 3D: {{ project.name }}
+    {% if project.urlProject is not empty %}
+        <span class="pull-right">
+                <a href="{{ project.urlProject }}" class="btn btn-default btn-accessproject">Accéder au projet</a>
+            </span>
+    {% endif %}
+</h3>
+
+<div>
+    <p>{{ project.description }}</p>
+</div>

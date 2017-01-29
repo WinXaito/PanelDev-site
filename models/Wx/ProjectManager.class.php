@@ -123,6 +123,8 @@
                 'urlfind' => $url,
             ));
 
+            echo $project->getUrlProject().'aaaa';
+
             if($q->errorCode() != "00000")
                 $historic_content = "Erreur lors de l'insertion en base de donnée";
             else

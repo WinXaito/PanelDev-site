@@ -17,6 +17,14 @@
         private $_date_creation;
         private $_date_modification;
 
+        const TYPE = [
+            'general',
+            'website',
+            'general-idea',
+            'game',
+            'print3d',
+        ];
+
         /**
          * @param $name
          * @param $owner
@@ -90,7 +98,7 @@
         public function getType(){
             $t = $this->_type;
 
-            if($t != 'general' && $t != 'website' && $t != 'general-idea' && $t != 'game')
+            if(!in_array($t, Wx_Project::TYPE))
                 $t = 'general';
 
             return $t;

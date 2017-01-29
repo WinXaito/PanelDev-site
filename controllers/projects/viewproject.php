@@ -31,16 +31,19 @@ $breadcrum = new Wx_Breadcrum(
 
 switch($projectContent->getType()){
     case 'general':
-        require_once __DIR__.'/../apps/general/general_view.php';
+        $template = 'templates_apps/general/content_viewgeneral.twig';
         break;
     case 'website':
-        require_once __DIR__.'/../apps/website/website_view.php';
+        $template = 'templates_apps/website/content_viewwebsite.twig';
+        break;
+    case 'print3d':
+        $template = 'templates_apps/print3d/print3d_view.twig';
         break;
     default:
         $error->setAndShowError(500);
 }
 
-echo $twig->render('templates_pages/projects/content_viewproject.twig', [
+echo $twig->render($template, [
     'tab' => $tab,
     'breadcrum' => $breadcrum->getBreadcrum(),
     'project' => $projectContent,
