@@ -24,3 +24,5 @@ echo $twig->render('templates_pages/projects/content_projects.twig', [
     'breadcrum' => $breadcrum->getBreadcrum(),
     'projects' => $projects,
 ]);
+
+Wx_Utils::showDebugInfos();

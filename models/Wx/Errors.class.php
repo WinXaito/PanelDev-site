@@ -29,6 +29,7 @@
         public function showError(){
             $_GET['error'] = $this->_error;
             require_once PATH.'/views/errors/errors.php';
+            Wx_Utils::showDebugInfos();
             exit();
         }
     }

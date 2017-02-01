@@ -24,3 +24,5 @@
         'breadcrum' => $breadcrum->getBreadcrum(),
         'historic' => $historic,
     ]);
+
+    Wx_Utils::showDebugInfos();

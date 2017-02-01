@@ -35,8 +35,15 @@
             $projectManager->add($projectContent);
             $add_informations = $projectManager->getErrors();
 
-            if(empty($add_informations))
-                header("Location:".URL_PATH."/project/".$projectContent->getUrl().'/view');
+            if(empty($add_informations)) {
+                switch($projectContent->getType()) {
+                    case 'print3d':
+                        header('Location:'.URL_PATH.'/project/'.$projectContent->getUrl().'/new');
+                        break;
+                    default:
+                        header('Location:'.URL_PATH.'/project/'.$projectContent->getUrl().'/view');
+                }
+            }
 		}else{
 			$add_informations .= '<p class="bg-primary message">Tous les champs nécéssaire n\'ont pas été rempli</p>';
 		}
@@ -61,3 +68,5 @@
         'value' => $value,
         'message' => $add_informations,
     ]);
+
+    Wx_Utils::showDebugInfos();

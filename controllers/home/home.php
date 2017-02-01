@@ -21,3 +21,5 @@
         'tab' => $tab,
         'projects' => $projects,
     ]);
+
+    Wx_Utils::showDebugInfos();

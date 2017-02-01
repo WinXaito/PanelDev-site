@@ -20,14 +20,13 @@
          * @return Wx_Options
          */
         public function get($userid){
-            $q = $this->_db->prepare("
+            $q = Wx_Query::query("
                 SELECT *
                 FROM options
                 WHERE user = ?
-            ");
-            $q->execute(array(
-                $userid
-            ));
+                ", [$userid]
+            );
+
             $result = $q->fetch();
 
             $OptionsContent = new Wx_Options();
@@ -43,31 +42,35 @@
          * @param Wx_Options $options
          */
         public function add(Wx_Options $options){
-            $q = $this->_db->prepare("
-                INSERT INTO options
-                (user, opt_projects, opt_view)
-                VALUES
-                (:user, :opt_projects, :opt_view)
-            ");
-            $q->execute(array(
-                'user' => $options->getUser(),
-                'opt_projects' => $options->getOptProjects(),
-                'opt_view' => $options->getOptView(),
-            ));
+            Wx_Query::query(
+                "
+                    INSERT INTO options
+                    (user, opt_projects, opt_view)
+                    VALUES
+                    (:user, :opt_projects, :opt_view)
+                ",
+                [
+                    'user' => $options->getUser(),
+                    'opt_projects' => $options->getOptProjects(),
+                    'opt_view' => $options->getOptView()
+                ]
+            );
         }
 
         /**
          * @param Wx_Options $options
          */
         public function update(Wx_Options $options){
-            $q = $this->_db->prepare("
-                UPDATE options
-                SET opt_projects = :opt_projects,
-                    opt_view = :opt_view
-            ");
-            $q->execute(array(
-                'opt_projects' => $options->getOptProjects(),
-                'opt_view' => $options->getOptView(),
-            ));
+            Wx_Query::query(
+                "
+                    UPDATE options
+                    SET opt_projects = :opt_projects,
+                      opt_view = :opt_view
+                ",
+                [
+                    'opt_projects' => $options->getOptProjects(),
+                    'opt_view' => $options->getOptView(),
+                ]
+            );
         }
     }

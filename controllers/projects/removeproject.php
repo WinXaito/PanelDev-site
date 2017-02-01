@@ -54,3 +54,5 @@ echo $twig->render('templates_pages/projects/content_removeproject.twig', [
     'message' => $add_informations,
     'removed' => $removed,
 ]);
+
+Wx_Utils::showDebugInfos();

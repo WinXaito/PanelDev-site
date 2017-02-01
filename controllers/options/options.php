@@ -26,3 +26,5 @@
         'tab' => $tab,
         'breadcrum' => $breadcrum->getBreadcrum(),
     ]);
+
+    Wx_Utils::showDebugInfos();

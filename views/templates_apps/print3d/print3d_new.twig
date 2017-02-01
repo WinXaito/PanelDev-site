@@ -1,0 +1,29 @@
+{% extends 'default.twig' %}
+
+{% block content %}
+    {% include 'templates_apps/print3d/print3d.twig' %}
+
+    <div class="alert alert-info">
+        <p>Toutes les options suivantes sont facultatives, elles pourront être modifiés par la suite.</p>
+    </div>
+
+    <form action="" method="POST">
+        <div class="form-group">
+            <select name="print3d_printer" class="form-control" style="margin-bottom:10px">
+                <option value="general" selected>#DiscoEasy200</option>
+            </select>
+
+            <input type="file" name="print3d_stl" placeholder="Fichier STL" class="form-control" style="margin-bottom:10px" value="{{ value.stl }}"/>
+            <input type="file" name="print3d_gcode" placeholder="Fichier GCode" class="form-control" style="margin-bottom:10px" value="{{ value.gcode }}"/>
+
+            <textarea name="print3d_infos" placeholder="Informations complémentaires (Réglages par exemple)"
+                      class="form-control" style="margin-bottom:10px">{{ value.infos }}</textarea>
+        </div>
+        <div class="form-group text-center">
+            <input type="submit" class="btn btn-default" value="Créer le projet" name="submit"/>
+        </div>
+    </form>
+    <div>
+        {{ message|raw }}
+    </div>
+{% endblock %}

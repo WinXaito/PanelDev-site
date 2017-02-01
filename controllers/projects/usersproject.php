@@ -52,3 +52,5 @@ echo $twig->render('templates_pages/projects/content_usersproject.twig', [
     'message' => $message,
     'users' => $projectContent->getUsers()->getUsers(),
 ]);
+
+Wx_Utils::showDebugInfos();

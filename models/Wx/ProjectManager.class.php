@@ -34,12 +34,13 @@
          * @return Wx_Project
          */
         public function get($url){
-            $q = $this->_db->prepare("
+            $q = Wx_Query::query("
                     SELECT *
                     FROM projects
                     WHERE url = ?
-                ");
-            $q->execute([$url]);
+                " , [$url]
+            );
+
             $resultProjects = $q->fetch();
             $q->closeCursor();
 
@@ -65,35 +66,80 @@
 
         /**
          * @param Wx_Project $project
+         * @return bool
          */
         public function add(Wx_Project $project){
-            $q = $this->_db->prepare("
+            $success = true;
+
+            $q = Wx_Query::query(
+                "
                     INSERT INTO projects
                     (name, owner, users, type, description, url, project_url, date_creation, date_modification)
                     VALUES
                     (:name, :owner, :users, :type, :description, :url, :project_url, :date_creation, :date_modification)
-                ");
-            $q->execute(array(
-                'name' => $project->getName(),
-                'owner' => $project->getOwner(),
-                'users' => $project->getUsers(),
-                'type' => $project->getType(),
-                'description' => $project->getDescription(),
-                'url' => $project->getUrl(),
-                'project_url' => $project->getUrlProject(),
-                'date_creation' => $project->getDateCreation(),
-                'date_modification' => $project->getDateModification(),
-            ));
+                ",
+                [
+                    'name' => $project->getName(),
+                    'owner' => $project->getOwner(),
+                    'users' => $project->getUsers(),
+                    'type' => $project->getType(),
+                    'description' => $project->getDescription(),
+                    'url' => $project->getUrl(),
+                    'project_url' => $project->getUrlProject(),
+                    'date_creation' => $project->getDateCreation(),
+                    'date_modification' => $project->getDateModification(),
+                ]
+            );
 
-            if($q->errorCode() != "00000")
+            if($q->errorCode() != "00000") {
                 $historic_content = "Erreur lors de l'insertion en base de donnée";
-            else
-                $historic_content = $project->getName().' ('.$project->getUrl().')';
+                $success = false;
+            }else {
+                $historic_content = $project->getName() . ' (' . $project->getUrl() . ')';
+            }
 
             $historic = new Wx_Historic($this->_user, Wx_Historic::TYPE_PROJECT, "Création d'un projet",
                 $historic_content, time(), $_SERVER['REMOTE_ADDR']);
 
             $this->_historicManager->add($historic);
+
+            return $success;
+        }
+
+        public function addAppPrint3d(Wx_Apps_Print3d $app){
+            $success = true;
+
+            $q = Wx_Query::query(
+                "
+                    INSERT INTO app_print3d
+                    (project_id, printer_id, result_id, timelapse_id, stl_id, gcode_id, infos)
+                    VALUES
+                    (:project_id, :printer_id, :result_id, :timelapse_id, :stl_id, :gcode_id, :infos)
+                ",
+                [
+                    'project_id' => $app->getProjectId(),
+                    'printer_id' => $app->getPrinterId(),
+                    'result_id' => $app->getResultId(),
+                    'timelapse_id' => $app->getTimelapseId(),
+                    'stl_id' => $app->getStlId(),
+                    'gcode_id' => $app->getGcodeId(),
+                    'infos' => $app->getInfos(),
+                ]
+            );
+
+            if($q->errorCode() != "00000") {
+                $historic_content = "Erreur lors de l'insertion en base de données";
+                $success = false;
+            }else {
+                $historic_content = 'Ajout App:Impression_3D (Project_id: ' . $app->getProjectId() . ')';
+            }
+
+            $historic = new Wx_Historic($this->_user, Wx_Historic::TYPE_PROJECT, "Création d'un projet",
+                $historic_content, time(), $_SERVER['REMOTE_ADDR']);
+
+            $this->_historicManager->add($historic);
+
+            return $success;
         }
 
         /**
@@ -101,7 +147,8 @@
          * @param $url
          */
         public function update(Wx_Project $project, $url){
-            $q = $this->_db->prepare("
+            $q = Wx_Query::query(
+                "
                     UPDATE projects
                     SET name = :name,
                         owner = :owner,
@@ -111,19 +158,18 @@
                         date_creation = :date_creation,
                         date_modification = :date_modification
                     WHERE url = :urlfind
-                ");
-            $q->execute(array(
-                'name' => $project->getName(),
-                'owner' => $project->getOwner(),
-                'description' => $project->getDescription(),
-                'url' => $project->getUrl(),
-                'project_url' => $project->getUrlProject(),
-                'date_creation' => $project->getDateCreation(),
-                'date_modification' => $project->getDateModification(),
-                'urlfind' => $url,
-            ));
-
-            echo $project->getUrlProject().'aaaa';
+                ",
+                [
+                    'name' => $project->getName(),
+                    'owner' => $project->getOwner(),
+                    'description' => $project->getDescription(),
+                    'url' => $project->getUrl(),
+                    'project_url' => $project->getUrlProject(),
+                    'date_creation' => $project->getDateCreation(),
+                    'date_modification' => $project->getDateModification(),
+                    'urlfind' => $url,
+                ]
+            );
 
             if($q->errorCode() != "00000")
                 $historic_content = "Erreur lors de l'insertion en base de donnée";
@@ -139,13 +185,15 @@
          * @param $url
          */
         public function remove($url){
-            $q = $this->_db->prepare("
+            Wx_Query::query(
+                "
                     DELETE FROM projects
                     WHERE url = ?
-                ");
-            $q->execute(array(
-                $url,
-            ));
+                ",
+                [
+                    $url,
+                ]
+            );
 
             $historic = new Wx_Historic($this->_user, Wx_Historic::TYPE_PROJECT, "Suppression d'un projet", "Name", time(), $_SERVER['REMOTE_ADDR']);
             $this->_historicManager->add($historic);
@@ -171,14 +219,17 @@
             while(true){
                 $newUrl = randomString();
 
-                $q = $this->_db->prepare("
+                $q = Wx_Query::query(
+                    "
                         SELECT *
                         FROM projects
                         WHERE url = ?
-                    ");
-                $q->execute(array(
-                    $newUrl
-                ));
+                  ",
+                    [
+                        $newUrl,
+                    ]
+                );
+
                 $result = $q->fetch();
 
                 if(!$result)
@@ -193,6 +244,7 @@
          * @internal param $useraccess
          * @internal param $userid
          * @internal param $username
+         * @return string
          */
         public function addUser(Wx_Project $project, Wx_User $user, $access){
             /*if($users){
@@ -212,17 +264,19 @@
             $this->_historicManager->add($historic);*/
 
             if(!$project->getUsers()->existUser($user->getId())){
-                $q = $this->_db->prepare("
-                    INSERT INTO projects_users
-                    (project_id, user_id, access, date_added)
-                    VALUES(:p_id, :u_id, :access, :date_added)
-                ");
-                $q->execute([
-                    'p_id' => $project->getId(),
-                    'u_id' => $user->getId(),
-                    'access' => $access,
-                    'date_added' => time(),
-                ]);
+                Wx_Query::query(
+                    "
+                        INSERT INTO projects_users
+                        (project_id, user_id, access, date_added)
+                        VALUES(:p_id, :u_id, :access, :date_added)
+                    ",
+                    [
+                        'p_id' => $project->getId(),
+                        'u_id' => $user->getId(),
+                        'access' => $access,
+                        'date_added' => time(),
+                    ]
+                );
 
                 return 'Utilisateur ajouté';
             }else{
@@ -336,15 +390,19 @@
         }
 
         public function getUserProjects(Wx_User $user){
-            $q = $this->_db->prepare("
-                SELECT *
-                FROM projects_users pu
-                JOIN projects p
-                ON pu.project_id = p.id
-                WHERE pu.user_id = ?
-                AND p.owner != pu.user_id
-            ");
-            $q->execute([$user->getId()]);
+            $q = Wx_Query::query(
+                "
+                    SELECT *
+                    FROM projects_users pu
+                    JOIN projects p
+                    ON pu.project_id = p.id
+                    WHERE pu.user_id = ?
+                    AND p.owner != pu.user_id
+                ",
+                [
+                    $user->getId(),
+                ]
+            );
 
             $i = 0;
             $return = [];
@@ -358,13 +416,17 @@
         }
 
         public function getProjectUsers($project_id){
-            $q = $this->_db->prepare("
-                SELECT pu.*, u.name
-                FROM projects_users pu JOIN users u
-                 ON u.id = pu.user_id
-                WHERE pu.project_id = ?
-            ");
-            $q->execute([$project_id]);
+            $q = Wx_Query::query(
+                "
+                    SELECT pu.*, u.name
+                    FROM projects_users pu JOIN users u
+                     ON u.id = pu.user_id
+                    WHERE pu.project_id = ?
+                ",
+                [
+                    $project_id,
+                ]
+            );
 
             $users = new Wx_Project_PUsers();
             while($data = $q->fetch()){
@@ -379,14 +441,16 @@
          * @return array
          */
         public function getOwnerProjects(Wx_User $_User){
-            $q = $this->_db->prepare("
-                SELECT *
-                FROM projects
-                WHERE owner = :owner
-            ");
-            $q->execute([
-                'owner' => $_User->getId(),
-            ]);
+            $q = Wx_Query::query(
+                "
+                    SELECT *
+                    FROM projects
+                    WHERE owner = :owner
+                ",
+                [
+                    'owner' => $_User->getId(),
+                ]
+            );
 
             $i=0;
             $return = [];

@@ -43,8 +43,11 @@ switch($projectContent->getType()){
         $error->setAndShowError(500);
 }
 
+
 echo $twig->render($template, [
     'tab' => $tab,
     'breadcrum' => $breadcrum->getBreadcrum(),
     'project' => $projectContent,
 ]);
+
+Wx_Utils::showDebugInfos();

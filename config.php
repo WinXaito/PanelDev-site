@@ -6,15 +6,16 @@
 	 */
 
 	//Generale
-		define("PATH", __DIR__);
+		define('PATH', __DIR__);
+        define('DEBUG', true);
 
 	//Url
-		define("URL_PATH", "/winxaito/paneldev");
-		define("URL_PATH_HOME", "/winxaito/paneldev/");
-		define("URL_PROJECTS_LENGTH", 6);
+		define('URL_PATH', "/winxaito/paneldev");
+		define('URL_PATH_HOME', "/winxaito/paneldev/");
+		define('URL_PROJECTS_LENGTH', 6);
 
 	//BDD
-		define("DB_HOST", "localhost");
-		define("DB_NAME", "paneldev");
-		define("DB_USERNAME", "root");
-		define("DB_PASSWORD", "");
+		define('DB_HOST', 'localhost');
+		define('DB_NAME', 'paneldev');
+		define('DB_USERNAME', 'root');
+		define('DB_PASSWORD', '');

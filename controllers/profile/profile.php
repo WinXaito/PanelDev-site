@@ -42,3 +42,5 @@
         'breadcrum' => $breadcrum->getBreadcrum(),
         'message' => $_add,
     ]);
+
+    Wx_Utils::showDebugInfos();

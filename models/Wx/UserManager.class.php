@@ -45,18 +45,21 @@
             $this->checkPassword($user);
 
             //if($this->getErrors() == ""){
-                $q = $this->_db->prepare("
-                    INSERT INTO users
-                    (name, password, email, grade)
-                    VALUES
-                    (:name, :password, :email, :grade)
-                ");
-                $q->execute(array(
-                    'name' => $user->getName(),
-                    'password' => sha1($user->getPassword()),
-                    'email' => $user->getEmail(),
-                    'grade' => $user->getGrade(),
-                ));
+                Wx_Query::query(
+                    "
+                        INSERT INTO users
+                        (name, password, email, grade)
+                        VALUES
+                        (:name, :password, :email, :grade)
+                    ",
+                    [
+                        'name' => $user->getName(),
+                        'password' => sha1($user->getPassword()),
+                        'email' => $user->getEmail(),
+                        'grade' => $user->getGrade(),
+                    ]
+                );
+
                 var_dump($q->errorInfo());
 
                 return true;
@@ -76,25 +79,27 @@
             if($this->getErrors() == ""){
                 $user->setPassword($user->getPassword(), false);
 
-                $q = $this->_db->prepare("
-                    UPDATE users
-                    SET name = :name,
-                        password = :password,
-                        email = :email,
-                        grade = :grade,
-                        firstname = :firstname,
-                        lastname = :lastname
-                    WHERE id = :id
-                ");
-                $q->execute(array(
-                    'id' => $user->getId(),
-                    'name' => $user->getName(),
-                    'password' => $user->getPassword(),
-                    'email' => $user->getEmail(),
-                    'grade' => $user->getGrade(),
-                    'firstname' => $user->getFirstName(),
-                    'lastname' => $user->getLastName()
-                ));
+                Wx_Query::query(
+                    "
+                        UPDATE users
+                        SET name = :name,
+                            password = :password,
+                            email = :email,
+                            grade = :grade,
+                            firstname = :firstname,
+                            lastname = :lastname
+                        WHERE id = :id
+                    ",
+                    [
+                        'id' => $user->getId(),
+                        'name' => $user->getName(),
+                        'password' => $user->getPassword(),
+                        'email' => $user->getEmail(),
+                        'grade' => $user->getGrade(),
+                        'firstname' => $user->getFirstName(),
+                        'lastname' => $user->getLastName()
+                    ]
+                );
 
                 return true;
             }else{
@@ -108,14 +113,17 @@
          * @return bool|Wx_User
          */
         public function getUserByName($username){
-            $q = $this->_db->prepare("
+            $q = Wx_Query::query(
+                "
                     SELECT *
                     FROM users
                     WHERE name = ?
-                ");
-            $q->execute(array(
-                $username,
-            ));
+                ",
+                [
+                    $username,
+                ]
+            );
+
             $result = $q->fetch();
 
             if($result){
@@ -139,14 +147,17 @@
          * @return bool|Wx_User
          */
         public function getUserById($userid){
-            $q = $this->_db->prepare("
+            $q = Wx_Query::query(
+                "
                     SELECT *
                     FROM users
                     WHERE id = ?
-                ");
-            $q->execute(array(
-                $userid,
-            ));
+                ",
+                [
+                    $userid,
+                ]
+            );
+
             $result = $q->fetch();
 
             if($result){
@@ -166,28 +177,32 @@
         }
 
         public function addFavorite(Wx_Project $project, Wx_User $user){
-            $q = $this->_db->prepare("
-                INSERT INTO projects_fav
-                (project_id, user_id, date_Created)
-                VALUES
-                (:p_id, :u_id, d_added)
-            ");
-            $q->execute([
-                'p_id' => $project->getId(),
-                'u_id' => $user->getId(),
-                'd_added' => time(),
-            ]);
+            Wx_Query::query(
+                "
+                    INSERT INTO projects_fav
+                    (project_id, user_id, date_Created)
+                    VALUES
+                    (:p_id, :u_id, d_added)
+                ",
+                [
+                    'p_id' => $project->getId(),
+                    'u_id' => $user->getId(),
+                    'd_added' => time(),
+                ]
+            );
         }
 
         public function removeFavorite($id, Wx_User $user){
-            $q = $this->_db->prepare("
-                DELETE FROM projects_fav
-                WHERE id = :id AND user_id = :u_id
-            ");
-            $q->execute([
-                'id' => $id,
-                'u_id' => $user->getId(),
-            ]);
+            Wx_Query::query(
+                "
+                    DELETE FROM projects_fav
+                    WHERE id = :id AND user_id = :u_id
+                ",
+                [
+                    'id' => $id,
+                    'u_id' => $user->getId(),
+                ]
+            );
 
             if($q->rowCount() == 0)
                 return false;
@@ -196,12 +211,17 @@
         }
 
         public function getFavorite($id){
-            $q = $this->_db->prepare("
-                SELECT *
-                FROM projects_fav
-                WHERE id = ?
-            ");
-            $q->execute([$id]);
+            $q = Wx_Query::query(
+                "
+                    SELECT *
+                    FROM projects_fav
+                    WHERE id = ?
+                ",
+                [
+                    $id,
+                ]
+            );
+
             if($data = $q->fetch()){
                 return new Wx_Favorite($data['id'], $data['project_id'], $data['user_id'], $data['date_created']);
             }else{
@@ -210,12 +230,16 @@
         }
 
         public function getFavorites(Wx_User $user){
-            $q = $this->_db->prepare("
-                SELECT *
-                FROM projects_fav
-                WHERE user_id = ?
-            ");
-            $q->execute([$user->getId()]);
+            Wx_Query::query(
+                "
+                    SELECT *
+                    FROM projects_fav
+                    WHERE user_id = ?
+                ",
+                [
+                    $user->getId(),
+                ]
+            );
 
             $fav = new Wx_Favorites();
             while($data = $q->fetch()){

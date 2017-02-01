@@ -45,3 +45,5 @@ echo $twig->render($template, [
     'breadcrum' => $breadcrum->getBreadcrum(),
     'project' => $projectContent,
 ]);
+
+Wx_Utils::showDebugInfos();

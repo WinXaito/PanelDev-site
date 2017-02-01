@@ -45,3 +45,5 @@ if(isset($_POST['username'])&&isset($_POST['password'])){
 echo $twig->render('templates_pages/authenticate/login.twig', [
     'message' => $_add,
 ]);
+
+Wx_Utils::showDebugInfos();

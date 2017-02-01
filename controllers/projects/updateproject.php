@@ -57,3 +57,5 @@ echo $twig->render('templates_pages/projects/content_updateproject.twig', [
     'project' => $projectContent,
     'message' => $add_informations,
 ]);
+
+Wx_Utils::showDebugInfos();

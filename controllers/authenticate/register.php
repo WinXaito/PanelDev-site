@@ -40,3 +40,5 @@ echo $twig->render('templates_pages/authenticate/register.twig', [
     'message' => $_add,
     'preset' => $preset
 ]);
+
+Wx_Utils::showDebugInfos();

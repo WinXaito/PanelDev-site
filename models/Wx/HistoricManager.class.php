@@ -22,15 +22,17 @@
          * @return array
          */
         public function getAllHistoric(){
-            $q = $this->_db->prepare("
-                SELECT *
-                FROM historic
-                WHERE user = ?
-                ORDER BY time DESC
-            ");
-            $q->execute(array(
-                $this->_User->getId(),
-            ));
+            $q = Wx_Query::query(
+                "
+                    SELECT *
+                    FROM historic
+                    WHERE user = ?
+                    ORDER BY time DESC
+                ",
+                [
+                    $this->_User->getId(),
+                ]
+            );
 
             $i = 0;
             $return = [];
@@ -81,20 +83,22 @@
          * @return void
          */
         public function add(Wx_Historic $historic){
-            $q = $this->_db->prepare("
-                INSERT INTO historic
-                (user, type, title, content, time, ip)
-                VALUES
-                (:user, :type, :title, :content, :time, :ip)
-            ");
-            $q->execute(array(
-                'user' => $this->_User->getId(),
-                'type' => $historic->getType(),
-                'title' => $historic->getTitle(),
-                'content' => $historic->getContent(),
-                'time' => $historic->getTime(),
-                'ip' => $historic->getIp()
-            ));
+            Wx_Query::query(
+                "
+                    INSERT INTO historic
+                    (user, type, title, content, time, ip)
+                    VALUES
+                    (:user, :type, :title, :content, :time, :ip)
+                ",
+                [
+                    'user' => $this->_User->getId(),
+                    'type' => $historic->getType(),
+                    'title' => $historic->getTitle(),
+                    'content' => $historic->getContent(),
+                    'time' => $historic->getTime(),
+                    'ip' => $historic->getIp()
+                ]
+            );
         }
 
         /**
@@ -102,12 +106,14 @@
          * @return void
          */
         public function removeAllHistoric(){
-            $q = $this->_db->prepare("
-                DELETE FROM historic
-                WHERE user = :user
-            ");
-            $q->execute(array(
-                 $this->_User->getId(),
-            ));
+            Wx_Query::query(
+                "
+                    DELETE FROM historic
+                  WHERE user = :user
+                ",
+                [
+                    $this->_User->getId(),
+                ]
+            );
         }
     }
