@@ -12,7 +12,7 @@ $tab['projects'] = "active";
 $url = isset($_GET['url']) ? $_GET['url'] : "";
 $type = isset($_GET['type']) ? $_GET['type'] : "";
 
-$projectManager = new Wx_ProjectManager($bdd, $_HistoricManager, $_User);
+$projectManager = new Wx_ProjectManager($_HistoricManager, $_User);
 $projectContent = $projectManager->get($_GET['url']);
 
 if(!$projectContent)

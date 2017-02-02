@@ -12,7 +12,7 @@ $tab['projects'] = "active";
 if(!isset($_GET['url']))
     $_GET['url'] = "";
 
-$projectManager = new Wx_ProjectManager($bdd, $_HistoricManager, $_User);
+$projectManager = new Wx_ProjectManager($_HistoricManager, $_User);
 $projectContent = $projectManager->get($_GET['url']);
 
 if(!$projectContent)
@@ -23,7 +23,7 @@ if($projectContent->getOwner() != $_User->getId())
 $removed = false;
 $add_informations = "";
 if(isset($_POST['remove'])&&isset($_POST['password'])){
-    $usersManager = new Wx_UserManager($bdd);
+    $usersManager = new Wx_UserManager();
     $usersContent = $usersManager->getUserById($_User->getId());
 
     if(sha1($_POST['password']) == $usersContent->getPassword()){

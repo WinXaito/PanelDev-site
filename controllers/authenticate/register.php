@@ -11,7 +11,7 @@ require_once __DIR__.'/../init.php';
 $_add = $preset = "";
 if(isset($_POST['username'])&&isset($_POST['email'])&&isset($_POST['password'])&&isset($_POST['confirmPassword'])){
     if(!empty($_POST['username'])&&!empty($_POST['email'])&&!empty($_POST['password'])&&!empty($_POST['confirmPassword'])){
-        $_UserManager = new Wx_UserManager($bdd);
+        $_UserManager = new Wx_UserManager();
         $_User = new Wx_User($_POST['username'], $_POST['password'], $_POST['email'], "", "", Wx_User::GRADE_INITIAL);
         $_User->setPasswordConfirm($_POST['confirmPassword']);
         var_dump($_User);

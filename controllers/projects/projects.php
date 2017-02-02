@@ -9,7 +9,7 @@ require_once __DIR__.'/../init.php';
 
 $tab['projects'] = "active";
 
-$projectManager = new Wx_ProjectManager($bdd , $_HistoricManager, $_User);
+$projectManager = new Wx_ProjectManager($_HistoricManager, $_User);
 $projects = $projectManager->getAllProjects($_User);
 $breadcrum = new Wx_Breadcrum(
     false,

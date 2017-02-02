@@ -12,7 +12,7 @@ $add_informations = "";
 $value = [];
 if(isset($_GET['url']) && !empty($_GET['url'])) {
     if (isset($_POST['print3d_printer']) && isset($_POST['print3d_stl']) && isset($_POST['print3d_gcode']) && isset($_POST['print3d_infos'])) {
-        $projectManager = new Wx_ProjectManager($bdd, $_HistoricManager, $_User);
+        $projectManager = new Wx_ProjectManager($_HistoricManager, $_User);
         $projectContent = $projectManager->get($_GET['url']);
 
         /* Todo

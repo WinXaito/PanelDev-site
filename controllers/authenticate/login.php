@@ -19,11 +19,11 @@ if(isset($_POST['username'])&&isset($_POST['password'])){
         $_add .= '<p class="bg-primary message">Mot de passe non renseigné</p>';
 
     if(empty($_add)){
-        $_UserManager = new Wx_UserManager($bdd);
+        $_UserManager = new Wx_UserManager();
         $_User = $_UserManager->getUserByName($_POST['username']);
 
         if($_User){
-            $_HistoricManager = new Wx_HistoricManager($bdd, $_User);
+            $_HistoricManager = new Wx_HistoricManager($_User);
 
             if($_User->getPassword() == sha1($_POST['password'])){
                 $_SESSION['user']['id'] = $_User->getId();

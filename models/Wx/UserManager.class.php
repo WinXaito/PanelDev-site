@@ -1,287 +1,276 @@
 <?php
+/**
+ * Project: paneldev
+ * License: GPL3.0
+ * User: WinXaito
+ */
+
+
+class Wx_UserManager{
+    private $_errors;
+    private $_historicManager;
+
     /**
-     * Project: paneldev
-     * License: GPL3.0
-     * User: WinXaito
+     * @param $historicManager
      */
+    public function setHistoricManager($historicManager){
+        $this->_historicManager = $historicManager;
+    }
 
+    /**
+     * @return mixed
+     */
+    public function getErrors(){
+        return $this->_errors;
+    }
 
-    class Wx_UserManager{
-        /**
-         * @var PDO $_db
-         */
-        private $_db;
-        private $_errors;
-        private $_historicManager;
+    /**
+     * @param Wx_User $user
+     * @return bool
+     */
+    public function add(Wx_User $user){
+        $this->checkUsername($user);
+        $this->checkEmail($user);
+        $this->checkPassword($user);
 
-        /**
-         * @param $db
-         */
-        public function __construct($db){
-            $this->_db = $db;
-        }
-
-        /**
-         * @param $historicManager
-         */
-        public function setHistoricManager($historicManager){
-            $this->_historicManager = $historicManager;
-        }
-
-        /**
-         * @return mixed
-         */
-        public function getErrors(){
-            return $this->_errors;
-        }
-
-        /**
-         * @param Wx_User $user
-         * @return bool
-         */
-        public function add(Wx_User $user){
-            $this->checkUsername($user);
-            $this->checkEmail($user);
-            $this->checkPassword($user);
-
-            //if($this->getErrors() == ""){
-                Wx_Query::query(
-                    "
-                        INSERT INTO users
-                        (name, password, email, grade)
-                        VALUES
-                        (:name, :password, :email, :grade)
-                    ",
-                    [
-                        'name' => $user->getName(),
-                        'password' => sha1($user->getPassword()),
-                        'email' => $user->getEmail(),
-                        'grade' => $user->getGrade(),
-                    ]
-                );
-
-                var_dump($q->errorInfo());
-
-                return true;
-            //}else{
-                return false;
-            //}
-        }
-
-        /**
-         * @param Wx_User $user
-         * @return bool
-         */
-        public function update(Wx_User $user){
-            $this->checkPassword($user);
-            $this->checkEmail($user);
-
-            if($this->getErrors() == ""){
-                $user->setPassword($user->getPassword(), false);
-
-                Wx_Query::query(
-                    "
-                        UPDATE users
-                        SET name = :name,
-                            password = :password,
-                            email = :email,
-                            grade = :grade,
-                            firstname = :firstname,
-                            lastname = :lastname
-                        WHERE id = :id
-                    ",
-                    [
-                        'id' => $user->getId(),
-                        'name' => $user->getName(),
-                        'password' => $user->getPassword(),
-                        'email' => $user->getEmail(),
-                        'grade' => $user->getGrade(),
-                        'firstname' => $user->getFirstName(),
-                        'lastname' => $user->getLastName()
-                    ]
-                );
-
-                return true;
-            }else{
-                return false;
-            }
-        }
-
-
-        /**
-         * @param $username
-         * @return bool|Wx_User
-         */
-        public function getUserByName($username){
-            $q = Wx_Query::query(
-                "
-                    SELECT *
-                    FROM users
-                    WHERE name = ?
-                ",
-                [
-                    $username,
-                ]
-            );
-
-            $result = $q->fetch();
-
-            if($result){
-                $users = new Wx_User(
-                    $result['name'],
-                    $result['password'],
-                    $result['email'],
-                    $result['firstname'],
-                    $result['lastname'],
-                    $result['grade'],
-                    $result['id']
-                );
-                return $users;
-            }else{
-                return false;
-            }
-        }
-
-        /**
-         * @param $userid
-         * @return bool|Wx_User
-         */
-        public function getUserById($userid){
-            $q = Wx_Query::query(
-                "
-                    SELECT *
-                    FROM users
-                    WHERE id = ?
-                ",
-                [
-                    $userid,
-                ]
-            );
-
-            $result = $q->fetch();
-
-            if($result){
-                $users = new Wx_User(
-                    $result['name'],
-                    $result['password'],
-                    $result['email'],
-                    $result['firstname'],
-                    $result['lastname'],
-                    $result['grade'],
-                    $result['id']
-                );
-                return $users;
-            }else{
-                return false;
-            }
-        }
-
-        public function addFavorite(Wx_Project $project, Wx_User $user){
+        //if($this->getErrors() == ""){
             Wx_Query::query(
                 "
-                    INSERT INTO projects_fav
-                    (project_id, user_id, date_Created)
+                    INSERT INTO users
+                    (name, password, email, grade)
                     VALUES
-                    (:p_id, :u_id, d_added)
+                    (:name, :password, :email, :grade)
                 ",
                 [
-                    'p_id' => $project->getId(),
-                    'u_id' => $user->getId(),
-                    'd_added' => time(),
+                    'name' => $user->getName(),
+                    'password' => sha1($user->getPassword()),
+                    'email' => $user->getEmail(),
+                    'grade' => $user->getGrade(),
                 ]
             );
-        }
 
-        public function removeFavorite($id, Wx_User $user){
+            var_dump($q->errorInfo());
+
+            return true;
+        //}else{
+            return false;
+        //}
+    }
+
+    /**
+     * @param Wx_User $user
+     * @return bool
+     */
+    public function update(Wx_User $user){
+        $this->checkPassword($user);
+        $this->checkEmail($user);
+
+        if($this->getErrors() == ""){
+            $user->setPassword($user->getPassword(), false);
+
             Wx_Query::query(
                 "
-                    DELETE FROM projects_fav
-                    WHERE id = :id AND user_id = :u_id
+                    UPDATE users
+                    SET name = :name,
+                        password = :password,
+                        email = :email,
+                        grade = :grade,
+                        firstname = :firstname,
+                        lastname = :lastname
+                    WHERE id = :id
                 ",
                 [
-                    'id' => $id,
-                    'u_id' => $user->getId(),
+                    'id' => $user->getId(),
+                    'name' => $user->getName(),
+                    'password' => $user->getPassword(),
+                    'email' => $user->getEmail(),
+                    'grade' => $user->getGrade(),
+                    'firstname' => $user->getFirstName(),
+                    'lastname' => $user->getLastName()
                 ]
             );
 
-            if($q->rowCount() == 0)
-                return false;
-            else
-                return true;
-        }
-
-        public function getFavorite($id){
-            $q = Wx_Query::query(
-                "
-                    SELECT *
-                    FROM projects_fav
-                    WHERE id = ?
-                ",
-                [
-                    $id,
-                ]
-            );
-
-            if($data = $q->fetch()){
-                return new Wx_Favorite($data['id'], $data['project_id'], $data['user_id'], $data['date_created']);
-            }else{
-                return null;
-            }
-        }
-
-        public function getFavorites(Wx_User $user){
-            Wx_Query::query(
-                "
-                    SELECT *
-                    FROM projects_fav
-                    WHERE user_id = ?
-                ",
-                [
-                    $user->getId(),
-                ]
-            );
-
-            $fav = new Wx_Favorites();
-            while($data = $q->fetch()){
-                $fav->addFavorite($data['id'], $data['project_id'], $data['user_id'], $data['date_created']);
-            }
-
-            return $fav;
-        }
-
-
-        /**
-         * @param Wx_User $user
-         */
-        private function checkUsername(Wx_User $user){
-            $existUser = $this->getUserByName($user->getName());
-
-            if($existUser)
-                $this->addError('<p class="bg-primary message">L\'identifiant demandé existe déjà</p>');
-            if(strlen($user->getName()) < 4 || strlen($user->getName()) > 15)
-                $this->addError('<p class="bg-primary message">L\'identifiant doit se trouver entre 4 et 15 caractères</p>');
-        }
-
-        /**
-         * @param Wx_User $user
-         */
-        private function checkPassword(Wx_User $user){
-            if(strlen($user->getPassword()) < 6 || $user->getPassword() != $user->getPasswordConfirm())
-                $this->addError('<p class="bg-primary message">Le mot de passe doit faire au moins 6 caractères et doit correspondre à sa confirmation</p>');
-        }
-
-        /**
-         * @param Wx_User $user
-         */
-        private function checkEmail(Wx_User $user){
-            if(!filter_var($user->getEmail(), FILTER_VALIDATE_EMAIL))
-                $this->addError('<p class="bg-primary message">L\'adresse email indiqué n\'est pas correcte</p>');
-        }
-
-        /**
-         * @param $add
-         */
-        private function addError($add){
-            $this->_errors = $this->_errors.$add;
+            return true;
+        }else{
+            return false;
         }
     }
+
+
+    /**
+     * @param $username
+     * @return bool|Wx_User
+     */
+    public function getUserByName($username){
+        $q = Wx_Query::query(
+            "
+                SELECT *
+                FROM users
+                WHERE name = ?
+            ",
+            [
+                $username,
+            ]
+        );
+
+        $result = $q->fetch();
+
+        if($result){
+            $users = new Wx_User(
+                $result['name'],
+                $result['password'],
+                $result['email'],
+                $result['firstname'],
+                $result['lastname'],
+                $result['grade'],
+                $result['id']
+            );
+            return $users;
+        }else{
+            return false;
+        }
+    }
+
+    /**
+     * @param $userid
+     * @return bool|Wx_User
+     */
+    public function getUserById($userid){
+        $q = Wx_Query::query(
+            "
+                SELECT *
+                FROM users
+                WHERE id = ?
+            ",
+            [
+                $userid,
+            ]
+        );
+
+        $result = $q->fetch();
+
+        if($result){
+            $users = new Wx_User(
+                $result['name'],
+                $result['password'],
+                $result['email'],
+                $result['firstname'],
+                $result['lastname'],
+                $result['grade'],
+                $result['id']
+            );
+            return $users;
+        }else{
+            return false;
+        }
+    }
+
+    public function addFavorite(Wx_Project $project, Wx_User $user){
+        Wx_Query::query(
+            "
+                INSERT INTO projects_fav
+                (project_id, user_id, date_Created)
+                VALUES
+                (:p_id, :u_id, d_added)
+            ",
+            [
+                'p_id' => $project->getId(),
+                'u_id' => $user->getId(),
+                'd_added' => time(),
+            ]
+        );
+    }
+
+    public function removeFavorite($id, Wx_User $user){
+        Wx_Query::query(
+            "
+                DELETE FROM projects_fav
+                WHERE id = :id AND user_id = :u_id
+            ",
+            [
+                'id' => $id,
+                'u_id' => $user->getId(),
+            ]
+        );
+
+        if($q->rowCount() == 0)
+            return false;
+        else
+            return true;
+    }
+
+    public function getFavorite($id){
+        $q = Wx_Query::query(
+            "
+                SELECT *
+                FROM projects_fav
+                WHERE id = ?
+            ",
+            [
+                $id,
+            ]
+        );
+
+        if($data = $q->fetch()){
+            return new Wx_Favorite($data['id'], $data['project_id'], $data['user_id'], $data['date_created']);
+        }else{
+            return null;
+        }
+    }
+
+    public function getFavorites(Wx_User $user){
+        Wx_Query::query(
+            "
+                SELECT *
+                FROM projects_fav
+                WHERE user_id = ?
+            ",
+            [
+                $user->getId(),
+            ]
+        );
+
+        $fav = new Wx_Favorites();
+        while($data = $q->fetch()){
+            $fav->addFavorite($data['id'], $data['project_id'], $data['user_id'], $data['date_created']);
+        }
+
+        return $fav;
+    }
+
+
+    /**
+     * @param Wx_User $user
+     */
+    private function checkUsername(Wx_User $user){
+        $existUser = $this->getUserByName($user->getName());
+
+        if($existUser)
+            $this->addError('<p class="bg-primary message">L\'identifiant demandé existe déjà</p>');
+        if(strlen($user->getName()) < 4 || strlen($user->getName()) > 15)
+            $this->addError('<p class="bg-primary message">L\'identifiant doit se trouver entre 4 et 15 caractères</p>');
+    }
+
+    /**
+     * @param Wx_User $user
+     */
+    private function checkPassword(Wx_User $user){
+        if(strlen($user->getPassword()) < 6 || $user->getPassword() != $user->getPasswordConfirm())
+            $this->addError('<p class="bg-primary message">Le mot de passe doit faire au moins 6 caractères et doit correspondre à sa confirmation</p>');
+    }
+
+    /**
+     * @param Wx_User $user
+     */
+    private function checkEmail(Wx_User $user){
+        if(!filter_var($user->getEmail(), FILTER_VALIDATE_EMAIL))
+            $this->addError('<p class="bg-primary message">L\'adresse email indiqué n\'est pas correcte</p>');
+    }
+
+    /**
+     * @param $add
+     */
+    private function addError($add){
+        $this->_errors = $this->_errors.$add;
+    }
+}
