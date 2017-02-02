@@ -20,9 +20,17 @@
     //Twig
     $loader = new Twig_Loader_Filesystem(__DIR__.'/../views/');
     //Twig cache: __DIR__.'/../temp/twig_cache/'
-    $twig = new Twig_Environment($loader, ['cache' => false]);
+
+    if(TWIG_CACHE)
+        $twig = new Twig_Environment($loader, ['cache' => __DIR__.'/../temp/twig_cache/']);
+    else
+        $twig = new Twig_Environment($loader, ['cache' => false]);
+
     $twig->addGlobal("URL", URL_PATH);
     $twig->addGlobal("session", $_SESSION);
+
+    //Initialize error class
+    $_Error = new Wx_Errors($twig);
 
     //Check Authentification
     if(isset($_SESSION['user']['id'])){

@@ -8,6 +8,7 @@
 	//Generale
 		define('PATH', __DIR__);
         define('DEBUG', true);
+        define('TWIG_CACHE', false);
 
 	//Url
 		define('URL_PATH', "/winxaito/paneldev");

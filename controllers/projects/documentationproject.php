@@ -15,11 +15,10 @@
     $projectManager = new Wx_ProjectManager($bdd, $_HistoricManager, $_User);
     $projectContent = $projectManager->get($_GET['url']);
 
-    $error = new Wx_Errors();
     if(!$projectContent)
-        $error->setAndShowError(404);
+        $_Error->setAndShowError(404);
     if($projectContent->getOwner() != $_User->getId() && !in_array($projectContent->getUsers(true), [$_User->getName()]))
-        $error->setAndShowError(403);
+        $_Error->setAndShowError(403);
 
 
     $breadcrum = new Wx_Breadcrum(

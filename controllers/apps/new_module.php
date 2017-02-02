@@ -13,17 +13,16 @@ $url = isset($_GET['url']) ? $_GET['url'] : "";
 
 $projectManager = new Wx_ProjectManager($bdd, $_HistoricManager, $_User);
 $projectContent = $projectManager->get($_GET['url']);
-$error = new Wx_Errors();
 
 if(!$projectContent)
-    $error->setAndShowError(404);
+    $_Error->setAndShowError(404);
 if($projectContent->getOwner() != $_User->getId())
-    $error->setAndShowError(403);
+    $_Error->setAndShowError(403);
 
 switch($projectContent->getType()){
     case 'print3d':
         require_once __DIR__.'/print3d/print3d_new.php';
         break;
     default:
-        $error->setAndShowError(500);
+        $_Error->setAndShowError(500);
 }
