@@ -60,8 +60,6 @@ $breadcrum = new Wx_Breadcrum(
 );
 $tab['projects'] = "active";
 
-$complement['content'] = include PATH.'/views/templates_pages/projects/content_newproject.php';
-
 echo $twig->render('templates_pages/projects/content_newproject.twig', [
     'tab' => $tab,
     'breadcrum' => $breadcrum->getBreadcrum(),

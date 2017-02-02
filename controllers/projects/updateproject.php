@@ -48,7 +48,6 @@ $breadcrum = new Wx_Breadcrum(
         'Modification' => '/project/'.$projectContent->getUrl().'/update',
     ]
 );
-$complement['content'] = include PATH.'/views/templates_pages/projects/content_updateproject.php';
 
 echo $twig->render('templates_pages/projects/content_updateproject.twig', [
     'tab' => $tab,

@@ -15,7 +15,6 @@ $breadcrum = new Wx_Breadcrum(
         'Aide' => 'help'
     ]
 );
-$complement['content'] = include PATH.'/views/templates_pages/help/content_help.php';
 
 echo $twig->render('templates_pages/help/content_help.twig', [
     'breadcrum' => $breadcrum->getBreadcrum(),

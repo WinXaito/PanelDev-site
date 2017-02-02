@@ -44,7 +44,6 @@ $breadcrum = new Wx_Breadcrum(
         'Suppression' => '/project/'.$projectContent->getUrl().'/remove',
     ]
 );
-$complement['content'] = include PATH.'/views/templates_pages/projects/content_removeproject.php';
 
 echo $twig->render('templates_pages/projects/content_removeproject.twig', [
     'tab' => $tab,

@@ -13,9 +13,6 @@ $projects = $projectManager->getOwnerProjects($_User);
 $tab['home'] = "active";
 $breadcrum = new Wx_Breadcrum(false, ['Accueil' => '']);
 
-$complement['content'] = include PATH.'/views/templates_pages/home/content_home.php';
-$complement['js'] = include PATH.'/views/templates_pages/home/js_home.php';
-
 echo $twig->render('templates_pages/home/content_home.twig', [
     'breadcrum' => $breadcrum->getBreadcrum(),
     'tab' => $tab,

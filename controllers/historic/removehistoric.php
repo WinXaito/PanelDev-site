@@ -18,7 +18,6 @@ $breadcrum = new Wx_Breadcrum(
         'Suppression' => '/remove',
     ]
 );
-$complement['content'] = require_once PATH.'/views/templates_pages/historic/content_removehistoric.php';
 
 echo $twig->render('templates_pages/historic/content_removehistoric.twig', [
     'tab' => $tab,

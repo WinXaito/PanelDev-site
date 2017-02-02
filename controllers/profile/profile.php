@@ -35,7 +35,6 @@ $breadcrum = new Wx_Breadcrum(
         'Profile' => 'profile'
     ]
 );
-$complement['content'] = include PATH.'/views/templates_pages/profile/content_profile.php';
 
 echo $twig->render('templates_pages/profile/content_profile.twig', [
     'tab' => $tab,

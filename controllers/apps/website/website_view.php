@@ -7,4 +7,3 @@
 
 require_once __DIR__.'/../../init.php';
 
-$complement['content'] = include PATH.'/views/templates_apps/website/content_viewwebsite.php';
