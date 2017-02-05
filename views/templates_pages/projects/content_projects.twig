@@ -4,11 +4,11 @@
     <div>
         <a href="{{ URL }}/project/new" class="">Créer un nouveau projet</a>
     </div>
+    <ul class="nav nav-tabs margin-top">
+        <li role="presentation" class="active"><a href="">Vos projets</a></li>
+        <li role="presentation"><a href="{{ URL }}/projects/associate">Projet aux quels vous êtes associés</a></li>
+    </ul>
     <div>
-        <h3>Liste de vos projets</h3>
         {% include 'templates_pages/projects/list_projects.twig' %}
-
-        <h3>Liste des projets auquels vous êtes associé</h3>
-        {% include 'templates_pages/projects/list_projects_user.twig' %}
     </div>
 {% endblock %}

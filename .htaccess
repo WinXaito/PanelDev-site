@@ -22,6 +22,7 @@
 
     #Projects
         RewriteRule ^projects$ controllers/projects/projects.php [L]
+        RewriteRule ^projects/associate$ controllers/projects/projects_associate.php [L]
         RewriteRule ^project/new$ controllers/projects/newproject.php [L]
             RewriteRule ^project/(\w+)/new$ controllers/apps/new_module.php?url=$1 [L]
 

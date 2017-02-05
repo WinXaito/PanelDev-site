@@ -1,8 +1,8 @@
 <?php
 /**
- * Project: PanelDev
- * License: GPL3.0 ©All right reserved
- * User: WinXaito
+ * Project: paneldev
+ * Created by: WinXaito
+ * Date: 05.02.2017
  */
 
 require_once __DIR__.'/../init.php';
@@ -20,7 +20,7 @@ $breadcrum = new Wx_Breadcrum(
     ]
 );
 
-echo $twig->render('templates_pages/projects/content_projects.twig', [
+echo $twig->render('templates_pages/projects/content_projects_associate.twig', [
     'tab' => $tab,
     'breadcrum' => $breadcrum->getBreadcrum(),
     'projects' => $projects,
