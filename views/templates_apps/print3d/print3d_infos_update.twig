@@ -1,0 +1,18 @@
+{% extends 'default.twig' %}
+
+{% block content %}
+    {% embed 'templates_apps/print3d/print3d.twig' %}
+        {% block sidebarReturnURL %}infos{% endblock %}
+    {% endembed %}
+
+    {% if message is not empty %}
+        <p class="alert alert-info">{{ message }}</p>
+    {% endif %}
+
+    <div>
+        <form method="POST" action="">
+            <textarea class="form-control" name="infos" placeholder="Indiquer vos informations" style="resize:vertical;height:500px">{{ print3d.infos }}</textarea>
+            <input type="submit" name="submit" value="Enregistrer" class="btn btn-default" style="float:right;margin-top:10px"/>
+        </form>
+    </div>
+{% endblock %}

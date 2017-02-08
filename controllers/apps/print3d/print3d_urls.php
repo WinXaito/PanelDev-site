@@ -9,7 +9,18 @@
  * @var error Wx_Error
  */
 
+
+$TYPES = ['view' => 'Afficher', 'files' => 'Fichiers', 'gcode' => 'GCode', 'result' => 'Résultat', 'infos' => 'Informations'];
+$ACTIONS = ['new' => 'Nouveau', 'update' => 'Modifier', 'remove' => 'Supprimer'];
+$_GET['action'] = isset($_GET['action']) ? $_GET['action'] : "";
+
+
+$print3dContent = Wx_Apps_Print3dManager::get($projectContent);
+
 switch($_GET['type']){
+    case 'view':
+        $template = 'templates_apps/print3d/print3d_view.twig';
+        break;
     case 'files':
         $template = 'templates_apps/print3d/print3d_files.twig';
         $breadcrum_type = 'Fichiers';
@@ -23,27 +34,51 @@ switch($_GET['type']){
         $breadcrum_type = 'Résultat';
         break;
     case 'infos':
-        $template = 'templates_apps/print3d/print3d_infos.twig';
         $breadcrum_type = 'Informations';
+
+        switch($_GET['action']){
+            case 'update':
+                require_once __DIR__.'/print3d_infos_update.php';
+                $template = 'templates_apps/print3d/print3d_infos_update.twig';
+                break;
+            default:
+                $template = 'templates_apps/print3d/print3d_infos.twig';
+        }
         break;
     default:
         $error->setAndShowError(404);
 }
 
-$breadcrum = new Wx_Breadcrum(
-    true,
-    [
-        'Accueil' => '',
-        'Projets' => 'projects',
-        $projectContent->getName() => '/project/'.$projectContent->getUrl().'/view',
-        $breadcrum_type => '',
-    ]
-);
+if(!empty($_GET['action'])){
+    $breadcrum = new Wx_Breadcrum(
+        true,
+        [
+            'Accueil' => '',
+            'Projets' => 'projects',
+            $projectContent->getName() => '/project/' . $projectContent->getUrl() . '/view',
+            $TYPES[$_GET['type']] => '/project/'.$projectContent->getUrl().'/view/'.$_GET['type'],
+            $ACTIONS[$_GET['action']] => '',
+        ]
+    );
+}else {
+    $breadcrum = new Wx_Breadcrum(
+        true,
+        [
+            'Accueil' => '',
+            'Projets' => 'projects',
+            $projectContent->getName() => '/project/' . $projectContent->getUrl() . '/view',
+            $TYPES[$_GET['type']] => '',
+        ]
+    );
+}
 
+$message = isset($message) ? $message : "";
 echo $twig->render($template, [
     'tab' => $tab,
     'breadcrum' => $breadcrum->getBreadcrum(),
     'project' => $projectContent,
+    'print3d' => $print3dContent,
+    'message' => $message,
 ]);
 
 Wx_Utils::showDebugInfos();

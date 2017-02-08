@@ -1,5 +1,6 @@
 <div class="sidebar">
-    <span><a href="{{ URL }}/project/{{ project.url }}/view">Retour</a></span>
+    <span><a href="{{ URL }}/project/{{ project.url }}/{% block sidebarReturnURL %}view{% endblock %}">Retour</a></span>
+    {% block sidebarButtons %}{% endblock %}
 </div>
 
 <h3 class="page-title">Impression 3D: {{ project.name }}

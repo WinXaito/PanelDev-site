@@ -27,13 +27,11 @@
             RewriteRule ^project/(\w+)/new$ controllers/apps/new_module.php?url=$1 [L]
 
         #General projects
-        RewriteRule ^project/(\w+)/view$ controllers/projects/viewproject.php?url=$1 [L]
-            RewriteRule ^project/(\w+)/view/users$ controllers/projects/usersproject.php?url=$1 [L]
+        RewriteRule ^project/(\w+)/(\w+)/(\w+)$ controllers/apps/urls_module.php?url=$1&type=$2&action=$3 [L]
+        RewriteRule ^project/(\w+)/(\w+)$ controllers/apps/urls_module.php?url=$1&type=$2 [L]
+            #RewriteRule ^project/(\w+)/view/users$ controllers/projects/usersproject.php?url=$1 [L]
         RewriteRule ^project/(\w+)/update$ controllers/projects/updateproject.php?url=$1 [L]
         RewriteRule ^project/(\w+)/remove$ controllers/projects/removeproject.php?url=$1 [L]
-
-        #print3d
-        RewriteRule ^project/(\w+)/view/(\w+) controllers/apps/urls_module.php?url=$1&type=$2 [L]
 
 	#Options
 		RewriteRule ^options$ controllers/options/options.php [L]

@@ -3,8 +3,81 @@
 {% block content %}
     {% include 'templates_apps/print3d/print3d.twig' %}
 
-    {#Block1: Download#}
-    <div class="col-md-6 content-block">
-        <h4>Files</h4>
+    <div>
+        <h4>Fichier STL</h4>
+        {% if file.stlFile is not empty %}
+            <table class="table table-striped">
+                {% block tableHead %}
+                    <thead>
+                        <th>Nom</th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                    </thead>
+                {% endblock %}
+
+                <tbody>
+                    {% for file in file.stlFile %}
+                        <tr>
+                            <td>file.name</td>
+                            <td><a href="">Editer</a></td>
+                            <td><a href="">Télécharger</a></td>
+                            <td><a href="">Supprimer</a></td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <form method="POST" action="">
+                <input type="file" name="fileStl"/>
+                <input type="submit" name="submit" value="Envoyer"/>
+            </form>
+        {% endif %}
+
+        <h4>Fichier GCode</h4>
+        {% if file.gCodeFile is not empty %}
+            <table class="table table-striped">
+                {{ block('tableHead') }}
+
+                <tbody>
+                    {% for file in file.gCodeFile %}
+                        <tr>
+                            <td>file.name</td>
+                            <td><a href="">Editer</a></td>
+                            <td><a href="">Télécharger</a></td>
+                            <td><a href="">Supprimer</a></td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <form method="POST" action="">
+                <input type="file" name="fileGCode"/>
+                <input type="submit" name="submit" value="Envoyer"/>
+            </form>
+        {% endif %}
+
+        <h4>Autres fichiers</h4>
+        {% if file.otherFiles is not empty %}
+            <table class="table table-striped">
+                {{ block('tableHead') }}
+
+                <tbody>
+                    {% for file in file.otherFiles %}
+                        <tr>
+                            <td>file.name</td>
+                            <td><a href="">Editer</a></td>
+                            <td><a href="">Télécharger</a></td>
+                            <td><a href="">Supprimer</a></td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% endif %}
+
+        <form method="POST" action="">
+            <input type="file" name="fileOther" multiple/>
+            <input type="submit" name="submit" value="Envoyer"/>
+        </form>
     </div>
 {% endblock %}

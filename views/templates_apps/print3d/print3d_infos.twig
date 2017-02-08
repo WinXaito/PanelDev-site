@@ -1,11 +1,20 @@
 {% extends 'default.twig' %}
 
+
+
 {% block content %}
-    {% include 'templates_apps/print3d/print3d.twig' %}
+    {% embed 'templates_apps/print3d/print3d.twig' %}
+        {% block sidebarButtons %}
+            <span><a href="{{ URL }}/project/{{ project.url }}/infos/update">Modifier</a></span>
+        {% endblock %}
+    {% endembed %}
 
     {#Block1: Download#}
-    <div class="col-md-6 content-block">
-        <h4>Informations</h4>
-        <p>Je ne suis pas une image</p>
+    <div>
+        {% if print3d.infos is empty %}
+            <h4>Aucune information n'a encore été ajouter.</h4>
+        {% else %}
+            {{ print3d.infos|nl2br }}
+        {% endif %}
     </div>
 {% endblock %}

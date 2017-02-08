@@ -20,10 +20,12 @@ spl_autoload_register('autoload');
 $loader = new Twig_Loader_Filesystem(__DIR__.'/../views/');
 //Twig cache: __DIR__.'/../temp/twig_cache/'
 
-if(TWIG_CACHE)
-    $twig = new Twig_Environment($loader, ['cache' => __DIR__.'/../temp/twig_cache/']);
-else
-    $twig = new Twig_Environment($loader, ['cache' => false]);
+if(TWIG_CACHE) {
+    $twig = new Twig_Environment($loader, ['debug' => DEBUG, 'cache' => __DIR__ . '/../temp/twig_cache/']);
+}else {
+    $twig = new Twig_Environment($loader, ['debug' => DEBUG, 'cache' => false]);
+    $twig->addExtension(new Twig_Extension_Debug());
+}
 
 $twig->addGlobal("URL", URL_PATH);
 $twig->addGlobal("session", $_SESSION);
