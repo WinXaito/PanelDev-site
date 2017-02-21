@@ -6,10 +6,10 @@
  */
 class Wx_Std_File{
     private $_id;
+    private $_uniqId;
     private $_name;
     private $_description;
-    private $_parentType;
-    private $_parentId;
+    private $_parent;
     private $_type;
     private $_url;
     private $_date_creation;
@@ -18,21 +18,26 @@ class Wx_Std_File{
     /**
      * Wx_Std_File constructor.
      * @param $_id
+     * @param $_uniqId
      * @param $_name
      * @param $_description
-     * @param $_parentType
-     * @param $_parentId
+     * @param $_parent
      * @param $_type
      * @param $_url
      * @param $_date_creation
      * @param $_date_modification
+     * @internal param $_parentType
+     * @internal param $_parentId
      */
-    public function __construct($_id, $_name, $_description, $_parentType, $_parentId, $_type, $_url, $_date_creation, $_date_modification){
+    public function __construct($_id, $_uniqId, $_name, $_description, $_parent, $_type, $_url, $_date_creation, $_date_modification){
+        if($_uniqId == 0)
+            $_uniqId = uniqid();
+
         $this->_id = $_id;
+        $this->_uniqId = $_uniqId;
         $this->_name = $_name;
         $this->_description = $_description;
-        $this->_parentType = $_parentType;
-        $this->_parentId = $_parentId;
+        $this->_parent = $_parent;
         $this->_type = $_type;
         $this->_url = $_url;
         $this->_date_creation = $_date_creation;
@@ -44,6 +49,20 @@ class Wx_Std_File{
      */
     public function getId(){
         return $this->_id;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getUniqId(){
+        return $this->_uniqId;
+    }
+
+    /**
+     * @param mixed $uniqId
+     */
+    public function setUniqId($uniqId){
+        $this->_uniqId = $uniqId;
     }
 
     /**
@@ -82,31 +101,17 @@ class Wx_Std_File{
     }
 
     /**
-     * @return mixed
+     * @return Wx_Apps_iApps mixed
      */
-    public function getParentType(){
-        return $this->_parentType;
+    public function getParent(){
+        return $this->_parent;
     }
 
     /**
-     * @param mixed $parentType
+     * @param mixed $parent
      */
-    public function setParentType($parentType){
-        $this->_parentType = $parentType;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getParentId(){
-        return $this->_parentId;
-    }
-
-    /**
-     * @param mixed $parentId
-     */
-    public function setParentId($parentId){
-        $this->_parentId = $parentId;
+    public function setParent(Wx_Apps_iApps $parent){
+        $this->_parent = $parent;
     }
 
     /**

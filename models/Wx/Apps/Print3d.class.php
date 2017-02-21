@@ -6,7 +6,7 @@
  * Date: 31.01.2017
  */
 
-class Wx_Apps_Print3d{
+class Wx_Apps_Print3d implements Wx_Apps_iApps{
     private $_id;
     private $_project_id;
     private $_printer_id;
@@ -15,6 +15,7 @@ class Wx_Apps_Print3d{
     private $_stl_id;
     private $_gcode_id;
     private $_infos;
+    private $_parsedInfos;
 
     /**
      * Wx_Apps_Print3d constructor.
@@ -149,5 +150,21 @@ class Wx_Apps_Print3d{
      */
     public function setInfos($infos){
         $this->_infos = $infos;
+    }
+
+    /**
+     * @return string
+     */
+    public function getParsedInfos(){
+        $Parsedown = new Parsedown();
+
+        if($this->_parsedInfos == null)
+            $this->_parsedInfos = $Parsedown->text($this->_infos);
+
+        return $this->_parsedInfos;
+    }
+
+    public function getType(){
+        return 'print3d';
     }
 }

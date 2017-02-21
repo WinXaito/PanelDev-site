@@ -9,9 +9,15 @@
  * @param $class
  */
 function autoload($class){
+    if(DEBUG_AUTOLOAD)
+        echo $class.'<br>';
+
     $path = autoloadStripPath($class);
 
-    if(substr($class, 0, 4) == 'Twig')
+    if(DEBUG_AUTOLOAD)
+        echo '    Path: '.$path.'<br>';
+
+    if(substr($class, 0, 4) == 'Twig' || $class == 'Parsedown')
         $finalPath = __DIR__ . '/../lib/'.$path.'.php';
     else if(substr($class, 0, 2) == "Wx")
         $finalPath = __DIR__.'/'.$path.'.class.php';

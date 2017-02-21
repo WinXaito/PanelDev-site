@@ -8,6 +8,7 @@
 //Generale
     define('PATH', __DIR__);
     define('DEBUG', true);
+    define('DEBUG_AUTOLOAD', false);
     define('TWIG_CACHE', false);
 
 //Url
@@ -20,3 +21,9 @@
     define('DB_NAME', 'paneldev');
     define('DB_USERNAME', 'root');
     define('DB_PASSWORD', '');
+
+//FILES
+    //Stl file (3d print) maxsize (512Mo -> 536870912o)
+    define('FILES_APPS_PRINT3D_STL_MAXSIZE', 536870912);
+    define('FILES_APPS_PRINT3D_GCODE_MAXSIZE', 536870912);
+    define('FILES_APPS_PRINT3D_OTHER_MAXSIZE', 536870912);

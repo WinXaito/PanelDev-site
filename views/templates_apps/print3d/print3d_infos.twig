@@ -14,7 +14,7 @@
         {% if print3d.infos is empty %}
             <h4>Aucune information n'a encore été ajouter.</h4>
         {% else %}
-            {{ print3d.infos|nl2br }}
+            {{ print3d.parsedInfos|raw }}
         {% endif %}
     </div>
 {% endblock %}
