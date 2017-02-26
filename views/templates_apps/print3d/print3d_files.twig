@@ -1,111 +1,182 @@
 {% extends 'default.twig' %}
 
+{% set fileStl, fileGCode, fileOthers = 0, 0, 0 %}
+
+{% for file in files%}
+    {% if file.type == 'stl' %}
+        {% set fileStl = 1 %}
+    {% elseif file.type == 'gcode' %}
+        {% set fileGCode = 1 %}
+    {% else %}
+        {% set fileOthers = 1 %}
+    {% endif %}
+{% endfor %}
+
+
+
 {% block complement_css %}
     <link rel="stylesheet" href="{{ URL }}/assets/css/files_upload.css"/>
 {% endblock %}
 
 {% block complement_js %}
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="{{ URL }}/assets/js/apps/print3d/files_tab.js"></script>
     <script src="{{ URL }}/assets/js/file_upload.js"></script>
 {% endblock %}
 
 {% block content %}
     {% include 'templates_apps/print3d/print3d.twig' %}
 
-    {#Upload block#}
-    <div>
-        <h3>Uploads</h3>
+    <ul class="nav nav-tabs" role="tablist">
+        <li role="presentation" {% if files is not empty %}class="active"{% endif %}><a href="#files" aria-controls="files" role="tab" data-toggle="tab">Fichiers</a></li>
+        <li role="presentation" {% if files is empty %}class="active"{% endif %}><a href="#uploads" aria-controls="uploads" role="tab" data-toggle="tab">Uploads</a></li>
+    </ul>
 
-        <form action="" method="POST" enctype="multipart/form-data">
-            <div class="form-group">
-                <label for="file_stl" class="control-label">Fichier STL</label>
+    <div class="tab-content">
+        {#Upload block#}
+        <div role="tabpanel" class="tab-pane fade {% if files is empty %}in active{% endif %}" id="uploads">
+            <h3>Uploads</h3>
 
-                <div class="input-group">
-                    <div class="fileUpload btn btn-default input-group-addon">
-                        <span class="test">Parcourir</span>
-                        <input type="file" name="stlFile" id="file_stl" class="upload" data-input="file_label_stl"/>
+            <form action="" method="POST" enctype="multipart/form-data">
+                <div class="form-group">
+                    <label for="file_stl" class="control-label">Fichier STL</label>
+
+                    <div class="input-group">
+                        <div class="fileUpload btn btn-default input-group-addon">
+                            <span class="test">Parcourir</span>
+                            <input type="file" name="stlFile" id="file_stl" class="upload" data-input="file_label_stl"/>
+                        </div>
+
+                        <input id="file_label_stl" placeholder="Choisissez votre fichier STL" disabled="disabled" class="form-control"/>
                     </div>
 
-                    <input id="file_label_stl" placeholder="Choisissez votre fichier STL" disabled="disabled" class="form-control"/>
+                    {% if message.stlFile is not empty %}
+                        <div class="margin-top">
+                            <p class="alert alert-info">{{ message.stlFile }}</p>
+                        </div>
+                    {% endif %}
                 </div>
 
-                {% if message.stlFile is not empty %}
-                    <div class="margin-top">
-                        <p class="alert alert-info">{{ message.stlFile }}</p>
-                    </div>
-                {% endif %}
-            </div>
+                <div class="form-group">
+                    <label for="file_gcode" class="control-label">Fichier GCode</label>
 
-            <div class="form-group">
-                <label for="file_gcode" class="control-label">Fichier GCode</label>
+                    <div class="input-group">
+                        <div class="fileUpload btn btn-default input-group-addon">
+                            <span>Parcourir</span>
+                            <input type="file" name="gCodeFile" id="file_gcode" class="upload" data-input="file_label_gcode"/>
+                        </div>
 
-                <div class="input-group">
-                    <div class="fileUpload btn btn-default input-group-addon">
-                        <span>Parcourir</span>
-                        <input type="file" name="gCodeFile" id="file_gcode" class="upload" data-input="file_label_gcode"/>
+                        <input id="file_label_gcode" placeholder="Choisissez votre fichier GCode" disabled="disabled" class="form-control"/>
                     </div>
 
-                    <input id="file_label_gcode" placeholder="Choisissez votre fichier GCode" disabled="disabled" class="form-control"/>
+                    {% if message.gCodeFile is not empty %}
+                        <div class="margin-top">
+                            <p class="alert alert-info">{{ message.gCodeFile }}</p>
+                        </div>
+                    {% endif %}
                 </div>
 
-                {% if message.gCodeFile is not empty %}
-                    <div class="margin-top">
-                        <p class="alert alert-info">{{ message.gCodeFile }}</p>
-                    </div>
-                {% endif %}
-            </div>
+                <div class="form-group">
+                    <label for="file_other" class="control-label">Autre fichiers</label>
 
-            <div class="form-group">
-                <label for="file_other" class="control-label">Autre fichiers</label>
+                    <div class="input-group">
+                        <div class="fileUpload btn btn-default input-group-addon">
+                            <span>Parcourir</span>
+                            <input type="file" name="otherFiles[]" id="file_other" class="upload" data-input="file_label_other" multiple/>
+                        </div>
 
-                <div class="input-group">
-                    <div class="fileUpload btn btn-default input-group-addon">
-                        <span>Parcourir</span>
-                        <input type="file" name="otherFiles[]" id="file_other" class="upload" data-input="file_label_other" multiple/>
+                        <input id="file_label_other" placeholder="Choisissez vos autres fichiers" disabled="disabled" class="form-control"/>
                     </div>
 
-                    <input id="file_label_other" placeholder="Choisissez vos autres fichiers" disabled="disabled" class="form-control"/>
+                    {% if message.otherFiles is not empty %}
+                        <div class="margin-top">
+                            <p class="alert alert-info">{{ message.otherFiles }}</p>
+                        </div>
+                    {% endif %}
                 </div>
+                <div class="form-group">
+                    <input type="submit" name="submit" value="Envoyer" class="btn btn-default"/>
+                </div>
+            </form>
+        </div>
 
-                {% if message.otherFiles is not empty %}
-                    <div class="margin-top">
-                        <p class="alert alert-info">{{ message.otherFiles }}</p>
-                    </div>
+        {#Files block#}
+        <div role="tabpanel" class="tab-pane fade {% if files is not empty %}in active{% endif %}" id="files">
+            <h3>Fichiers</h3>
+
+            {% if files is empty %}
+                <p>Vous n'avez encore pas ajouté de fichiers</p>
+            {% else %}
+                {% if fileStl == 1 %}
+                    <h4 class="margin-none margin-top" >Fichiers STL</h4>
+                    <table class="table table-striped">
+                        {% block headTable %}
+                        <thead>
+                            <th>Nom</th>
+                            <th class="table-column-date">Date de création</th>
+                            <th class="table-column-date">Date de modification</th>
+                            <th class="table-column-remove"></th>
+                        </thead>
+                        {% endblock %}
+                        <tbody>
+                        {% for file in files if file.type == 'stl' %}
+                            <tr>
+                                <td><a href="{{ URL }}/files/download/{{ file.uniqId }}">{{ file.name }}</a></td>
+                                <td>{{ file.dateCreation|date('d/m/Y') }}</td>
+                                {% if file.dateModification == 0 %}
+                                    <td>-</td>
+                                {% else %}
+                                    <td>{{ file.dateModification|date('d/m/Y') }}</td>
+                                {% endif %}
+                                <td><a href="">Supprimer</a></td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
                 {% endif %}
-            </div>
-            <div class="form-group">
-                <input type="submit" name="submit" value="Envoyer" class="btn btn-default"/>
-            </div>
-        </form>
-    </div>
 
-    <div>
-        <h3>Fichiers</h3>
+                {% if fileGCode == 1 %}
+                    <h4>Fichiers GCode</h4>
+                    <table class="table table-striped">
+                        {{ block('headTable') }}
+                        <tbody>
+                        {% for file in files if file.type == 'gcode' %}
+                            <tr>
+                                <td><a href="{{ URL }}/files/download/{{ file.uniqId }}">{{ file.name }}</a></td>
+                                <td>{{ file.dateCreation|date('d/m/Y') }}</td>
+                                {% if file.dateModification == 0 %}
+                                    <td>-</td>
+                                {% else %}
+                                    <td>{{ file.dateModification|date('d/m/Y') }}</td>
+                                {% endif %}
+                                <td><a href="">Supprimer</a></td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                {% endif %}
 
-        {% if files is empty %}
-            <p>Vous n'avez encore pas ajouté de fichiers</p>
-        {% else %}
-            <table class="table table-striped">
-                <thead>
-                    <th>Nom</th>
-                    <th class="table-column-date">Date de création</th>
-                    <th class="table-column-date">Date de modification</th>
-                    <th class="table-column-remove"></th>
-                </thead>
-                <tbody>
-                {% for file in files %}
-                    <tr>
-                        <td><a href="">{{ file.name }}</a></td>
-                        <td>{{ file.dateCreation|date('d/m/Y') }}</td>
-                        {% if file.dateModification == 0 %}
-                            <td>-</td>
-                        {% else %}
-                            <td>{{ file.dateModification|date('d/m/Y') }}</td>
-                        {% endif %}
-                        <td><a href="">Supprimer</a></td>
-                    </tr>
-                {% endfor %}
-                </tbody>
-            </table>
-        {% endif %}
+                {% if fileOthers == 1 %}
+                    <h4>Autres fichiers</h4>
+                    <table class="table table-striped">
+                        {{ block('headTable') }}
+                        <tbody>
+                        {% for file in files if file.type != 'stl' and file.type != 'gcode' %}
+                            <tr>
+                                <td><a href="{{ URL }}/files/download/{{ file.uniqId }}">{{ file.name }}</a></td>
+                                <td>{{ file.dateCreation|date('d/m/Y') }}</td>
+                                {% if file.dateModification == 0 %}
+                                    <td>-</td>
+                                {% else %}
+                                    <td>{{ file.dateModification|date('d/m/Y') }}</td>
+                                {% endif %}
+                                <td><a href="">Supprimer</a></td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                {% endif %}
+            {% endif %}
+        </div>
     </div>
 {% endblock %}

@@ -7,18 +7,18 @@
  */
 class Wx_Std_FilesManager{
     /**
-     * @param $url
+     * @param $uniqId
      * @return null|Wx_Std_File
      */
-    public static function get($url){
+    public static function get($uniqId){
         $q = Wx_Query::query(
             '
                 SELECT *   
                 FROM std_files
-                WHERE url = ?
+                WHERE uniqId = ?
             ',
             [
-                $url,
+                $uniqId,
             ]
         );
         $result = $q->fetch();
@@ -28,12 +28,14 @@ class Wx_Std_FilesManager{
                 $result['id'],
                 $result['uniqId'],
                 $result['name'],
+                $result['size'],
                 $result['description'],
-                null,
+                $result['parentId'],
+                $result['projectId'],
                 $result['type'],
                 $result['url'],
                 $result['date_creation'],
-                $reuslt['date_modification']
+                $result['date_modification']
             );
 
             return $file;
@@ -66,8 +68,10 @@ class Wx_Std_FilesManager{
                     $data['id'],
                     $data['uniqId'],
                     $data['name'],
+                    $data['size'],
                     $data['description'],
-                    null,
+                    $data['parentId'],
+                    $data['projectId'],
                     $data['type'],
                     $data['url'],
                     $data['date_creation'],
@@ -86,13 +90,14 @@ class Wx_Std_FilesManager{
         Wx_Query::query(
             '
                 INSERT INTO std_files
-                (uniqId, name, description, parentType, parentId, projectId, type, url, date_creation, date_modification)
+                (uniqId, name, size, description, parentType, parentId, projectId, type, url, date_creation, date_modification)
                 VALUES
-                (:uniqId, :name, :description, :parentType, :parentId, :projectId, :type, :url, :date_creation, :date_modification)
+                (:uniqId, :name, :size, :description, :parentType, :parentId, :projectId, :type, :url, :date_creation, :date_modification)
             ',
             [
                 'uniqId' => $file->getUniqId(),
                 'name' => $file->getName(),
+                'size' => $file->getSize(),
                 'description' => $file->getDescription(),
                 'parentType' => $file->getParent()->getType(),
                 'parentId' => $file->getParent()->getId(),
@@ -114,6 +119,7 @@ class Wx_Std_FilesManager{
             '
                 UPDATE std_files
                 SET name = :name,
+                    size = :size, 
                     description = :description,
                     parentType = :parentType,
                     parentId = :parentId,
@@ -124,9 +130,10 @@ class Wx_Std_FilesManager{
             ',
             [
                 'name' => $file->getName(),
+                'size' => $file->getSize(),
                 'description' => $file->getDescription(),
-                'parentType' => $file->getParentType(),
-                'parentId' => $file->getParentId(),
+                'parentType' => $file->getParent()->getType(),
+                'parentId' => $file->getParent()->getId(),
                 'type' => $file->getType(),
                 'url' => $file->getUrl(),
                 'urlfind' => $url,
@@ -158,7 +165,7 @@ class Wx_Std_FilesManager{
      * @internal param Wx_Project $project
      */
     public static function upload(Wx_User $user, Wx_Std_File $file, $tmpName){
-        $path = __DIR__.'/../../../media/users/'.$user->getId().'/projects/'.$file->getParent()->getProjectId().'/files';
+        $path = __DIR__.'/../../../media/users/'.$user->getId().'/projects/'.$file->getProjectId().'/files';
 
         if(!file_exists($path))
             if(!mkdir($path, 0777, true))

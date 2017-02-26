@@ -24,7 +24,7 @@ if(!empty($_GET['action'])){
         true,
         [
             'Accueil' => '',
-            'Projets' => 'projects',
+            'Projets' => '/projects',
             $projectContent->getName() => '/project/' . $projectContent->getUrl() . '/view',
             $TYPES[$_GET['type']] => '/project/'.$projectContent->getUrl().'/view/'.$_GET['type'],
             $ACTIONS[$_GET['action']] => '',
@@ -35,7 +35,7 @@ if(!empty($_GET['action'])){
         true,
         [
             'Accueil' => '',
-            'Projets' => 'projects',
+            'Projets' => '/projects',
             $projectContent->getName() => '/project/' . $projectContent->getUrl() . '/view',
             $TYPES[$_GET['type']] => '',
         ]
@@ -49,21 +49,16 @@ switch($_GET['type']){
     case 'files':
         $render = false;
         $template = 'templates_apps/print3d/print3d_files.twig';
-        $breadcrum_type = 'Fichiers';
         require_once __DIR__.'/print3d_files_upload.php';
         require_once __DIR__.'/print3d_files.php';
         break;
     case 'gcode':
         $template = 'templates_apps/print3d/print3d_gcode.twig';
-        $breadcrum_type = 'GCode';
         break;
     case 'result':
         $template = 'templates_apps/print3d/print3d_result.twig';
-        $breadcrum_type = 'Résultat';
         break;
     case 'infos':
-        $breadcrum_type = 'Informations';
-
         switch($_GET['action']){
             case 'update':
                 require_once __DIR__.'/print3d_infos_update.php';

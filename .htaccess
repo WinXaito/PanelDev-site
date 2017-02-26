@@ -33,6 +33,10 @@
         RewriteRule ^project/(\w+)/update$ controllers/projects/updateproject.php?url=$1 [L]
         RewriteRule ^project/(\w+)/remove$ controllers/projects/removeproject.php?url=$1 [L]
 
+    #Files
+        RewriteRule ^files/download/(\w+)$ controllers/files/files_download.php?uniqId=$1&action=download [L]
+        RewriteRule ^files/display/(\w+)$ controllers/files/files_download.php?uniqId=$1&action=display [L]
+
 	#Options
 		RewriteRule ^options$ controllers/options/options.php [L]
 

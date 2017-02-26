@@ -37,6 +37,8 @@ class Wx_Errors{
      * void
      */
     public function showError(){
+        var_dump(debug_backtrace());
+
         $this->textErrors();
         $this->render();
         exit();

@@ -36,6 +36,36 @@ class Wx_Apps_Print3dManager{
         }
     }
 
+    public static function getId($id){
+        $q = Wx_Query::query(
+            "
+                SELECT *
+                FROM app_print3d
+                WHERE id = ?
+            ",
+            [
+                $id,
+            ]
+        );
+
+        $data = $q->fetch();
+
+        if($data != null){
+            return new Wx_Apps_Print3d(
+                $data['id'],
+                $data['project_id'],
+                $data['printer_id'],
+                $data['result_id'],
+                $data['timelapse_id'],
+                $data['stl_id'],
+                $data['gcode_id'],
+                $data['infos']
+            );
+        }else{
+            return null;
+        }
+    }
+
     public static function update(Wx_Apps_Print3d $project){
         $q = Wx_Query::query(
             '

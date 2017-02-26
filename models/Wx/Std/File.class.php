@@ -8,8 +8,11 @@ class Wx_Std_File{
     private $_id;
     private $_uniqId;
     private $_name;
+    private $_size;
     private $_description;
     private $_parent;
+    private $_parent_id;
+    private $_project_id;
     private $_type;
     private $_url;
     private $_date_creation;
@@ -20,24 +23,30 @@ class Wx_Std_File{
      * @param $_id
      * @param $_uniqId
      * @param $_name
+     * @param $_size
      * @param $_description
-     * @param $_parent
+     * @param $_parent_id
+     * @param $_project_id
      * @param $_type
      * @param $_url
      * @param $_date_creation
      * @param $_date_modification
+     * @internal param $_parent
      * @internal param $_parentType
      * @internal param $_parentId
      */
-    public function __construct($_id, $_uniqId, $_name, $_description, $_parent, $_type, $_url, $_date_creation, $_date_modification){
+    public function __construct($_id, $_uniqId, $_name, $_size, $_description, $_parent_id, $_project_id, $_type, $_url, $_date_creation, $_date_modification){
         if($_uniqId == 0)
             $_uniqId = uniqid();
 
         $this->_id = $_id;
         $this->_uniqId = $_uniqId;
         $this->_name = $_name;
+        $this->_size = $_size;
         $this->_description = $_description;
-        $this->_parent = $_parent;
+        //$this->_parent = $_parent;
+        $this->_parent_id = $_parent_id;
+        $this->_project_id = $_project_id;
         $this->_type = $_type;
         $this->_url = $_url;
         $this->_date_creation = $_date_creation;
@@ -82,6 +91,20 @@ class Wx_Std_File{
     /**
      * @return mixed
      */
+    public function getSize(){
+        return $this->_size;
+    }
+
+    /**
+     * @param mixed $size
+     */
+    public function setSize($size){
+        $this->_size = $size;
+    }
+
+    /**
+     * @return mixed
+     */
     public function getDescription(){
         return $this->_description;
     }
@@ -101,17 +124,49 @@ class Wx_Std_File{
     }
 
     /**
-     * @return Wx_Apps_iApps mixed
+     * @return mixed
      */
-    public function getParent(){
-        return $this->_parent;
+    public function getParentId()
+    {
+        return $this->_parent_id;
     }
 
     /**
-     * @param mixed $parent
+     * @param mixed $parent_id
      */
-    public function setParent(Wx_Apps_iApps $parent){
-        $this->_parent = $parent;
+    public function setParentId($parent_id)
+    {
+        $this->_parent_id = $parent_id;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getProjectId()
+    {
+        return $this->_project_id;
+    }
+
+    /**
+     * @param mixed $project_id
+     */
+    public function setProjectId($project_id)
+    {
+        $this->_project_id = $project_id;
+    }
+
+    /**
+     * @return Wx_Apps_iApps mixed
+     */
+    public function getParent(){
+        if($this->_parent == null){
+            if($this->_parent_id != null)
+                $this->_parent = Wx_Apps_Print3dManager::getId($this->_parent_id);
+            else
+                return null;
+        }
+
+        return $this->_parent;
     }
 
     /**
