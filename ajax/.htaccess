@@ -1,0 +1,4 @@
+#RewriteRule
+    #Apps
+        #Print3d
+            RewriteRule ^print3d/gcode/(\d+)$ apps/print3d/ajax_gcode?print3d_id=$1

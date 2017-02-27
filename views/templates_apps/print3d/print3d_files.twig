@@ -7,7 +7,7 @@
         {% set fileStl = 1 %}
     {% elseif file.type == 'gcode' %}
         {% set fileGCode = 1 %}
-    {% else %}
+    {% elseif file.type == 'other' %}
         {% set fileOthers = 1 %}
     {% endif %}
 {% endfor %}
@@ -20,7 +20,7 @@
 
 {% block complement_js %}
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <script src="{{ URL }}/assets/js/apps/print3d/files_tab.js"></script>
+    <script src="{{ URL }}/assets/js/files_tab.js"></script>
     <script src="{{ URL }}/assets/js/file_upload.js"></script>
 {% endblock %}
 
@@ -32,7 +32,7 @@
         <li role="presentation" {% if files is empty %}class="active"{% endif %}><a href="#uploads" aria-controls="uploads" role="tab" data-toggle="tab">Uploads</a></li>
     </ul>
 
-    <div class="tab-content">
+    <div class="tab-content" style="display:none">
         {#Upload block#}
         <div role="tabpanel" class="tab-pane fade {% if files is empty %}in active{% endif %}" id="uploads">
             <h3>Uploads</h3>
@@ -161,7 +161,7 @@
                     <table class="table table-striped">
                         {{ block('headTable') }}
                         <tbody>
-                        {% for file in files if file.type != 'stl' and file.type != 'gcode' %}
+                        {% for file in files if file.type == 'other' %}
                             <tr>
                                 <td><a href="{{ URL }}/files/download/{{ file.uniqId }}">{{ file.name }}</a></td>
                                 <td>{{ file.dateCreation|date('d/m/Y') }}</td>

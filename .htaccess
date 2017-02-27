@@ -12,6 +12,9 @@
     RewriteRule ^$ controllers/home/home.php [L]
     RewriteRule ^test$ controllers/test.php [L]
 
+    #Ajax
+        RewriteRule ^ajax/(.*)$ ajax/$1 [L]
+
     #Authenticate
         RewriteRule ^login$ controllers/authenticate/login.php [L]
         RewriteRule ^logout$ controllers/authenticate/logout.php [L]

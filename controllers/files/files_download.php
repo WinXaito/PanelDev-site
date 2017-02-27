@@ -19,7 +19,6 @@ if(isset($_GET['uniqId'])){
 $action = isset($_GET['action']) ? $_GET['action'] : "download";
 $file_path = __DIR__.'/../../media/users/'.$_User->getId().'/projects/'.$file->getProjectId().'/files/'.$file->getUniqId().'.wx';
 
-echo $file_path;
 if(!file_exists($file_path))
     $_Error->setAndShowError(500);
 

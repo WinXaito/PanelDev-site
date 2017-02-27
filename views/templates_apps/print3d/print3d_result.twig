@@ -1,10 +1,73 @@
 {% extends 'default.twig' %}
 
+{% block complement_css %}
+    <link rel="stylesheet" href="{{ URL }}/assets/css/files_upload.css"/>
+{% endblock %}
+
+{% block complement_js %}
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="{{ URL }}/assets/js/files_tab.js"></script>
+    <script src="{{ URL }}/assets/js/file_upload.js"></script>
+{% endblock %}
+
 {% block content %}
     {% include 'templates_apps/print3d/print3d.twig' %}
 
-    {#Block1: Download#}
-    <div class="col-md-6 content-block">
-        <h4>Result</h4>
+    <ul class="nav nav-tabs" role="tablist">
+        <li role="presentation" {% if files is not empty %}class="active"{% endif %}><a href="#files" aria-controls="files" role="tab" data-toggle="tab">Fichiers</a></li>
+        <li role="presentation" {% if files is empty %}class="active"{% endif %}><a href="#uploads" aria-controls="uploads" role="tab" data-toggle="tab">Uploads</a></li>
+    </ul>
+
+    <div class="tab-content" style="display:none">
+        {#Upload block#}
+        <div role="tabpanel" class="tab-pane fade {% if files is empty %}in active{% endif %}" id="uploads">
+            <h3>Uploads</h3>
+
+            <form action="" method="POST" enctype="multipart/form-data">
+                <div class="form-group">
+                    <label for="file_stl" class="control-label">Images du résultat</label>
+
+                    <div class="input-group">
+                        <div class="fileUpload btn btn-default input-group-addon">
+                            <span class="test">Parcourir</span>
+                            <input type="file" name="resultFile" id="file_result" class="upload" data-input="file_label_result"/>
+                        </div>
+
+                        <input id="file_label_result" placeholder="Choisissez votre/vos image(s)" disabled="disabled" class="form-control"/>
+                    </div>
+
+                    {% if message.resultFile is not empty %}
+                        <div class="margin-top">
+                            <p class="alert alert-info">{{ message.resultFile }}</p>
+                        </div>
+                    {% endif %}
+                </div>
+
+                <div class="form-group">
+                    <input type="submit" name="submit" value="Envoyer" class="btn btn-default"/>
+                </div>
+            </form>
+        </div>
+
+        {#Files block#}
+        <div role="tabpanel" class="tab-pane fade {% if files is not empty %}in active{% endif %}" id="files">
+            <h3>Images du résultat</h3>
+
+            {% if files is empty %}
+                <p>Vous n'avez encore pas ajouté de fichiers</p>
+            {% else %}
+                {% for file in files if file.type == 'image_result' %}
+                    <div>
+                        <p>{{ file.name }}</p>
+                        {% if file.description is not empty %}
+                            <p>{{ file.description }}</p>
+                        {% endif %}
+                        <img src="{{ URL }}/files/display/{{ file.uniqId }}" alt="{{ file.name }}"/>
+                        <p><a href="{{ URL }}/files/download/{{ file.uniqId }}">Télécharger</a></p>
+                        <p><a href="">Supprimer</a></p>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        </div>
     </div>
 {% endblock %}

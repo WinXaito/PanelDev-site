@@ -47,7 +47,39 @@ class Wx_ProjectManager{
             $project = new Wx_Project(
                 $resultProjects['name'],
                 $resultProjects['owner'],
-                $this->getProjectUsers($resultProjects['id']),
+                Wx_ProjectManager::getProjectUsers($resultProjects['id']),
+                $resultProjects['type'],
+                $resultProjects['description'],
+                $resultProjects['url'],
+                $resultProjects['project_url'],
+                $resultProjects['date_creation'],
+                $resultProjects['date_modification'],
+                $resultProjects['id']
+            );
+
+            return $project;
+        }
+
+        return null;
+    }
+
+
+    public static function getId($project_id){
+        $q = Wx_Query::query("
+                SELECT *
+                FROM projects
+                WHERE id = ?
+            " , [$project_id]
+        );
+
+        $resultProjects = $q->fetch();
+        $q->closeCursor();
+
+        if($resultProjects){
+            $project = new Wx_Project(
+                $resultProjects['name'],
+                $resultProjects['owner'],
+                Wx_ProjectManager::getProjectUsers($resultProjects['id']),
                 $resultProjects['type'],
                 $resultProjects['description'],
                 $resultProjects['url'],
@@ -414,7 +446,7 @@ class Wx_ProjectManager{
         return $return;
     }
 
-    public function getProjectUsers($project_id){
+    public static function getProjectUsers($project_id){
         $q = Wx_Query::query(
             "
                 SELECT pu.*, u.name

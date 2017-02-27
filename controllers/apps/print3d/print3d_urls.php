@@ -56,7 +56,10 @@ switch($_GET['type']){
         $template = 'templates_apps/print3d/print3d_gcode.twig';
         break;
     case 'result':
+        $render = false;
         $template = 'templates_apps/print3d/print3d_result.twig';
+        require_once __DIR__.'/print3d_result_upload.php';
+        require_once __DIR__.'/print3d_files.php';
         break;
     case 'infos':
         switch($_GET['action']){

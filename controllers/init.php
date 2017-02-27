@@ -60,11 +60,3 @@ $tab = [
     "historic" => "",
     "help" => "",
 ];
-
-
-/**
- * @param $class
- */
-function personnalClass($class){
-    require_once __DIR__ . '/../models/class/' . $class . '.class.php';
-}

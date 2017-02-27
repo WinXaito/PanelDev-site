@@ -36,7 +36,7 @@ class Wx_Apps_Print3dManager{
         }
     }
 
-    public static function getId($id){
+    public static function getId($print3d_id){
         $q = Wx_Query::query(
             "
                 SELECT *
@@ -44,7 +44,7 @@ class Wx_Apps_Print3dManager{
                 WHERE id = ?
             ",
             [
-                $id,
+                $print3d_id,
             ]
         );
 
