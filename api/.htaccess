@@ -1,0 +1,14 @@
+#RewriteEngine
+    RewriteEngine on
+
+#RewriteRule
+    RewriteRule ^$ controllers/home/api_home.php [L]
+
+    #Users
+#       RewriteRule ^users$ controllers/users/TODO [L]
+        RewriteRule ^user$ controllers/users/TODO [L]
+        RewriteRule ^user/(\d+)$ controllers/users/api_users_get.php?id=$1 [L]
+
+    #Projects
+        #print3d
+            RewriteRule ^projects/print3d/(\w+)$ controllers/projects/print3d/api_print3d.php?id=$1 [L]

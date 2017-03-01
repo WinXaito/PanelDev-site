@@ -12,6 +12,9 @@
     RewriteRule ^$ controllers/home/home.php [L]
     RewriteRule ^test$ controllers/test.php [L]
 
+    #API
+        RewriteRule ^api/(.*)$ api/$1 [L]
+
     #Ajax
         RewriteRule ^ajax/(.*)$ ajax/$1 [L]
 

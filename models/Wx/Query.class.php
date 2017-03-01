@@ -11,6 +11,7 @@ class Wx_Query{
 
     private static $count;
     private static $time;
+    private static $total_time;
 
     public static function init(){
         if(Wx_Query::$db == null) {
@@ -40,7 +41,8 @@ class Wx_Query{
         $req->execute($params);
         $tEnd = microtime(true);
 
-        self::$time[self::$count] = [$query, $tEnd - $tStart];
+        self::$time[self::$count] = [trim(preg_replace('/\s+/', ' ', $query)), $tEnd - $tStart];
+        self::$total_time += $tEnd - $tStart;
 
         return $req;
     }
@@ -60,5 +62,12 @@ class Wx_Query{
      */
     public static function getTime(){
         return self::$time;
+    }
+
+    /**
+     * @return mixed
+     */
+    public static function getTotalTime(){
+        return self::$total_time;
     }
 }
