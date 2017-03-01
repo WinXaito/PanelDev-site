@@ -7,8 +7,7 @@
 
 require_once __DIR__.'/../../init.php';
 
-$optionsManager = new Wx_OptionsManager();
-$options = $optionsManager->get($_User->getId());
+$options = Wx_OptionsManager::get($_User->getId());
 
 
 $tab['options'] = "active";

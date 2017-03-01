@@ -10,7 +10,7 @@ class Wx_OptionsManager{
      * @param $userid
      * @return Wx_Options
      */
-    public function get($userid){
+    public static function get($userid){
         $q = Wx_Query::query("
             SELECT *
             FROM options
@@ -32,7 +32,7 @@ class Wx_OptionsManager{
     /**
      * @param Wx_Options $options
      */
-    public function add(Wx_Options $options){
+    public static function add(Wx_Options $options){
         Wx_Query::query(
             "
                 INSERT INTO options
@@ -51,7 +51,7 @@ class Wx_OptionsManager{
     /**
      * @param Wx_Options $options
      */
-    public function update(Wx_Options $options){
+    public static function update(Wx_Options $options){
         Wx_Query::query(
             "
                 UPDATE options

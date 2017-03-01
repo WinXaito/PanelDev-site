@@ -6,33 +6,20 @@
  */
 
 class Wx_ProjectManager{
-    private $_db;
-    private $_historicManager;
-    private $_user;
-    private $_errors = "";
-
-    /**
-     * @param Wx_HistoricManager $historicManager
-     * @param Wx_User $user
-     * @internal param PDO $db
-     */
-    public function __construct(Wx_HistoricManager $historicManager, Wx_User $user){
-        $this->_historicManager = $historicManager;
-        $this->_user = $user;
-    }
+    private static $_errors = "";
 
     /**
      * @return string
      */
-    public function getErrors(){
-        return $this->_errors;
+    public static function getErrors(){
+        return self::$_errors;
     }
 
     /**
      * @param $url
-     * @return Wx_Project
+     * @return null|Wx_Project
      */
-    public function get($url){
+    public static function get($url){
         $q = Wx_Query::query("
                 SELECT *
                 FROM projects
@@ -63,7 +50,10 @@ class Wx_ProjectManager{
         return null;
     }
 
-
+    /**
+     * @param $project_id
+     * @return null|Wx_Project
+     */
     public static function getId($project_id){
         $q = Wx_Query::query("
                 SELECT *
@@ -99,7 +89,7 @@ class Wx_ProjectManager{
      * @param Wx_Project $project
      * @return bool
      */
-    public function add(Wx_Project $project){
+    public static function add(Wx_Project $project){
         $success = true;
 
         $q = Wx_Query::query(
@@ -129,15 +119,19 @@ class Wx_ProjectManager{
             $historic_content = $project->getName() . ' (' . $project->getUrl() . ')';
         }
 
-        $historic = new Wx_Historic($this->_user, Wx_Historic::TYPE_PROJECT, "Création d'un projet",
+        $historic = new Wx_Historic(Wx_Session::getUser(), Wx_Historic::TYPE_PROJECT, "Création d'un projet",
             $historic_content, time(), $_SERVER['REMOTE_ADDR']);
 
-        $this->_historicManager->add($historic);
+        Wx_HistoricManager::add($historic);
 
         return $success;
     }
 
-    public function addAppPrint3d(Wx_Apps_Print3d $app){
+    /**
+     * @param Wx_Apps_Print3d $app
+     * @return bool
+     */
+    public static function addAppPrint3d(Wx_Apps_Print3d $app){
         $success = true;
 
         $q = Wx_Query::query(
@@ -165,10 +159,10 @@ class Wx_ProjectManager{
             $historic_content = 'Ajout App:Impression_3D (Project_id: ' . $app->getProjectId() . ')';
         }
 
-        $historic = new Wx_Historic($this->_user, Wx_Historic::TYPE_PROJECT, "Création d'un projet",
+        $historic = new Wx_Historic(Wx_Session::getUser(), Wx_Historic::TYPE_PROJECT, "Création d'un projet",
             $historic_content, time(), $_SERVER['REMOTE_ADDR']);
 
-        $this->_historicManager->add($historic);
+        Wx_HistoricManager::add($historic);
 
         return $success;
     }
@@ -177,7 +171,7 @@ class Wx_ProjectManager{
      * @param Wx_Project $project
      * @param $url
      */
-    public function update(Wx_Project $project, $url){
+    public static function update(Wx_Project $project, $url){
         $q = Wx_Query::query(
             "
                 UPDATE projects
@@ -207,15 +201,16 @@ class Wx_ProjectManager{
         else
             $historic_content = $project->getName().' ('.$project->getUrl().')';
 
-        $historic = new Wx_Historic($this->_user, Wx_Historic::TYPE_PROJECT, "Modification d'un projet",
+        $historic = new Wx_Historic(Wx_Session::getUser(), Wx_Historic::TYPE_PROJECT, "Modification d'un projet",
             $historic_content, time(), $_SERVER['REMOTE_ADDR']);
-        $this->_historicManager->add($historic);
+
+        Wx_HistoricManager::add($historic);
     }
 
     /**
      * @param $url
      */
-    public function remove($url){
+    public static function remove($url){
         Wx_Query::query(
             "
                 DELETE FROM projects
@@ -226,14 +221,14 @@ class Wx_ProjectManager{
             ]
         );
 
-        $historic = new Wx_Historic($this->_user, Wx_Historic::TYPE_PROJECT, "Suppression d'un projet", "Name", time(), $_SERVER['REMOTE_ADDR']);
-        $this->_historicManager->add($historic);
+        $historic = new Wx_Historic(Wx_Session::getUser(), Wx_Historic::TYPE_PROJECT, "Suppression d'un projet", "Name", time(), $_SERVER['REMOTE_ADDR']);
+        Wx_HistoricManager::add($historic);
     }
 
     /**
      * @return string
      */
-    public function newUrl(){
+    public static function newUrl(){
         function randomString()
         {
             $characters = "12334567890abcdefghijklmnopqrstuvwxyzABCDEFIJKLMNOPQRSTUVWXYZ";
@@ -277,7 +272,7 @@ class Wx_ProjectManager{
      * @internal param $username
      * @return string
      */
-    public function addUser(Wx_Project $project, Wx_User $user, $access){
+    public static function addUser(Wx_Project $project, Wx_User $user, $access){
         /*if($users){
             if(!isset($users[$userid])){
                 $users[$userid] = $username;
@@ -319,15 +314,15 @@ class Wx_ProjectManager{
      * @param Wx_Project $project
      * @param $username
      */
-    public function removeUser(Wx_Project $project, $username){
+    public static function removeUser(Wx_Project $project, $username){
         $users = $project->getUsers();
         if(isset($users[$username])){
             unset($users[$username]);
             $project->setUsers($users, false);
-            $this->update($project, $project->getUrl());
+            self::update($project, $project->getUrl());
 
-            $historic = new Wx_Historic($this->_user, Wx_Historic::TYPE_PROJECT, "Suppression d'un utilisateur", "Name + URL + Username", time(), $_SERVER['REMOTE_ADDR']);
-            $this->_historicManager->add($historic);
+            $historic = new Wx_Historic(Wx_Session::getUser(), Wx_Historic::TYPE_PROJECT, "Suppression d'un utilisateur", "Name + URL + Username", time(), $_SERVER['REMOTE_ADDR']);
+            Wx_HistoricManager::add($historic);
         }
     }
 
@@ -336,8 +331,8 @@ class Wx_ProjectManager{
      * @param $url
      * @return string
      */
-    public function testGet($url){
-        $project = $this->get($url);
+    public static function testGet($url){
+        $project = self::get($url);
 
         return '
                 <p>getUrl() '.$project->getUrl().'</p>
@@ -355,8 +350,8 @@ class Wx_ProjectManager{
      * @param Wx_User $_User
      * @return bool
      */
-    public function hasProjects(Wx_User $_User){
-        return !empty($this->getOwnerProjects($_User));
+    public static function hasProjects(Wx_User $_User){
+        return !empty(self::getOwnerProjects($_User));
     }
 
     /**
@@ -364,8 +359,8 @@ class Wx_ProjectManager{
      * @param bool|false $little
      * @return string
      */
-    public function showAllProjectsTable(Wx_User $_User, $little=false){
-        $allProjects = $this->getOwnerProjects($_User);
+    public static function showAllProjectsTable(Wx_User $_User, $little=false){
+        $allProjects = self::getOwnerProjects($_User);
 
         if(!$little){
             $th = '
@@ -420,7 +415,11 @@ class Wx_ProjectManager{
         return $return;
     }
 
-    public function getUserProjects(Wx_User $user){
+    /**
+     * @param Wx_User $user
+     * @return array
+     */
+    public static function getUserProjects(Wx_User $user){
         $q = Wx_Query::query(
             "
                 SELECT *
@@ -446,6 +445,10 @@ class Wx_ProjectManager{
         return $return;
     }
 
+    /**
+     * @param $project_id
+     * @return Wx_Project_PUsers
+     */
     public static function getProjectUsers($project_id){
         $q = Wx_Query::query(
             "
@@ -471,7 +474,7 @@ class Wx_ProjectManager{
      * @param Wx_User $_User
      * @return array
      */
-    public function getOwnerProjects(Wx_User $_User){
+    public static function getOwnerProjects(Wx_User $_User){
         $q = Wx_Query::query(
             "
                 SELECT *
@@ -494,9 +497,13 @@ class Wx_ProjectManager{
         return $return;
     }
 
-    public function getAllProjects(Wx_User $user){
-        $projects = $this->getOwnerProjects($user);
-        $projectsUser = $this->getUserProjects($user);
+    /**
+     * @param Wx_User $user
+     * @return array
+     */
+    public static function getAllProjects(Wx_User $user){
+        $projects = self::getOwnerProjects($user);
+        $projectsUser = self::getUserProjects($user);
         return array_merge($projects, $projectsUser);
     }
 

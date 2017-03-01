@@ -12,8 +12,7 @@ $tab['projects'] = "active";
 if(!isset($_GET['url']))
     $_GET['url'] = "";
 
-$projectManager = new Wx_ProjectManager($_HistoricManager, $_User);
-$projectContent = $projectManager->get($_GET['url']);
+$projectContent = Wx_ProjectManager::get($_GET['url']);
 
 if(!$projectContent)
     $_Error->setAndShowError(404);
@@ -30,7 +29,7 @@ if(isset($_POST['project_name'])&&isset($_POST['project_description'])&&isset($_
         $projectContent->setDescription($_POST['project_description']);
         $projectContent->setUrlProject($_POST['project_url']);
         $projectContent->setDateModification(time());
-        $projectManager->update($projectContent, $projectContent->getUrl());
+        Wx_ProjectManager::update($projectContent, $projectContent->getUrl());
 
         $add_informations .= "<p class=\"bg-primary message\">Le projet à été correctement modifié</p>";
     }else{

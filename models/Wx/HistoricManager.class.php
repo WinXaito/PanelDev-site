@@ -6,19 +6,10 @@
  */
 
 class Wx_HistoricManager{
-    private $_User;
-
-    /**
-     * @param $_User
-     */
-    public function __construct(Wx_User $_User){
-        $this->_User = $_User;
-    }
-
     /**
      * @return array
      */
-    public function getAllHistoric(){
+    public static function getAllHistoric(){
         $q = Wx_Query::query(
             "
                 SELECT *
@@ -27,14 +18,14 @@ class Wx_HistoricManager{
                 ORDER BY time DESC
             ",
             [
-                $this->_User->getId(),
+                Wx_Session::getUser()->getId(),
             ]
         );
 
         $i = 0;
         $return = [];
         while($result = $q->fetch()){
-            $return[$i] = new Wx_Historic($this->_User, $result['type'], $result['title'],$result['content'], $result['time'], $result['ip'], $result['id']);
+            $return[$i] = new Wx_Historic(Wx_Session::getUser(), $result['type'], $result['title'],$result['content'], $result['time'], $result['ip'], $result['id']);
             $i++;
         }
         return $return;
@@ -43,8 +34,8 @@ class Wx_HistoricManager{
     /**
      * @return string
      */
-    public function showAllHistoricTable(){
-        $historic = $this->getAllHistoric();
+    public static function showAllHistoricTable(){
+        $historic = self::getAllHistoric();
 
         $td = "";
         foreach($historic as $key => $value){
@@ -79,7 +70,7 @@ class Wx_HistoricManager{
      * @param Wx_Historic $historic
      * @return void
      */
-    public function add(Wx_Historic $historic){
+    public static function add(Wx_Historic $historic){
         Wx_Query::query(
             "
                 INSERT INTO historic
@@ -88,7 +79,7 @@ class Wx_HistoricManager{
                 (:user, :type, :title, :content, :time, :ip)
             ",
             [
-                'user' => $this->_User->getId(),
+                'user' => Wx_Session::getUser()->getId(),
                 'type' => $historic->getType(),
                 'title' => $historic->getTitle(),
                 'content' => $historic->getContent(),
@@ -102,14 +93,14 @@ class Wx_HistoricManager{
      * @param void
      * @return void
      */
-    public function removeAllHistoric(){
+    public static function removeAllHistoric(){
         Wx_Query::query(
             "
                 DELETE FROM historic
               WHERE user = :user
             ",
             [
-                $this->_User->getId(),
+                Wx_Session::getUser()->getId(),
             ]
         );
     }

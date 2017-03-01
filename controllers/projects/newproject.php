@@ -19,7 +19,6 @@ if(isset($_POST['project_name'])&&isset($_POST['project_type'])&&isset($_POST['p
         if(!filter_var($_POST['project_url'], FILTER_VALIDATE_URL))
             $_POST['project_url'] = '';
 
-        $projectManager = new Wx_ProjectManager($_HistoricManager, $_User);
         $projectContent = new Wx_Project(
             $_POST['project_name'],
             $_User->getId(),
@@ -32,8 +31,8 @@ if(isset($_POST['project_name'])&&isset($_POST['project_type'])&&isset($_POST['p
             0
         );
 
-        $projectManager->add($projectContent);
-        $add_informations = $projectManager->getErrors();
+        Wx_ProjectManager::add($projectContent);
+        $add_informations = Wx_ProjectManager::getErrors();
 
         if(empty($add_informations)) {
             switch($projectContent->getType()) {

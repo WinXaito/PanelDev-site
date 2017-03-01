@@ -40,10 +40,8 @@ $_Error = new Wx_Errors($twig);
 
 //Check Authentification
 if(isset($_SESSION['user']['id'])){
-    $_UserManager = new Wx_UserManager();
-    $_User = $_UserManager->getUserById($_SESSION['user']['id']);
-    $_HistoricManager = new Wx_HistoricManager($_User);
-    $_UserManager->setHistoricManager($_HistoricManager);
+    $_User = Wx_UserManager::getUserById($_SESSION['user']['id']);
+    Wx_Session::init($_User);
 
     $twig->addGlobal("user", $_User);
 }else{

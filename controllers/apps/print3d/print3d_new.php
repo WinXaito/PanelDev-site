@@ -12,8 +12,7 @@ $add_informations = "";
 $value = [];
 if(isset($_GET['url']) && !empty($_GET['url'])) {
     if (isset($_POST['print3d_printer']) && isset($_POST['print3d_stl']) && isset($_POST['print3d_gcode']) && isset($_POST['print3d_infos'])) {
-        $projectManager = new Wx_ProjectManager($_HistoricManager, $_User);
-        $projectContent = $projectManager->get($_GET['url']);
+        $projectContent = Wx_ProjectManager::get($_GET['url']);
 
         /* Todo
             Créer fonction "getAppPrint3d" et vérifier si le projet existe déjà dans la liste.

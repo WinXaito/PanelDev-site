@@ -7,32 +7,25 @@
 
 
 class Wx_UserManager{
-    private $_errors;
-    private $_historicManager;
-
-    /**
-     * @param $historicManager
-     */
-    public function setHistoricManager($historicManager){
-        $this->_historicManager = $historicManager;
-    }
+    private static $_errors;
 
     /**
      * @return mixed
      */
-    public function getErrors(){
-        return $this->_errors;
+    public static function getErrors(){
+        return self::$_errors;
     }
 
     /**
      * @param Wx_User $user
      * @return bool
      */
-    public function add(Wx_User $user){
-        $this->checkUsername($user);
-        $this->checkEmail($user);
-        $this->checkPassword($user);
+    public static function add(Wx_User $user){
+        self::checkUsername($user);
+        self::checkEmail($user);
+        self::checkPassword($user);
 
+        //TODO if utility ?
         //if($this->getErrors() == ""){
             Wx_Query::query(
                 "
@@ -53,7 +46,7 @@ class Wx_UserManager{
 
             return true;
         //}else{
-            return false;
+            //return false;
         //}
     }
 
@@ -61,11 +54,11 @@ class Wx_UserManager{
      * @param Wx_User $user
      * @return bool
      */
-    public function update(Wx_User $user){
-        $this->checkPassword($user);
-        $this->checkEmail($user);
+    public static function update(Wx_User $user){
+        self::checkPassword($user);
+        self::checkEmail($user);
 
-        if($this->getErrors() == ""){
+        if(self::getErrors() == ""){
             $user->setPassword($user->getPassword(), false);
 
             Wx_Query::query(
@@ -101,7 +94,7 @@ class Wx_UserManager{
      * @param $username
      * @return bool|Wx_User
      */
-    public function getUserByName($username){
+    public static function getUserByName($username){
         $q = Wx_Query::query(
             "
                 SELECT *
@@ -135,7 +128,7 @@ class Wx_UserManager{
      * @param $userid
      * @return bool|Wx_User
      */
-    public function getUserById($userid){
+    public static function getUserById($userid){
         $q = Wx_Query::query(
             "
                 SELECT *
@@ -165,7 +158,8 @@ class Wx_UserManager{
         }
     }
 
-    public function addFavorite(Wx_Project $project, Wx_User $user){
+    public static function addFavorite(Wx_Project $project, Wx_User $user){
+        //TODO Function -> Wx_User ?
         Wx_Query::query(
             "
                 INSERT INTO projects_fav
@@ -181,7 +175,8 @@ class Wx_UserManager{
         );
     }
 
-    public function removeFavorite($id, Wx_User $user){
+    public static function removeFavorite($id, Wx_User $user){
+        //TODO: Function -> Wx_User ?
         Wx_Query::query(
             "
                 DELETE FROM projects_fav
@@ -199,7 +194,8 @@ class Wx_UserManager{
             return true;
     }
 
-    public function getFavorite($id){
+    public static function getFavorite($id){
+        //TODO: Function -> Wx_User ?
         $q = Wx_Query::query(
             "
                 SELECT *
@@ -218,7 +214,8 @@ class Wx_UserManager{
         }
     }
 
-    public function getFavorites(Wx_User $user){
+    public static function getFavorites(Wx_User $user){
+        //TODO: Function -> Wx_User ?
         Wx_Query::query(
             "
                 SELECT *
@@ -242,35 +239,35 @@ class Wx_UserManager{
     /**
      * @param Wx_User $user
      */
-    private function checkUsername(Wx_User $user){
-        $existUser = $this->getUserByName($user->getName());
+    private static function checkUsername(Wx_User $user){
+        $existUser = self::getUserByName($user->getName());
 
         if($existUser)
-            $this->addError('<p class="bg-primary message">L\'identifiant demandé existe déjà</p>');
+            self::addError('<p class="bg-primary message">L\'identifiant demandé existe déjà</p>');
         if(strlen($user->getName()) < 4 || strlen($user->getName()) > 15)
-            $this->addError('<p class="bg-primary message">L\'identifiant doit se trouver entre 4 et 15 caractères</p>');
+            self::addError('<p class="bg-primary message">L\'identifiant doit se trouver entre 4 et 15 caractères</p>');
     }
 
     /**
      * @param Wx_User $user
      */
-    private function checkPassword(Wx_User $user){
+    private static function checkPassword(Wx_User $user){
         if(strlen($user->getPassword()) < 6 || $user->getPassword() != $user->getPasswordConfirm())
-            $this->addError('<p class="bg-primary message">Le mot de passe doit faire au moins 6 caractères et doit correspondre à sa confirmation</p>');
+            self::addError('<p class="bg-primary message">Le mot de passe doit faire au moins 6 caractères et doit correspondre à sa confirmation</p>');
     }
 
     /**
      * @param Wx_User $user
      */
-    private function checkEmail(Wx_User $user){
+    private static function checkEmail(Wx_User $user){
         if(!filter_var($user->getEmail(), FILTER_VALIDATE_EMAIL))
-            $this->addError('<p class="bg-primary message">L\'adresse email indiqué n\'est pas correcte</p>');
+            self::addError('<p class="bg-primary message">L\'adresse email indiqué n\'est pas correcte</p>');
     }
 
     /**
      * @param $add
      */
-    private function addError($add){
-        $this->_errors = $this->_errors.$add;
+    private static function addError($add){
+        self::$_errors = self::$_errors.$add;
     }
 }

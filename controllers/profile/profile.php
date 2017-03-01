@@ -20,9 +20,9 @@ if(isset($_POST['profile_username'])){
     $_User->setFirstName($_POST['profile_firstname']);
     $_User->setLastName($_POST['profile_lastname']);
 
-    $_UserManager->update($_User);
+    Wx_UserManager::update($_User);
 
-    $_add = $_UserManager->getErrors();
+    $_add = Wx_UserManager::getErrors();
 
     if(empty($_add))
         $_add = '<p class="bg-primary message">Votre profile à bien été modifié</p>';

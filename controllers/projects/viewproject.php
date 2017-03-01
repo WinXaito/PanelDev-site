@@ -10,8 +10,7 @@ require_once __DIR__.'/../init.php';
 $tab['projects'] = "active";
 
 $url = isset($_GET['url']) ? $_GET['url'] : "";
-$projectManager = new Wx_ProjectManager($_HistoricManager, $_User);
-$projectContent = $projectManager->get($_GET['url']);
+$projectContent = Wx_ProjectManager::get($_GET['url']);
 
 if(!$projectContent)
     $_Error->setAndShowError(404);

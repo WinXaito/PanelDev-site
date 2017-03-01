@@ -7,8 +7,6 @@
 
 require_once __DIR__.'/../init.php';
 
-$historicManager = new Wx_HistoricManager($_User);
-
 $tab['historic'] = "active";
 $breadcrum = new Wx_Breadcrum(
     false,

@@ -25,7 +25,7 @@ if(isset($_POST['username']) && isset($_POST['access'])){
     if($_POST['access'] != 3 && $_POST['access'] != 2 && $_POST['access'] != 1)
         $_POST['access'] = 3;
 
-    $addUser = $_UserManager->getUserByName($_POST['username']);
+    $addUser = Wx_UserManager::getUserByName($_POST['username']);
 
     if($addUser){
         $message = $projectManager->addUser($projectContent, $addUser, $_POST['access']);

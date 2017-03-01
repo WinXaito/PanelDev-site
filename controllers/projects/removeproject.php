@@ -12,8 +12,7 @@ $tab['projects'] = "active";
 if(!isset($_GET['url']))
     $_GET['url'] = "";
 
-$projectManager = new Wx_ProjectManager($_HistoricManager, $_User);
-$projectContent = $projectManager->get($_GET['url']);
+$projectContent = Wx_ProjectManager::get($_GET['url']);
 
 if(!$projectContent)
     $_Error->setAndShowError(404);
@@ -23,11 +22,10 @@ if($projectContent->getOwner() != $_User->getId())
 $removed = false;
 $add_informations = "";
 if(isset($_POST['remove'])&&isset($_POST['password'])){
-    $usersManager = new Wx_UserManager();
-    $usersContent = $usersManager->getUserById($_User->getId());
+    $usersContent = Wx_UserManager::getUserById($_User->getId());
 
     if(sha1($_POST['password']) == $usersContent->getPassword()){
-        $projectManager->remove($projectContent->getUrl());
+        Wx_ProjectManager::remove($projectContent->getUrl());
         $removed = true;
     }else{
         $add_informations = "<p class=\"alert-danger message\">Le mot de passe indiqué n'est pas correcte</p>";

@@ -12,8 +12,7 @@ $tab['projects'] = "active";
 if(!isset($_GET['url']))
     $_GET['url'] = "";
 
-$projectManager = new Wx_ProjectManager($_HistoricManager, $_User);
-$project = $projectManager->get($_GET['url']);
+$project = Wx_ProjectManager::get($_GET['url']);
 
 if(!$project)
     $_Error->setAndShowError(404);
