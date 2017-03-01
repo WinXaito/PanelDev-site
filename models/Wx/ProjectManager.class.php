@@ -347,20 +347,20 @@ class Wx_ProjectManager{
     }
 
     /**
-     * @param Wx_User $_User
+     * @param Wx_User $user
      * @return bool
      */
-    public static function hasProjects(Wx_User $_User){
-        return !empty(self::getOwnerProjects($_User));
+    public static function hasProjects(Wx_User $user){
+        return !empty(self::getOwnerProjects($user));
     }
 
     /**
-     * @param Wx_User $_User
+     * @param Wx_User $user
      * @param bool|false $little
      * @return string
      */
-    public static function showAllProjectsTable(Wx_User $_User, $little=false){
-        $allProjects = self::getOwnerProjects($_User);
+    public static function showAllProjectsTable(Wx_User $user, $little=false){
+        $allProjects = self::getOwnerProjects($user);
 
         if(!$little){
             $th = '
@@ -379,7 +379,7 @@ class Wx_ProjectManager{
 
         $tr = "";
         foreach($allProjects as $key => $value){
-            if($value['owner'] == $_User->getId()){
+            if($value['owner'] == $user->getId()){
                 if($little){
                     $tr .= '
                         <tr>
@@ -471,10 +471,10 @@ class Wx_ProjectManager{
     }
 
     /**
-     * @param Wx_User $_User
+     * @param Wx_User $user
      * @return array
      */
-    public static function getOwnerProjects(Wx_User $_User){
+    public static function getOwnerProjects(Wx_User $user){
         $q = Wx_Query::query(
             "
                 SELECT *
@@ -482,7 +482,7 @@ class Wx_ProjectManager{
                 WHERE owner = :owner
             ",
             [
-                'owner' => $_User->getId(),
+                'owner' => $user->getId(),
             ]
         );
 

@@ -16,13 +16,13 @@ $projectContent = Wx_ProjectManager::get($_GET['url']);
 
 if(!$projectContent)
     $_Error->setAndShowError(404);
-if($projectContent->getOwner() != $_User->getId())
+if($projectContent->getOwner() != Wx_Session::getUser()->getId())
     $_Error->setAndShowError(403);
 
 $removed = false;
 $add_informations = "";
 if(isset($_POST['remove'])&&isset($_POST['password'])){
-    $usersContent = Wx_UserManager::getUserById($_User->getId());
+    $usersContent = Wx_UserManager::getUserById(Wx_Session::getUser()->getId());
 
     if(sha1($_POST['password']) == $usersContent->getPassword()){
         Wx_ProjectManager::remove($projectContent->getUrl());

@@ -12,8 +12,7 @@ $tab['projects'] = "active";
 if(!isset($_GET['url']))
     $_GET['url'] = "";
 
-$projectManager = new Wx_ProjectManager($_HistoricManager, $_User);
-$projectContent = $projectManager->get($_GET['url']);
+$projectContent = Wx_ProjectManager::get($_GET['url']);
 
 if(!$projectContent)
     $_Error->setAndShowError(404);
@@ -28,7 +27,7 @@ if(isset($_POST['username']) && isset($_POST['access'])){
     $addUser = Wx_UserManager::getUserByName($_POST['username']);
 
     if($addUser){
-        $message = $projectManager->addUser($projectContent, $addUser, $_POST['access']);
+        $message = Wx_ProjectManager::addUser($projectContent, $addUser, $_POST['access']);
     }else{
         $message = 'L\'utilisateur spécifié n\'existe pas';
     }

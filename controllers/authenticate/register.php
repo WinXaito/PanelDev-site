@@ -11,15 +11,16 @@ require_once __DIR__.'/../init.php';
 $_add = $preset = "";
 if(isset($_POST['username'])&&isset($_POST['email'])&&isset($_POST['password'])&&isset($_POST['confirmPassword'])){
     if(!empty($_POST['username'])&&!empty($_POST['email'])&&!empty($_POST['password'])&&!empty($_POST['confirmPassword'])){
-        $_User = new Wx_User($_POST['username'], $_POST['password'], $_POST['email'], "", "", Wx_User::GRADE_INITIAL);
-        $_User->setPasswordConfirm($_POST['confirmPassword']);
-        Wx_UserManager::add($_User);
+        $user = new Wx_User($_POST['username'], $_POST['password'], $_POST['email'], "", "", Wx_User::GRADE_INITIAL);
+        $user->setPasswordConfirm($_POST['confirmPassword']);
+        Wx_UserManager::add($user);
 
         $_add .= Wx_UserManager::getErrors();
 
         if(empty($_add)){
-            $_User = Wx_UserManager::getUserByName($_User->getName());
-            $_SESSION['user']['id'] = $_User->getId();
+            $user = Wx_UserManager::getUserByName($user->getName());
+            $_SESSION['user']['id'] = $user->getId();
+            Wx_Session::init($user);
             header("Location:".URL_PATH_HOME);
         }
     }else{

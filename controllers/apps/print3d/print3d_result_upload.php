@@ -22,7 +22,7 @@ if(isset($_FILES)) {
                 0
             );
 
-            if (Wx_Std_FilesManager::upload($_User, $file, $_FILES['resultFile']['tmp_name'])) {
+            if (Wx_Std_FilesManager::upload(Wx_Session::getUser(), $file, $_FILES['resultFile']['tmp_name'])) {
                 $message['resultFile'] = 'Votre fichier a bien été uploadé';
             } else {
                 $message['resultFile'] = 'Une erreur est survenu lors de l\'upload de votre fichier';

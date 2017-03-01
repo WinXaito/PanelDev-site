@@ -16,7 +16,7 @@ $projectContent = Wx_ProjectManager::get($_GET['url']);
 
 if(!$projectContent)
     $_Error->setAndShowError(404);
-if($projectContent->getOwner() != $_User->getId() && !in_array($projectContent->getUsers(true), [$_User->getName()]))
+if($projectContent->getOwner() != Wx_Session::getUser()->getId() && !in_array($projectContent->getUsers(true), [Wx_Session::getUser()->getName()]))
     $_Error->setAndShowError(403);
 
 

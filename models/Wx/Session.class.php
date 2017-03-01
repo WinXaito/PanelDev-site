@@ -29,4 +29,8 @@ class Wx_Session{
     public static function getUser(){
         return self::$user;
     }
+
+    public static function destroy(){
+        self::$user = null;
+    }
 }

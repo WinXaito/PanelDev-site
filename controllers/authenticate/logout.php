@@ -7,6 +7,5 @@
 
 require_once __DIR__.'/../init.php';
 
-
-$_User->deconnect($_User);
+Wx_Session::getUser()->deconnect();
 header('Location:'.URL_PATH.'/login');

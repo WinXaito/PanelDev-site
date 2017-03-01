@@ -21,7 +21,7 @@ if(isset($_POST['project_name'])&&isset($_POST['project_type'])&&isset($_POST['p
 
         $projectContent = new Wx_Project(
             $_POST['project_name'],
-            $_User->getId(),
+            Wx_Session::getUser()->getId(),
             [],
             $_POST['project_type'],
             $_POST['project_description'],

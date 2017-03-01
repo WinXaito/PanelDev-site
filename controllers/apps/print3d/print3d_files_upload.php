@@ -22,7 +22,7 @@ if(isset($_FILES)){
                 0
             );
 
-            if(Wx_Std_FilesManager::upload($_User, $file, $_FILES['stlFile']['tmp_name'])){
+            if(Wx_Std_FilesManager::upload(Wx_Session::getUser(), $file, $_FILES['stlFile']['tmp_name'])){
                 $message['stlFile'] = 'Votre fichier a bien été uploadé';
             }else{
                 $message['stlFile'] = 'Une erreur est survenu lors de l\'upload de votre fichier';
@@ -47,7 +47,7 @@ if(isset($_FILES)){
                 0
             );
 
-            if(Wx_Std_FilesManager::upload($_User, $file, $_FILES['gCodeFile']['tmp_name'])){
+            if(Wx_Std_FilesManager::upload(Wx_Session::getUser(), $file, $_FILES['gCodeFile']['tmp_name'])){
                 $message['gCodeFile'] = 'Votre fichier a bien été uploadé';
             }else{
                 $message['gCodeFile'] = 'Une erreur est survenu lors de l\'upload de votre fichier';

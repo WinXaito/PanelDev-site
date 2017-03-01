@@ -21,10 +21,8 @@ spl_autoload_register('autoload');
 
 //Check Authentification
 if(isset($_SESSION['user']['id'])){
-    $_UserManager = new Wx_UserManager();
-    $_User = $_UserManager->getUserById($_SESSION['user']['id']);
-    $_HistoricManager = new Wx_HistoricManager($_User);
-    $_UserManager->setHistoricManager($_HistoricManager);
+    $user = Wx_UserManager::getUserById($_SESSION['user']['id']);
+    Wx_Session::init($user);
 }else{
     if($_SERVER['REQUEST_URI'] != URL_PATH."/login" && $_SERVER['REQUEST_URI'] != URL_PATH."/register")
         header("Location:".URL_PATH."/login");

@@ -16,7 +16,7 @@ $projectContent = Wx_ProjectManager::get($_GET['url']);
 
 if(!$projectContent)
     $_Error->setAndShowError(404);
-if($projectContent->getOwner() != $_User->getId())
+if($projectContent->getOwner() != Wx_Session::getUser()->getId())
     $_Error->setAndShowError(403);
 
 $add_informations = "";

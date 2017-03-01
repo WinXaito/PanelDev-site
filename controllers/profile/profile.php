@@ -9,18 +9,20 @@ require_once __DIR__.'/../init.php';
 
 $_add = "";
 if(isset($_POST['profile_username'])){
+    $user = Wx_Session::getUser();
+
     if(!empty($_POST['profile_password'])){
-        $_User->setPassword($_POST['profile_password']);
-        $_User->setPasswordConfirm($_POST['profile_passwordConfirm']);
+        $user->setPassword($_POST['profile_password']);
+        $user->setPasswordConfirm($_POST['profile_passwordConfirm']);
     }else{
-        $_User->setPasswordConfirm($_User->getPassword());
+        $user->setPasswordConfirm($user->getPassword());
     }
 
-    $_User->setEmail($_POST['profile_email']);
-    $_User->setFirstName($_POST['profile_firstname']);
-    $_User->setLastName($_POST['profile_lastname']);
+    $user->setEmail($_POST['profile_email']);
+    $user->setFirstName($_POST['profile_firstname']);
+    $user->setLastName($_POST['profile_lastname']);
 
-    Wx_UserManager::update($_User);
+    Wx_UserManager::update($user);
 
     $_add = Wx_UserManager::getErrors();
 

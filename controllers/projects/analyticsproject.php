@@ -16,7 +16,7 @@ $project = Wx_ProjectManager::get($_GET['url']);
 
 if(!$project)
     $_Error->setAndShowError(404);
-if($project->getOwner() != $_User->getId())
+if($project->getOwner() != Wx_Session::getUser()->getId())
     $_Error->setAndShowError(403);
 
 $breadcrum = new Wx_Breadcrum(

@@ -19,7 +19,7 @@ if(isset($_GET['url']) && !empty($_GET['url'])) {
             S'il existe déjà, renvoyer une 404 ou 403 (Uniquement accessible avec l'url /update)
         */
 
-        if($projectContent != null && $projectContent->getOwner() == $_User->getId()) {
+        if($projectContent != null && $projectContent->getOwner() == Wx_Session::getUser()->getId()) {
             $value['printer'] = $_POST['print3d_printer'];
             $value['stl'] = $_POST['print3d_stl'];
             $value['gcode'] = $_POST['print3d_gcode'];

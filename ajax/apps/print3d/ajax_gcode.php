@@ -14,7 +14,7 @@ if(isset($_GET['print3d_id']) && !empty($_GET['print3d_id'])){
         $project = Wx_ProjectManager::getId($print3dContent->getProjectId());
 
         if($project != null){
-            if($project->getOwner() == $_User->getId()){
+            if($project->getOwner() == Wx_Session::getUser()->getId()){
                 $gcodeFiles = Wx_Std_FilesManager::getProjectFiles($print3dContent);
                 $files = [];
                 foreach($gcodeFiles as $file){
@@ -26,7 +26,7 @@ if(isset($_GET['print3d_id']) && !empty($_GET['print3d_id'])){
                                 'id' => $file->getId(),
                                 'name' => $file->getName(),
                                 'description' => $file->getDescription(),
-                                'content' => file(__DIR__.'/../../../media/users/'.$_User->getId().'/projects/'.$project->getId().'/files/'.$file->getUniqId().'.wx')
+                                'content' => file(__DIR__.'/../../../media/users/'.Wx_Session::getUser()->getId().'/projects/'.$project->getId().'/files/'.$file->getUniqId().'.wx')
                             ]
                         );
                     }

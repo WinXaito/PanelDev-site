@@ -7,7 +7,7 @@
 
 require_once __DIR__.'/../init.php';
 
-$projects = Wx_ProjectManager::getOwnerProjects($_User);
+$projects = Wx_ProjectManager::getOwnerProjects(Wx_Session::getUser());
 
 $tab['home'] = "active";
 $breadcrum = new Wx_Breadcrum(false, ['Accueil' => '']);

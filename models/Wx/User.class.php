@@ -173,11 +173,8 @@ class Wx_User{
         return $this->getGrade() == self::GRADE_ADMINISTRATOR ? true : false;
     }
 
-    /**
-     * @param Wx_User $user
-     */
-    public function deconnect(Wx_User $user){
-        unset($user);
+    public function deconnect(){
+        Wx_Session::destroy();
         session_destroy();
     }
 }
