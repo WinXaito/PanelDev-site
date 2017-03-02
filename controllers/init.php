@@ -33,6 +33,7 @@ if(TWIG_CACHE) {
 }
 
 $twig->addGlobal("URL", URL_PATH);
+$twig->addGlobal("DEBUG", DEBUG);
 $twig->addGlobal("session", $_SESSION);
 
 //Initialize error class
@@ -47,20 +48,14 @@ if(isset($_SESSION['user']['id'])){
 }
 
 //Tabs
-if(Wx_Session::isAuthenticated()) {
-    $tab = [
-        "home" => "",
-        "projects" => "",
-        "cloud" => "",
-        "options" => "",
-        "historic" => "",
-        "help" => "",
-    ];
-}else{
-    $tab = [
-        "home" => "",
-        "users" => "",
-        "login" => "",
-        "register" => "",
-    ];
-}
+$tab = [
+    "home" => "",
+    "projects" => "",
+    "cloud" => "",
+    "options" => "",
+    "historic" => "",
+    "help" => "",
+    "users" => "",
+    "login" => "",
+    "register" => "",
+];

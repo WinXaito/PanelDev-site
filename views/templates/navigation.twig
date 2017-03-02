@@ -6,7 +6,10 @@
             <li class="{{ tab.options }}"><a href="{{ URL }}/options">Options</a></li>
             <li class="{{ tab.historic }}"><a href="{{ URL }}/historic">Historique</a></li>
             <li class="{{ tab.help }}"><a href="{{ URL }}/help">Aide</a></li>
+            <hr/>
+            <li class="{{ tab.users }}"><a href="{{ URL }}/users">Utilisateurs</a></li>
             {% if user.administrator %}
+                <hr/>
                 <li class=""><a href="{{ URL }}/administrator">Administration</a></li>
             {% endif %}
         </ul>
