@@ -33,13 +33,7 @@ if($action == 'download'){
     readfile($file_path);
     exit;
 }else if($action == 'display'){
-    header('Content-Description: File Transfer');
-    header('Content-Type: application/octet-stream');
-    header('Content-Disposition: attachment; filename="'.$file->getName().'"');
-    header('Expires: 0');
-    header('Cache-Control: must-revalidate');
-    header('Pragma: public');
-    header('Content-Length: ' . filesize($file_path));
+    header('Content-Type: image/*');
     readfile($file_path);
     exit;
 }else{
