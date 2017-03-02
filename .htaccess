@@ -18,46 +18,52 @@
     #Ajax
         RewriteRule ^ajax/(.*)$ ajax/$1 [L]
 
-    #Authenticate
-        RewriteRule ^login$ controllers/authenticate/login.php [L]
-        RewriteRule ^logout$ controllers/authenticate/logout.php [L]
-        RewriteRule ^register$ controllers/authenticate/register.php [L]
+    #Public
+        #Authenticate
+            RewriteRule ^login$ controllers/authenticate/login.php [L]
+            RewriteRule ^logout$ controllers/authenticate/logout.php [L]
+            RewriteRule ^register$ controllers/authenticate/register.php [L]
 
-    #Profile
-        RewriteRule ^profile$ controllers/profile/profile.php [L]
+        #Error
+            RewriteRule ^error/500$ views/errors/500.html
+            RewriteRule ^error/(\d+)$ controllers/errors/errors.php?error=$1
 
-    #Projects
-        RewriteRule ^projects$ controllers/projects/projects.php [L]
-        RewriteRule ^projects/associate$ controllers/projects/projects_associate.php [L]
-        RewriteRule ^project/new$ controllers/projects/newproject.php [L]
-            RewriteRule ^project/(\w+)/new$ controllers/apps/new_module.php?url=$1 [L]
+        #User profile (public)
+            RewriteRule ^users$ controllers/public/users/public_users_list.php [L]
+            RewriteRule ^user/(\w+) controllers/public/users/public_profile.php?name=$1 [L]
 
-        #General projects
-        RewriteRule ^project/(\w+)/(\w+)/(\w+)$ controllers/apps/urls_module.php?url=$1&type=$2&action=$3 [L]
-        RewriteRule ^project/(\w+)/(\w+)$ controllers/apps/urls_module.php?url=$1&type=$2 [L]
-            #RewriteRule ^project/(\w+)/view/users$ controllers/projects/usersproject.php?url=$1 [L]
-        RewriteRule ^project/(\w+)/update$ controllers/projects/updateproject.php?url=$1 [L]
-        RewriteRule ^project/(\w+)/remove$ controllers/projects/removeproject.php?url=$1 [L]
+    #Private
+        #Profile
+            RewriteRule ^profile$ controllers/profile/profile.php [L]
 
-    #Files
-        RewriteRule ^files/download/(\w+)$ controllers/files/files_download.php?uniqId=$1&action=download [L]
-        RewriteRule ^files/display/(\w+)$ controllers/files/files_download.php?uniqId=$1&action=display [L]
+        #Projects
+            RewriteRule ^projects$ controllers/projects/projects.php [L]
+            RewriteRule ^projects/associate$ controllers/projects/projects_associate.php [L]
+            RewriteRule ^project/new$ controllers/projects/newproject.php [L]
+                RewriteRule ^project/(\w+)/new$ controllers/apps/new_module.php?url=$1 [L]
 
-	#Options
-		RewriteRule ^options$ controllers/options/options.php [L]
+            #General projects
+            RewriteRule ^project/(\w+)/(\w+)/(\w+)$ controllers/apps/urls_module.php?url=$1&type=$2&action=$3 [L]
+            RewriteRule ^project/(\w+)/(\w+)$ controllers/apps/urls_module.php?url=$1&type=$2 [L]
+                #RewriteRule ^project/(\w+)/view/users$ controllers/projects/usersproject.php?url=$1 [L]
+            RewriteRule ^project/(\w+)/update$ controllers/projects/updateproject.php?url=$1 [L]
+            RewriteRule ^project/(\w+)/remove$ controllers/projects/removeproject.php?url=$1 [L]
 
-    #Help
-        RewriteRule ^help$ controllers/help/help.php [L]
+        #Files
+            RewriteRule ^files/download/(\w+)$ controllers/files/files_download.php?uniqId=$1&action=download [L]
+            RewriteRule ^files/display/(\w+)$ controllers/files/files_download.php?uniqId=$1&action=display [L]
 
-	#Historic
-		RewriteRule ^historic$ controllers/historic/historic.php [L]
-			RewriteRule ^historic/remove$ controllers/historic/removehistoric.php [L]
-			RewriteRule ^historic/desactive$ controllers/historic/desactivehistoric.php [L]
-			RewriteRule ^historic/active$ controllers/historic/activehistoric.php [L]
+        #Options
+            RewriteRule ^options$ controllers/options/options.php [L]
 
-    #Error
-        RewriteRule ^error/500$ views/errors/500.html
-        RewriteRule ^error/(\d+)$ controllers/errors/errors.php?error=$1
+        #Help
+            RewriteRule ^help$ controllers/help/help.php [L]
+
+        #Historic
+            RewriteRule ^historic$ controllers/historic/historic.php [L]
+                RewriteRule ^historic/remove$ controllers/historic/removehistoric.php [L]
+                RewriteRule ^historic/desactive$ controllers/historic/desactivehistoric.php [L]
+                RewriteRule ^historic/active$ controllers/historic/activehistoric.php [L]
 
 
 #ErrorDocument

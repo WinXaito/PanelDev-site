@@ -5,13 +5,13 @@
  * User: WinXaito
  */
 
-require_once __DIR__.'/../public_init.php';
+require_once __DIR__.'/../init.php';
 
 //Treatment
 $_add = $preset = "";
 if(isset($_POST['username'])&&isset($_POST['email'])&&isset($_POST['password'])&&isset($_POST['confirmPassword'])){
     if(!empty($_POST['username'])&&!empty($_POST['email'])&&!empty($_POST['password'])&&!empty($_POST['confirmPassword'])){
-        $user = new Wx_User($_POST['username'], $_POST['password'], $_POST['email'], "", "", Wx_User::GRADE_INITIAL);
+        $user = new Wx_User($_POST['username'], $_POST['password'], $_POST['email'], "", "", Wx_User::GRADE_INITIAL, false);
         $user->setPasswordConfirm($_POST['confirmPassword']);
         Wx_UserManager::add($user);
 
@@ -35,9 +35,12 @@ if(isset($_POST['username'])&&isset($_POST['email'])&&isset($_POST['password'])&
     }
 }
 
+$tab['register'] = 'active';
+
 echo $twig->render('templates_pages/authenticate/register.twig', [
     'message' => $_add,
-    'preset' => $preset
+    'preset' => $preset,
+    'tab' => $tab,
 ]);
 
 Wx_Utils::showDebugInfos();

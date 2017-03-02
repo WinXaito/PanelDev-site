@@ -46,12 +46,21 @@ if(isset($_SESSION['user']['id'])){
     $twig->addGlobal("user", Wx_Session::getUser());
 }
 
-
-$tab = [
-    "home" => "",
-    "projects" => "",
-    "cloud" => "",
-    "options" => "",
-    "historic" => "",
-    "help" => "",
-];
+//Tabs
+if(Wx_Session::isAuthenticated()) {
+    $tab = [
+        "home" => "",
+        "projects" => "",
+        "cloud" => "",
+        "options" => "",
+        "historic" => "",
+        "help" => "",
+    ];
+}else{
+    $tab = [
+        "home" => "",
+        "users" => "",
+        "login" => "",
+        "register" => "",
+    ];
+}

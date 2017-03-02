@@ -1,5 +1,5 @@
-{% if user is defined %}
-    <aside class="col-md-2">
+<aside class="col-md-2">
+    {% if user is defined %}
         <ul class="nav nav-pills nav-stacked">
             <li class="{{ tab.home }}"><a href="{{ URL }}/">Accueil</a></li>
             <li class="{{ tab.projects }}"><a href="{{ URL }}/projects">Gestion projets</a></li>
@@ -25,5 +25,13 @@
                 {% if fav.2 is not empty %}<li class="item-favori {{ tab.fav.10 }}"><a href="">Favori 10</a></li>{% endif %}
             </ul>
         {% endif %}
-    </aside>
-{% endif %}
+    {% else %}
+        <ul class="nav nav-pills nav-stacked">
+            <li class="{{ tab.home }}"><a href="{{ URL }}/">Accueil</a></li>
+            <li class="{{ tab.users }}"><a href="{{ URL }}/users">Utilisateurs</a></li>
+            <hr/>
+            <li class="{{ tab.login }}"><a href="{{ URL }}/login">Connexion</a></li>
+            <li class="{{ tab.register }}"><a href="{{ URL }}/register">Inscription</a></li>
+        </ul>
+    {% endif %}
+</aside>

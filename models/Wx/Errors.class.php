@@ -8,22 +8,22 @@
 require_once __DIR__.'/../../controllers/errors/errors_headers.php';
 
 class Wx_Errors{
-    private $_twig;
+    private static $_twig;
     private static $_error;
 
     private static $_error_title;
     private static $_error_content;
 
     public function __construct(Twig_Environment $twig){
-        $this->_twig = $twig;
+        self::$_twig = $twig;
     }
 
     /**
      * @param $error
      */
-    public function setAndShowError($error){
-        $this->setError($error);
-        $this->showError();
+    public static function setAndShowError($error){
+        self::setError($error);
+        self::showError();
     }
 
     /**
@@ -37,11 +37,14 @@ class Wx_Errors{
     /**
      * void
      */
-    public function showError(){
-        $this->render();
+    public static function showError(){
+        self::render();
         exit();
     }
 
+    /**
+     * @param $error
+     */
     public static function setAndShowErrorAjax($error){
         Wx_Errors::setError($error);
         Wx_Ajax::render([
@@ -90,7 +93,7 @@ class Wx_Errors{
         }
     }
 
-    private function render(){
+    private static function render(){
         $breadcrum = new Wx_Breadcrum(
             false,
             [
@@ -99,7 +102,7 @@ class Wx_Errors{
             ]
         );
 
-        echo $this->_twig->render('templates_pages/error/error.twig', [
+        echo self::$_twig->render('templates_pages/error/error.twig', [
             'breadcrum' => $breadcrum->getBreadcrum(),
             'title' => Wx_Errors::$_error_title,
             'content' => Wx_Errors::$_error_content,

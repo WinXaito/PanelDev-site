@@ -13,9 +13,9 @@ class Wx_Project{
     private $_type;
     private $_description;
     private $_url;
-    private $_urlProject;
     private $_date_creation;
     private $_date_modification;
+    private $_public;
 
     const TYPE = [
         'general',
@@ -32,21 +32,21 @@ class Wx_Project{
      * @param $type
      * @param $description
      * @param $url
-     * @param $urlProject
      * @param $date_creation
      * @param $date_modification
+     * @param $public
      * @param int $id
      */
-    public function __construct($name, $owner, $users, $type, $description, $url, $urlProject, $date_creation, $date_modification, $id=0){
+    public function __construct($name, $owner, $users, $type, $description, $url, $date_creation, $date_modification, $public, $id=0){
         $this->_name = $name;
         $this->_owner = $owner;
         $this->_users = $users;
         $this->_type = $type;
         $this->_description = $description;
         $this->_url = $url;
-        $this->_urlProject = $urlProject;
         $this->_date_creation = $date_creation;
         $this->_date_modification = $date_modification;
+        $this->_public = $public;
         $this->_id = $id;
     }
 
@@ -143,20 +143,6 @@ class Wx_Project{
     /**
      * @return mixed
      */
-    public function getUrlProject(){
-        return $this->_urlProject;
-    }
-
-    /**
-     * @param $urlProject
-     */
-    public function setUrlProject($urlProject){
-        $this->_urlProject = $urlProject;
-    }
-
-    /**
-     * @return mixed
-     */
     public function getDateCreation(){
         return $this->_date_creation;
     }
@@ -175,6 +161,19 @@ class Wx_Project{
         $this->_date_modification = $date_modification;
     }
 
+    /**
+     * @return boolean
+     */
+    public function isPublic(){
+        return $this->_public;
+    }
+
+    /**
+     * @param mixed $public
+     */
+    public function setPublic($public){
+        $this->_public = $public;
+    }
 
     /**
      * @return string

@@ -8,6 +8,7 @@
 if(isset($_FILES)){
     if(isset($_FILES['stlFile']) && isset($_FILES['stlFile']['name']) && strlen($_FILES['stlFile']['name']) > 0){
         if(Wx_Std_FilesManager::checkUploadFile($_FILES['stlFile'], FILES_APPS_PRINT3D_STL_MAXSIZE)){
+            //TODO: Public file ?
             $file = new Wx_Std_File(
                 0,
                 null,
@@ -19,7 +20,8 @@ if(isset($_FILES)){
                 'stl',
                 '',
                 time(),
-                0
+                0,
+                false
             );
 
             if(Wx_Std_FilesManager::upload(Wx_Session::getUser(), $file, $_FILES['stlFile']['tmp_name'])){
@@ -34,6 +36,7 @@ if(isset($_FILES)){
 
     if(isset($_FILES['gCodeFile']) && isset($_FILES['gCodeFile']['name']) && strlen($_FILES['gCodeFile']['name']) > 0){
         if(Wx_Std_FilesManager::checkUploadFile($_FILES['gCodeFile'], FILES_APPS_PRINT3D_STL_MAXSIZE)){
+            //TODO: Public file ?
             $file = new Wx_Std_File(
                 0,
                 null,
@@ -44,7 +47,8 @@ if(isset($_FILES)){
                 'gcode',
                 '',
                 time(),
-                0
+                0,
+                false
             );
 
             if(Wx_Std_FilesManager::upload(Wx_Session::getUser(), $file, $_FILES['gCodeFile']['tmp_name'])){

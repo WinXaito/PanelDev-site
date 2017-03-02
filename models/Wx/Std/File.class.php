@@ -17,6 +17,7 @@ class Wx_Std_File{
     private $_url;
     private $_date_creation;
     private $_date_modification;
+    private $_public;
 
     /**
      * Wx_Std_File constructor.
@@ -31,11 +32,9 @@ class Wx_Std_File{
      * @param $_url
      * @param $_date_creation
      * @param $_date_modification
-     * @internal param $_parent
-     * @internal param $_parentType
-     * @internal param $_parentId
+     * @param $_public
      */
-    public function __construct($_id, $_uniqId, $_name, $_size, $_description, $_parent_id, $_project_id, $_type, $_url, $_date_creation, $_date_modification){
+    public function __construct($_id, $_uniqId, $_name, $_size, $_description, $_parent_id, $_project_id, $_type, $_url, $_date_creation, $_date_modification, $_public){
         if($_uniqId == 0)
             $_uniqId = uniqid();
 
@@ -44,13 +43,13 @@ class Wx_Std_File{
         $this->_name = $_name;
         $this->_size = $_size;
         $this->_description = $_description;
-        //$this->_parent = $_parent;
         $this->_parent_id = $_parent_id;
         $this->_project_id = $_project_id;
         $this->_type = $_type;
         $this->_url = $_url;
         $this->_date_creation = $_date_creation;
         $this->_date_modification = $_date_modification;
+        $this->_public = $_public;
     }
 
     /**
@@ -225,5 +224,19 @@ class Wx_Std_File{
      */
     public function setDateModification($date_modification){
         $this->_date_modification = $date_modification;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isPublic(){
+        return $this->_public;
+    }
+
+    /**
+     * @param mixed $public
+     */
+    public function setPublic($public){
+        $this->_public = $public;
     }
 }

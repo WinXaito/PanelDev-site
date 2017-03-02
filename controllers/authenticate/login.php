@@ -5,7 +5,7 @@
  * User: WinXaito
  */
 
-require_once __DIR__.'/../public_init.php';
+require_once __DIR__.'/../init.php';
 
 if(Wx_Session::isAuthenticated())
     header("Location:".URL_PATH."/");
@@ -39,8 +39,11 @@ if(isset($_POST['username'])&&isset($_POST['password'])){
     }
 }
 
+$tab['login'] = 'active';
+
 echo $twig->render('templates_pages/authenticate/login.twig', [
     'message' => $_add,
+    'tab' => $tab,
 ]);
 
 Wx_Utils::showDebugInfos();

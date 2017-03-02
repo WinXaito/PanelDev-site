@@ -1,0 +1,30 @@
+{% extends 'default.twig' %}
+
+{% block content %}
+    <div>
+        <h3 class="page-title">Profil de {{ profileUser.name }}</h3>
+
+        {% if not profileUser.profilPublic %}
+            <p>Ce profil est privé</p>
+        {% else %}
+            {#Block: Projects#}
+            <div>
+                <h4>Projets</h4>
+
+                <ul>
+                    {% set projectPublic = 0 %}
+                    {% for project in projects %}
+                        {% if project.public %}
+                            {% set projectPublic = projectPublic + 1 %}
+                            <li><a href="{{ URL }}/project/{{ project.url }}/view">{{ project.name }}</a></li>
+                        {% endif %}
+                    {% endfor %}
+
+                    {% if projectPublic == 0 %}
+                        <li>Aucun projet publique n'est disponible</li>
+                    {% endif %}
+                </ul>
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}

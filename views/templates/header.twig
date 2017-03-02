@@ -7,7 +7,7 @@
             <p class="text-right" style="margin-top:30px; margin-bottom:5px">
                 <a href="{{ URL }}/profile">Profile</a> | <a href="{{ URL }}/logout">Déconnexion</a>
             </p>
-            <p class="text-right">Connecté sous l'identifiant <strong style="color:#337AB7">{{ user.name }}</strong></p>
+            <p class="text-right">Connecté sous l'identifiant <strong style="color:#337AB7"><a href="{{ URL }}/user/{{ user.name }}">{{ user.name }}</a></strong></p>
         </div>
     {% endif %}
 </header>

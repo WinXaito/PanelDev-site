@@ -15,6 +15,8 @@ class Wx_User{
     private $_lastname;
     private $_grade;
 
+    private $_profil_public;
+
     const GRADE_INITIAL = 1;
     const GRADE_MODERATOR = 3;
     const GRADE_ADMINISTRATOR = 4;
@@ -26,15 +28,17 @@ class Wx_User{
      * @param $firstname
      * @param $lastname
      * @param $grade
+     * @param $profil_public
      * @param int $id
      */
-    public function __construct($name, $password, $email, $firstname, $lastname, $grade, $id=0){
+    public function __construct($name, $password, $email, $firstname, $lastname, $grade, $profil_public, $id=0){
         $this->_name = $name;
         $this->_password = $password;
         $this->_email = $email;
         $this->_firstname = $firstname;
         $this->_lastname = $lastname;
         $this->_grade = $grade;
+        $this->_profil_public = $profil_public;
         $this->_id = $id;
     }
 
@@ -142,6 +146,20 @@ class Wx_User{
      */
     public function setGrade($grade){
         $this->_grade = $grade;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isProfilPublic(){
+        return $this->_profil_public;
+    }
+
+    /**
+     * @param mixed $profil_public
+     */
+    public function setProfilPublic($profil_public){
+        $this->_profil_public = $profil_public;
     }
 
     /**

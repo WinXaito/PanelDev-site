@@ -35,7 +35,8 @@ class Wx_Std_FilesManager{
                 $result['type'],
                 $result['url'],
                 $result['date_creation'],
-                $result['date_modification']
+                $result['date_modification'],
+                $result['public']
             );
 
             return $file;
@@ -75,7 +76,8 @@ class Wx_Std_FilesManager{
                     $data['type'],
                     $data['url'],
                     $data['date_creation'],
-                    $data['date_modification']
+                    $data['date_modification'],
+                    $data['public']
                 )
             );
         }
@@ -90,9 +92,9 @@ class Wx_Std_FilesManager{
         Wx_Query::query(
             '
                 INSERT INTO std_files
-                (uniqId, name, size, description, parentType, parentId, projectId, type, url, date_creation, date_modification)
+                (uniqId, name, size, description, parentType, parentId, projectId, type, url, date_creation, date_modification, public)
                 VALUES
-                (:uniqId, :name, :size, :description, :parentType, :parentId, :projectId, :type, :url, :date_creation, :date_modification)
+                (:uniqId, :name, :size, :description, :parentType, :parentId, :projectId, :type, :url, :date_creation, :date_modification, :public)
             ',
             [
                 'uniqId' => $file->getUniqId(),
@@ -106,6 +108,7 @@ class Wx_Std_FilesManager{
                 'url' => $file->getUrl(),
                 'date_creation' => time(),
                 'date_modification' => 0,
+                'public' => $file->isPublic(),
             ]
         );
     }
@@ -124,8 +127,9 @@ class Wx_Std_FilesManager{
                     parentType = :parentType,
                     parentId = :parentId,
                     type = :type,
-                    url = :url
-                    date_modification = :date_modification
+                    url = :url,
+                    date_modification = :date_modification,
+                    public = :public
                 WHERE url = :urlfind
             ',
             [
@@ -138,6 +142,7 @@ class Wx_Std_FilesManager{
                 'url' => $file->getUrl(),
                 'urlfind' => $url,
                 'date_modification' => time(),
+                'public' => $file->isPublic(),
             ]
         );
     }

@@ -5,7 +5,9 @@
  * User: WinXaito
  */
 
-require_once __DIR__.'/../private_init.php';
+require_once __DIR__.'/../init.php';
+
+Wx_Session::requireAuthentication();
 
 $historic = Wx_HistoricManager::getAllHistoric();
 

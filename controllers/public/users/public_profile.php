@@ -5,23 +5,35 @@
  * Date: 27.02.2017
  */
 
-require_once __DIR__.'/../../public_init.php';
+require_once __DIR__.'/../../init.php';
 
-$options = Wx_OptionsManager::get(Wx_Session::getUser()->getId());
+$profileUser = Wx_UserManager::getUserByName($_GET['name']);
+
+if(!$profileUser)
+    Wx_Errors::setAndShowError(404);
 
 
-$tab['options'] = "active";
+$projects = null;
+if($profileUser->isProfilPublic())
+    $projects = Wx_ProjectManager::getOwnerProjects($profileUser);
+
+
+$tab['users'] = 'active';
+
 $breadcrum = new Wx_Breadcrum(
     false,
     [
         'Accueil' => '',
-        'Options' => 'options',
+        'Utilisateur' => 'users',
+        $profileUser->getName() => '',
     ]
 );
 
-echo $twig->render('templates_pages/options/content_options.twig', [
+echo $twig->render('templates_pages/public/users/public_profile.twig', [
     'tab' => $tab,
     'breadcrum' => $breadcrum->getBreadcrum(),
+    'profileUser' => $profileUser,
+    'projects' => $projects,
 ]);
 
 Wx_Utils::showDebugInfos();

@@ -23,6 +23,12 @@ class Wx_Session{
         return self::$user != null;
     }
 
+    public static function requireAuthentication(){
+        if(!self::isAuthenticated())
+            if($_SERVER['REQUEST_URI'] != URL_PATH."/login" && $_SERVER['REQUEST_URI'] != URL_PATH."/register")
+                header("Location:".URL_PATH."/login");
+    }
+
     /**
      * @return Wx_User
      */

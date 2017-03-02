@@ -38,9 +38,9 @@ class Wx_ProjectManager{
                 $resultProjects['type'],
                 $resultProjects['description'],
                 $resultProjects['url'],
-                $resultProjects['project_url'],
                 $resultProjects['date_creation'],
                 $resultProjects['date_modification'],
+                $resultProjects['public'],
                 $resultProjects['id']
             );
 
@@ -73,9 +73,9 @@ class Wx_ProjectManager{
                 $resultProjects['type'],
                 $resultProjects['description'],
                 $resultProjects['url'],
-                $resultProjects['project_url'],
                 $resultProjects['date_creation'],
                 $resultProjects['date_modification'],
+                $resultProjects['public'],
                 $resultProjects['id']
             );
 
@@ -95,9 +95,9 @@ class Wx_ProjectManager{
         $q = Wx_Query::query(
             "
                 INSERT INTO projects
-                (name, owner, users, type, description, url, project_url, date_creation, date_modification)
+                (name, owner, users, type, description, url, date_creation, date_modification, public)
                 VALUES
-                (:name, :owner, :users, :type, :description, :url, :project_url, :date_creation, :date_modification)
+                (:name, :owner, :users, :type, :description, :url, :date_creation, :date_modification, :public)
             ",
             [
                 'name' => $project->getName(),
@@ -106,9 +106,9 @@ class Wx_ProjectManager{
                 'type' => $project->getType(),
                 'description' => $project->getDescription(),
                 'url' => $project->getUrl(),
-                'project_url' => $project->getUrlProject(),
                 'date_creation' => $project->getDateCreation(),
                 'date_modification' => $project->getDateModification(),
+                'public' => $project->isPublic(),
             ]
         );
 
@@ -132,6 +132,7 @@ class Wx_ProjectManager{
      * @return bool
      */
     public static function addAppPrint3d(Wx_Apps_Print3d $app){
+        //TODO: Move to Wx_Print3dManager
         $success = true;
 
         $q = Wx_Query::query(
@@ -179,9 +180,9 @@ class Wx_ProjectManager{
                     owner = :owner,
                     description = :description,
                     url = :url,
-                    project_url = :project_url,
                     date_creation = :date_creation,
-                    date_modification = :date_modification
+                    date_modification = :date_modification,
+                    public = :public
                 WHERE url = :urlfind
             ",
             [
@@ -189,9 +190,9 @@ class Wx_ProjectManager{
                 'owner' => $project->getOwner(),
                 'description' => $project->getDescription(),
                 'url' => $project->getUrl(),
-                'project_url' => $project->getUrlProject(),
                 'date_creation' => $project->getDateCreation(),
                 'date_modification' => $project->getDateModification(),
+                'public' => $project->isPublic(),
                 'urlfind' => $url,
             ]
         );
@@ -273,6 +274,7 @@ class Wx_ProjectManager{
      * @return string
      */
     public static function addUser(Wx_Project $project, Wx_User $user, $access){
+        //TODO: Clean method
         /*if($users){
             if(!isset($users[$userid])){
                 $users[$userid] = $username;
@@ -332,6 +334,7 @@ class Wx_ProjectManager{
      * @return string
      */
     public static function testGet($url){
+        //TODO: Remove ?
         $project = self::get($url);
 
         return '
@@ -360,6 +363,7 @@ class Wx_ProjectManager{
      * @return string
      */
     public static function showAllProjectsTable(Wx_User $user, $little=false){
+        //TODO: Remove, old function, now we use Twig
         $allProjects = self::getOwnerProjects($user);
 
         if(!$little){
@@ -490,7 +494,17 @@ class Wx_ProjectManager{
         $return = [];
 
         while($result = $q->fetch()){
-            $return[$i] = $result;
+            $return[$i] = new Wx_Project(
+                $result['name'],
+                $result['owner'],
+                $result['users'],
+                $result['type'],
+                $result['description'],
+                $result['url'],
+                $result['date_creation'],
+                $result['date_modification'],
+                $result['public']
+            );
             $i++;
         }
 
@@ -511,6 +525,7 @@ class Wx_ProjectManager{
      * @return array
      */
     /*public function getAllProjects(){
+        TODO: Remove?
         $q = $this->_db->prepare("
             SELECT *
             FROM projects

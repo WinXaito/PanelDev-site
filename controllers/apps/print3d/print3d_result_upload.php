@@ -8,6 +8,7 @@
 if(isset($_FILES)) {
     if (isset($_FILES['resultFile']) && isset($_FILES['resultFile']['name']) && strlen($_FILES['resultFile']['name']) > 0) {
         if (Wx_Std_FilesManager::checkUploadFile($_FILES['resultFile'], FILES_APPS_PRINT3D_IMAGE_MAXSIZE)) {
+            //TODO: Public file ?
             $file = new Wx_Std_File(
                 0,
                 null,
@@ -19,7 +20,8 @@ if(isset($_FILES)) {
                 'image_result',
                 '',
                 time(),
-                0
+                0,
+                false
             );
 
             if (Wx_Std_FilesManager::upload(Wx_Session::getUser(), $file, $_FILES['resultFile']['tmp_name'])) {

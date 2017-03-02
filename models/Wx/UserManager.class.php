@@ -116,6 +116,7 @@ class Wx_UserManager{
                 $result['firstname'],
                 $result['lastname'],
                 $result['grade'],
+                $result['profil_public'],
                 $result['id']
             );
             return $users;
@@ -150,12 +151,68 @@ class Wx_UserManager{
                 $result['firstname'],
                 $result['lastname'],
                 $result['grade'],
+                $result['profil_public'],
                 $result['id']
             );
             return $users;
         }else{
             return false;
         }
+    }
+
+    public static function getAllUsers(){
+        $q = Wx_Query::query(
+            '
+                SELECT *
+                FROM users
+            ', []
+        );
+
+        $return = [];
+        $i = 0;
+        while($data = $q->fetch()){
+            $return[$i] = new Wx_User(
+                $data['name'],
+                $data['password'],
+                $data['email'],
+                $data['firstname'],
+                $data['lastname'],
+                $data['grade'],
+                $data['profil_public'],
+                $data['id']
+            );
+            $i++;
+        }
+
+        return $return;
+    }
+
+    public static function getAllPublicUsers(){
+        $q = Wx_Query::query(
+            '
+                SELECT *
+                FROM users
+                WHERE profil_public = TRUE 
+            ', []
+        );
+
+        $return = [];
+        $i = 0;
+        while($data = $q->fetch()){
+            $return[$i] = new Wx_User(
+                $data['name'],
+                $data['password'],
+                $data['email'],
+                $data['firstname'],
+                $data['lastname'],
+                $data['grade'],
+                $data['profil_public'],
+                $data['id']
+            );
+            $i++;
+        }
+
+        return $return;
     }
 
     public static function addFavorite(Wx_Project $project, Wx_User $user){

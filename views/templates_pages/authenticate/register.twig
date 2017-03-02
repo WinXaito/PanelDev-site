@@ -1,7 +1,7 @@
 {% extends 'base.twig' %}
 
-{% block section %}
-    <article class="col-lg-6 col-lg-offset-3">
+{% block article %}
+    <div class="col-lg-6 col-lg-offset-2">
         <form class="form col-md-12 center-block" method="POST" action="">
             <div class="form-group">
                 <input class="form-control input-lg" placeholder="Identifiant" name="username" type="text" value="{{ preset.username }}">
@@ -22,5 +22,5 @@
 
             {{ message|raw }}
         </form>
-    </article>
+    </div>
 {% endblock %}

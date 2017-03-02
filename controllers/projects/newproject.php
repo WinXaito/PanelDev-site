@@ -5,7 +5,9 @@
  * User: WinXaito
  */
 
-require_once __DIR__.'/../private_init.php';
+require_once __DIR__.'/../init.php';
+
+Wx_Session::requireAuthentication();
 
 //Treatment
 $add_informations = "";
@@ -26,9 +28,9 @@ if(isset($_POST['project_name'])&&isset($_POST['project_type'])&&isset($_POST['p
             $_POST['project_type'],
             $_POST['project_description'],
             $projectManager->newUrl(),
-            $_POST['project_url'],
             time(),
-            0
+            0,
+            false
         );
 
         Wx_ProjectManager::add($projectContent);
