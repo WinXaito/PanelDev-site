@@ -44,9 +44,6 @@ if(isset($_SESSION['user']['id'])){
     Wx_Session::init($User);
 
     $twig->addGlobal("user", Wx_Session::getUser());
-}else{
-    if($_SERVER['REQUEST_URI'] != URL_PATH."/login" && $_SERVER['REQUEST_URI'] != URL_PATH."/register")
-        header("Location:".URL_PATH."/login");
 }
 
 

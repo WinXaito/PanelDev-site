@@ -5,7 +5,7 @@
  * User: WinXaito
  */
 
-require_once __DIR__.'/../init.php';
+require_once __DIR__.'/../public_init.php';
 
 //Treatment
 $_add = $preset = "";

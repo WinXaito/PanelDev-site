@@ -5,7 +5,7 @@
  * Date: 15.02.2017
  */
 
-require_once __DIR__.'/../init.php';
+require_once __DIR__.'/../private_init.php';
 
 if(isset($_GET['uniqId'])){
     $file = Wx_Std_FilesManager::get($_GET['uniqId']);

@@ -5,7 +5,7 @@
  * User: WinXaito
  */
 
-require_once __DIR__.'/../init.php';
+require_once __DIR__.'/../public_init.php';
 
 if(Wx_Session::isAuthenticated())
     header("Location:".URL_PATH."/");

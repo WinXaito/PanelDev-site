@@ -5,7 +5,7 @@
  * Date: 27.02.2017
  */
 
-require_once __DIR__.'/../../init.php';
+require_once __DIR__.'/../../public_init.php';
 
 $options = Wx_OptionsManager::get(Wx_Session::getUser()->getId());
 
