@@ -5,10 +5,10 @@
     RewriteRule ^$ controllers/home/api_home.php [L]
 
     #Users
-#       RewriteRule ^users$ controllers/users/TODO [L]
-        RewriteRule ^user$ controllers/users/TODO [L]
+        RewriteRule ^users$ controllers/users/api_users_list.php [L]
         RewriteRule ^user/(\d+)$ controllers/users/api_users_get.php?id=$1 [L]
 
     #Projects
-        #print3d
-            RewriteRule ^projects/print3d/(\w+)$ controllers/projects/print3d/api_print3d.php?id=$1 [L]
+        RewriteRule ^projects$ controllers/projects/api_projects_list.php [L]
+        RewriteRule ^projects/(\w+)$ controllers/projects/api_projects_list.php?username=$1 [L]
+        RewriteRule ^project/(\w+)$ controllers/projects/api_project.php?url=$1 [L]

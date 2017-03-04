@@ -7,9 +7,9 @@
 
 class Wx_Project{
     private $_id;
+    private $_app_id;
     private $_name;
     private $_owner;
-    private $_users;
     private $_type;
     private $_description;
     private $_url;
@@ -26,9 +26,9 @@ class Wx_Project{
     ];
 
     /**
+     * @param $app_id
      * @param $name
      * @param $owner
-     * @param $users
      * @param $type
      * @param $description
      * @param $url
@@ -37,10 +37,10 @@ class Wx_Project{
      * @param $public
      * @param int $id
      */
-    public function __construct($name, $owner, $users, $type, $description, $url, $date_creation, $date_modification, $public, $id=0){
+    public function __construct($app_id, $name, $owner, $type, $description, $url, $date_creation, $date_modification, $public, $id=0){
         $this->_name = $name;
+        $this->_app_id = $app_id;
         $this->_owner = $owner;
-        $this->_users = $users;
         $this->_type = $type;
         $this->_description = $description;
         $this->_url = $url;
@@ -55,6 +55,20 @@ class Wx_Project{
      */
     public function getId(){
         return $this->_id;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getAppId(){
+        return $this->_app_id;
+    }
+
+    /**
+     * @param mixed $app_id
+     */
+    public function setAppId($app_id){
+        $this->_app_id = $app_id;
     }
 
     /**
@@ -83,13 +97,6 @@ class Wx_Project{
      */
     public function setOwner($owner){
         $this->_owner = $owner;
-    }
-
-    /**
-     * @return Wx_Project_PUsers
-     */
-    public function getUsers(){
-        return $this->_users;
     }
 
     /**
@@ -173,25 +180,5 @@ class Wx_Project{
      */
     public function setPublic($public){
         $this->_public = $public;
-    }
-
-    /**
-     * @return string
-     */
-    public function showUsersTable(){
-        //TODO: new tabe with .join (jointure)
-        /*$users = $this->getUsers(true);
-
-        if(empty($users)){
-            return '';
-        }else{
-            $return = '';
-
-            foreach($users as $key => $value){
-                $return .= '<tr><td>'.$value.'</td><td><a href="">Supprimer</a></td></tr>';
-            }
-
-            return $return;
-        }*/
     }
 }

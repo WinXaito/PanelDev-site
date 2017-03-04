@@ -12,8 +12,19 @@
     define('TWIG_CACHE', false);
 
 //Url
-    define('URL_PATH', "/winxaito/paneldev");
-    define('URL_PATH_HOME', "/winxaito/paneldev/");
+    switch($_SERVER['HTTP_HOST']){
+        case 'localhost':
+            define('URL_PATH', "/winxaito/paneldev");
+            define('URL_PATH_HOME', "/winxaito/paneldev/");
+            break;
+        case 'projectsmanager.dev':
+            define('URL_PATH', "");
+            define('URL_PATH_HOME', "/");
+            break;
+        default:
+            define('URL_PATH', "");
+            define('URL_PATH_HOME', "/");
+    }
     define('URL_PROJECTS_LENGTH', 6);
 
 //BDD

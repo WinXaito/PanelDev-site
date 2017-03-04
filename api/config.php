@@ -12,8 +12,19 @@ define('API_DEBUG_AUTOLOAD', false);
 define('API_TWIG_CACHE', false);
 
 //Url
-define('API_URL_PATH', "/winxaito/paneldev/api");
-define('API_URL_PATH_HOME', "/winxaito/paneldev/api");
+switch($_SERVER['HTTP_HOST']){
+    case 'localhost':
+        define('API_URL_PATH', "/winxaito/paneldev/api");
+        define('API_URL_PATH_HOME', "/winxaito/paneldev/api/");
+        break;
+    case 'projectsmanager.dev':
+        define('API_URL_PATH', "/api/");
+        define('API_URL_PATH_HOME', "/api");
+        break;
+    default:
+        define('API_URL_PATH', "/api/");
+        define('API_URL_PATH_HOME', "/api");
+}
 
 //BDD
 define('DB_HOST', 'localhost');

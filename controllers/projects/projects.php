@@ -11,7 +11,7 @@ Wx_Session::requireAuthentication();
 
 $tab['projects'] = "active";
 
-$projects = Wx_ProjectManager::getAllProjects(Wx_Session::getUser());
+$projects = Wx_ProjectManager::getAllUserProjects(Wx_Session::getUser());
 
 $breadcrum = new Wx_Breadcrum(
     false,

@@ -32,9 +32,9 @@ class Wx_ProjectManager{
 
         if($resultProjects){
             $project = new Wx_Project(
+                $resultProjects['app_id'],
                 $resultProjects['name'],
                 $resultProjects['owner'],
-                Wx_ProjectManager::getProjectUsers($resultProjects['id']),
                 $resultProjects['type'],
                 $resultProjects['description'],
                 $resultProjects['url'],
@@ -67,9 +67,9 @@ class Wx_ProjectManager{
 
         if($resultProjects){
             $project = new Wx_Project(
+                $resultProjects['app_id'],
                 $resultProjects['name'],
                 $resultProjects['owner'],
-                Wx_ProjectManager::getProjectUsers($resultProjects['id']),
                 $resultProjects['type'],
                 $resultProjects['description'],
                 $resultProjects['url'],
@@ -495,9 +495,9 @@ class Wx_ProjectManager{
 
         while($result = $q->fetch()){
             $return[$i] = new Wx_Project(
+                $result['app_id'],
                 $result['name'],
                 $result['owner'],
-                $result['users'],
                 $result['type'],
                 $result['description'],
                 $result['url'],
@@ -515,10 +515,69 @@ class Wx_ProjectManager{
      * @param Wx_User $user
      * @return array
      */
-    public static function getAllProjects(Wx_User $user){
+    public static function getAllUserProjects(Wx_User $user){
         $projects = self::getOwnerProjects($user);
         $projectsUser = self::getUserProjects($user);
         return array_merge($projects, $projectsUser);
+    }
+
+
+    public static function getAllPublicProjects(){
+        $q = Wx_Query::query(
+            "
+                SELECT *
+                FROM projects
+                WHERE public = TRUE
+            ", []
+        );
+
+        $return = [];
+        while($data = $q->fetch()){
+            $return[] = new Wx_Project(
+                $data['app_id'],
+                $data['name'],
+                $data['owner'],
+                $data['type'],
+                $data['description'],
+                $data['url'],
+                $data['date_creation'],
+                $data['date_modification'],
+                $data['public'],
+                $data['id']
+            );
+        }
+
+        return $return;
+    }
+
+    /**
+     * @return array
+     */
+    public static function getAllProjects(){
+        $q = Wx_Query::query(
+            "
+                SELECT *
+                FROM projects
+            ", []
+        );
+
+        $return = [];
+        while($data = $q->fetch()){
+            $return[] = new Wx_Project(
+                $data['app_id'],
+                $data['name'],
+                $data['owner'],
+                $data['type'],
+                $data['description'],
+                $data['url'],
+                $data['date_creation'],
+                $data['date_modification'],
+                $data['public'],
+                $data['id']
+            );
+        }
+
+        return $return;
     }
 
     /**

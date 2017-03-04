@@ -22,9 +22,9 @@ if(isset($_POST['project_name'])&&isset($_POST['project_type'])&&isset($_POST['p
             $_POST['project_url'] = '';
 
         $projectContent = new Wx_Project(
+            0,
             $_POST['project_name'],
             Wx_Session::getUser()->getId(),
-            [],
             $_POST['project_type'],
             $_POST['project_description'],
             $projectManager->newUrl(),
