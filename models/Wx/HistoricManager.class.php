@@ -14,11 +14,11 @@ class Wx_HistoricManager{
             "
                 SELECT *
                 FROM historic
-                WHERE user = ?
+                WHERE user = :user
                 ORDER BY time DESC
             ",
             [
-                Wx_Session::getUser()->getId(),
+                'user' => Wx_Session::getUser()->getId(),
             ]
         );
 
@@ -100,7 +100,7 @@ class Wx_HistoricManager{
               WHERE user = :user
             ",
             [
-                Wx_Session::getUser()->getId(),
+                'user' => Wx_Session::getUser()->getId(),
             ]
         );
     }

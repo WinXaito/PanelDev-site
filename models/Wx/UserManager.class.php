@@ -99,10 +99,10 @@ class Wx_UserManager{
             "
                 SELECT *
                 FROM users
-                WHERE name = ?
+                WHERE name = :name
             ",
             [
-                $username,
+                'name' => $username,
             ]
         );
 
@@ -134,10 +134,10 @@ class Wx_UserManager{
             "
                 SELECT *
                 FROM users
-                WHERE id = ?
+                WHERE id = :id
             ",
             [
-                $userid,
+                'id' => $userid,
             ]
         );
 

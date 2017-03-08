@@ -15,10 +15,10 @@ class Wx_Std_FilesManager{
             '
                 SELECT *   
                 FROM std_files
-                WHERE uniqId = ?
+                WHERE uniqId = :id
             ',
             [
-                $uniqId,
+                'id' => $uniqId,
             ]
         );
         $result = $q->fetch();
@@ -154,10 +154,10 @@ class Wx_Std_FilesManager{
         Wx_Query::query(
             '
                 DELETE FROM std_files
-                WHERE url = ?
+                WHERE url = :url
             ',
             [
-                $url,
+                'url' => $url,
             ]
         );
     }

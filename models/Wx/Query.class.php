@@ -13,6 +13,9 @@ class Wx_Query{
     private static $time;
     private static $total_time;
 
+    /**
+     * Init the Database connection
+     */
     public static function init(){
         if(Wx_Query::$db == null) {
             self::$count = 0;
@@ -38,13 +41,40 @@ class Wx_Query{
 
         $tStart = microtime(true);
         $req = self::$db->prepare($query);
-        $req->execute($params);
+
+        //var_dump(debug_backtrace());
+        foreach($params as $k => $v){
+            if(filter_var($v, FILTER_VALIDATE_INT) || $v == 0)
+                $req->bindValue($k, $v, PDO::PARAM_INT);
+            else
+                $req->bindValue($k, $v);
+        }
+
+        $req->execute();
         $tEnd = microtime(true);
 
         self::$time[self::$count] = [trim(preg_replace('/\s+/', ' ', $query)), $tEnd - $tStart];
         self::$total_time += $tEnd - $tStart;
 
         return $req;
+    }
+
+    /**
+     * Used by paginQuery (For pagination, for use LIMIT)
+     * @param $query
+     * @param $time
+     */
+    public static function addQuery($query, $time){
+        self::$count++;
+        self::$time[self::$count] = [trim(preg_replace('/\s+/', ' ', $query)), $time];
+        self::$total_time += $time;
+    }
+
+    /**
+     * @return PDO
+     */
+    public static function getDb(){
+        return self::$db;
     }
 
     /**

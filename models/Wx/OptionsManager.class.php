@@ -14,8 +14,8 @@ class Wx_OptionsManager{
         $q = Wx_Query::query("
             SELECT *
             FROM options
-            WHERE user = ?
-            ", [$userid]
+            WHERE user = :user
+            ", ['user' => $userid]
         );
 
         $result = $q->fetch();

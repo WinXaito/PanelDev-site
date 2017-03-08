@@ -23,8 +23,8 @@ class Wx_ProjectManager{
         $q = Wx_Query::query("
                 SELECT *
                 FROM projects
-                WHERE url = ?
-            " , [$url]
+                WHERE url = :url
+            " , ['url' => $url]
         );
 
         $resultProjects = $q->fetch();
@@ -58,8 +58,8 @@ class Wx_ProjectManager{
         $q = Wx_Query::query("
                 SELECT *
                 FROM projects
-                WHERE id = ?
-            " , [$project_id]
+                WHERE id = :id
+            " , ['id' => $project_id]
         );
 
         $resultProjects = $q->fetch();
@@ -95,14 +95,14 @@ class Wx_ProjectManager{
         $q = Wx_Query::query(
             "
                 INSERT INTO projects
-                (name, owner, users, type, description, url, date_creation, date_modification, public)
+                (app_id, name, owner, type, description, url, date_creation, date_modification, public)
                 VALUES
-                (:name, :owner, :users, :type, :description, :url, :date_creation, :date_modification, :public)
+                (:app_id, :name, :owner, :type, :description, :url, :date_creation, :date_modification, :public)
             ",
             [
+                'app_id' => 0,
                 'name' => $project->getName(),
                 'owner' => $project->getOwner(),
-                'users' => $project->getUsers(),
                 'type' => $project->getType(),
                 'description' => $project->getDescription(),
                 'url' => $project->getUrl(),
@@ -215,10 +215,10 @@ class Wx_ProjectManager{
         Wx_Query::query(
             "
                 DELETE FROM projects
-                WHERE url = ?
+                WHERE url = :url
             ",
             [
-                $url,
+                'url' => $url,
             ]
         );
 
@@ -250,10 +250,10 @@ class Wx_ProjectManager{
                 "
                     SELECT *
                     FROM projects
-                    WHERE url = ?
+                    WHERE url = :url
               ",
                 [
-                    $newUrl,
+                    'url' => $newUrl,
                 ]
             );
 
@@ -430,11 +430,11 @@ class Wx_ProjectManager{
                 FROM projects_users pu
                 JOIN projects p
                 ON pu.project_id = p.id
-                WHERE pu.user_id = ?
+                WHERE pu.user_id = :id
                 AND p.owner != pu.user_id
             ",
             [
-                $user->getId(),
+                'id' => $user->getId(),
             ]
         );
 
@@ -459,10 +459,10 @@ class Wx_ProjectManager{
                 SELECT pu.*, u.name
                 FROM projects_users pu JOIN users u
                  ON u.id = pu.user_id
-                WHERE pu.project_id = ?
+                WHERE pu.project_id = :id
             ",
             [
-                $project_id,
+                'id' => $project_id,
             ]
         );
 

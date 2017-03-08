@@ -31,3 +31,6 @@ define('DB_HOST', 'localhost');
 define('DB_NAME', 'paneldev');
 define('DB_USERNAME', 'root');
 define('DB_PASSWORD', '');
+
+//Data displaying (Number)
+define('API_PAGINATION_NUMBER', 20);

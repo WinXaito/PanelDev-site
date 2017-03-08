@@ -27,7 +27,7 @@ if(isset($_POST['project_name'])&&isset($_POST['project_type'])&&isset($_POST['p
             Wx_Session::getUser()->getId(),
             $_POST['project_type'],
             $_POST['project_description'],
-            $projectManager->newUrl(),
+            Wx_ProjectManager::newUrl(),
             time(),
             0,
             false

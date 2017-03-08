@@ -11,10 +11,10 @@ class Wx_Apps_Print3dManager{
             "
                 SELECT *
                 FROM app_print3d
-                WHERE project_id = ?
+                WHERE project_id = :id
             ",
             [
-                $project->getId(),
+                'id' => $project->getId(),
             ]
         );
 
@@ -41,10 +41,10 @@ class Wx_Apps_Print3dManager{
             "
                 SELECT *
                 FROM app_print3d
-                WHERE id = ?
+                WHERE id = :id
             ",
             [
-                $print3d_id,
+                'id' => $print3d_id,
             ]
         );
 
@@ -98,10 +98,10 @@ class Wx_Apps_Print3dManager{
         Wx_Query::query(
             '
                 DELETE FROM app_print3d
-                WHERE id = ?
+                WHERE id = :id
             ',
             [
-                $project->getId()
+                'id' => $project->getId()
             ]
         );
     }
