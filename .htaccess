@@ -50,6 +50,9 @@
             RewriteRule ^project/(\w+)/remove$ controllers/projects/removeproject.php?url=$1 [L]
 
         #Files
+            RewriteRule ^files/view/(\w+)$ controllers/files/files_view.php?uniqId=$1 [L]
+            RewriteRule ^files/edit/(\w+)$ controllers/files/files_edit.php?uniqId=$1 [L]
+            RewriteRule ^files/remove/(\w+)$ controllers/files/files_remove.php?uniqId=$1 [L]
             RewriteRule ^files/download/(\w+)$ controllers/files/files_download.php?uniqId=$1&action=download [L]
             RewriteRule ^files/display/(\w+)$ controllers/files/files_download.php?uniqId=$1&action=display [L]
 

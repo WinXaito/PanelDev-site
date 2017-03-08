@@ -14,7 +14,6 @@ class Wx_Std_File{
     private $_parent_id;
     private $_project_id;
     private $_type;
-    private $_url;
     private $_date_creation;
     private $_date_modification;
     private $_public;
@@ -29,12 +28,11 @@ class Wx_Std_File{
      * @param $_parent_id
      * @param $_project_id
      * @param $_type
-     * @param $_url
      * @param $_date_creation
      * @param $_date_modification
      * @param $_public
      */
-    public function __construct($_id, $_uniqId, $_name, $_size, $_description, $_parent_id, $_project_id, $_type, $_url, $_date_creation, $_date_modification, $_public){
+    public function __construct($_id, $_uniqId, $_name, $_size, $_description, $_parent_id, $_project_id, $_type, $_date_creation, $_date_modification, $_public){
         if($_uniqId == 0)
             $_uniqId = uniqid();
 
@@ -46,7 +44,6 @@ class Wx_Std_File{
         $this->_parent_id = $_parent_id;
         $this->_project_id = $_project_id;
         $this->_type = $_type;
-        $this->_url = $_url;
         $this->_date_creation = $_date_creation;
         $this->_date_modification = $_date_modification;
         $this->_public = $_public;
@@ -180,20 +177,6 @@ class Wx_Std_File{
      */
     public function setType($type){
         $this->_type = $type;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getUrl(){
-        return $this->_url;
-    }
-
-    /**
-     * @param mixed $url
-     */
-    public function setUrl($url){
-        $this->_url = $url;
     }
 
     /**

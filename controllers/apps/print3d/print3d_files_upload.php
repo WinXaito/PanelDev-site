@@ -18,7 +18,6 @@ if(isset($_FILES)){
                 $print3dContent->getId(),
                 $print3dContent->getProjectId(),
                 'stl',
-                '',
                 time(),
                 0,
                 false
@@ -43,9 +42,9 @@ if(isset($_FILES)){
                 $_FILES['gCodeFile']['name'],
                 $_FILES['gCodeFile']['size'],
                 '',
-                $print3dContent,
+                $print3dContent->getId(),
+                $print3dContent->getProjectId(),
                 'gcode',
-                '',
                 time(),
                 0,
                 false

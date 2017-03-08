@@ -1,0 +1,42 @@
+{% extends 'default.twig' %}
+
+{% block content %}
+    <div class="sidebar">
+        <span><a href="{{ URL }}/project/{{ project.url }}/files#files">Retour au projet</a></span>
+        <span><a href="{{ URL }}/files/edit/{{ file.uniqId }}">Editer</a></span>
+        <span><a href="{{ URL }}/files/remove/{{ file.uniqId }}">Supprimer</a></span>
+    </div>
+
+    <div>
+        <h3 class="page-title">Fichiers</h3>
+
+        <dl>
+            <dt>Nom</dt>
+            <dd>{{ file.name }}</dd>
+
+            <dt class="margin-top">Description</dt>
+            {% if file.description is not empty %}
+                <dd>{{ file.description }}</dd>
+            {% else %}
+                <dd>Aucune description disponible</dd>
+            {% endif %}
+
+            <dt class="margin-top">Date d'ajout</dt>
+            <dd>{{ file.date_creation|date('d/m/Y') }}</dd>
+
+            <dt class="margin-top">Date de modification</dt>
+            {% if file.date_modification != 0 %}
+                <dd>{{ file.date_modification|date('d/m/Y') }}</dd>
+            {% else %}
+                <dd>-</dd>
+            {% endif %}
+
+            <dt class="margin-top">Public</dt>
+            {% if file.public %}
+                <dd>Oui</dd>
+            {% else %}
+                <dd>Non</dd>
+            {% endif %}
+        </dl>
+    </div>
+{% endblock %}

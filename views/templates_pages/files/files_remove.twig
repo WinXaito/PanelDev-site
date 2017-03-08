@@ -1,0 +1,28 @@
+{% extends 'default.twig' %}
+
+{% block content %}
+    <div class="sidebar">
+        <span><a href="{{ URL }}/project/{{ project.url }}/files#files">Retour au projet</a></span>
+        {% if not removed %}
+            <span><a href="{{ URL }}/files/view/{{ file.uniqId }}">Voir</a></span>
+            <span><a href="{{ URL }}/files/edit/{{ file.uniqId }}">Editer</a></span>
+        {% endif %}
+    </div>
+
+    <div>
+        <h3 class="page-title">Fichiers</h3>
+
+        {% if removed %}
+            <p class="alert alert-info">Le fichier a bien été supprimé</p>
+        {% else %}
+            <form method="POST" action="">
+                <div class="form-group text-center">
+                    <div>
+                        <p>Veuillez confirmer la suppression du fichier</p>
+                    </div>
+                    <input type="submit" class="btn btn-danger" value="Je confirme la suppression" name="submit_remove"/>
+                </div>
+            </form>
+        {% endif %}
+    </div>
+{% endblock %}

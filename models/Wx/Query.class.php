@@ -42,7 +42,6 @@ class Wx_Query{
         $tStart = microtime(true);
         $req = self::$db->prepare($query);
 
-        //var_dump(debug_backtrace());
         foreach($params as $k => $v){
             if(filter_var($v, FILTER_VALIDATE_INT) || $v == 0)
                 $req->bindValue($k, $v, PDO::PARAM_INT);

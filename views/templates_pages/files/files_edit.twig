@@ -1,0 +1,40 @@
+{% extends 'default.twig' %}
+
+{% block content %}
+    <div class="sidebar">
+        <span><a href="{{ URL }}/project/{{ project.url }}/files#files">Retour au projet</a></span>
+        <span><a href="{{ URL }}/files/view/{{ file.uniqId }}">Voir</a></span>
+        <span><a href="{{ URL }}/files/remove/{{ file.uniqId }}">Supprimer</a></span>
+    </div>
+
+    <div>
+        <h3 class="page-title">Fichiers</h3>
+
+        <form method="POST" action="">
+            <div class="form-group">
+                <label for="file_name">Nom</label>
+                <input type="text" name="file_name" id="file_name" placeholder="Nom du fichier" class="form-control" value="{{ file.name }}"/>
+
+                <label class="margin-top" for="file_description">Description</label>
+                <textarea name="file_description" id="file_description" placeholder="Description du fichier" class="form-control">{{ file.description }}</textarea>
+
+                <label class="margin-top">Public</label>
+                <div class="radio">
+                    <label for="file_public_yes">
+                        <input type="radio" name="file_public" id="file_public_yes" value="yes" {% if file.public %}checked{% endif %}>
+                        Oui
+                    </label>
+                </div>
+                <div class="radio">
+                    <label for="file_public_no">
+                        <input type="radio" name="file_public" id="file_public_no" value="no" {% if not file.public %}checked{% endif %}>
+                        Non
+                    </label>
+                </div>
+            </div>
+            <div class="form-group text-center">
+                <input type="submit" class="btn btn-default" value="Enregistrer" name="submit"/>
+            </div>
+        </form>
+    </div>
+{% endblock %}

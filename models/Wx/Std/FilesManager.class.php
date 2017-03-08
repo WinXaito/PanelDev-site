@@ -33,7 +33,6 @@ class Wx_Std_FilesManager{
                 $result['parentId'],
                 $result['projectId'],
                 $result['type'],
-                $result['url'],
                 $result['date_creation'],
                 $result['date_modification'],
                 $result['public']
@@ -74,7 +73,6 @@ class Wx_Std_FilesManager{
                     $data['parentId'],
                     $data['projectId'],
                     $data['type'],
-                    $data['url'],
                     $data['date_creation'],
                     $data['date_modification'],
                     $data['public']
@@ -92,9 +90,9 @@ class Wx_Std_FilesManager{
         Wx_Query::query(
             '
                 INSERT INTO std_files
-                (uniqId, name, size, description, parentType, parentId, projectId, type, url, date_creation, date_modification, public)
+                (uniqId, name, size, description, parentType, parentId, projectId, type, date_creation, date_modification, public)
                 VALUES
-                (:uniqId, :name, :size, :description, :parentType, :parentId, :projectId, :type, :url, :date_creation, :date_modification, :public)
+                (:uniqId, :name, :size, :description, :parentType, :parentId, :projectId, :type, :date_creation, :date_modification, :public)
             ',
             [
                 'uniqId' => $file->getUniqId(),
@@ -105,7 +103,6 @@ class Wx_Std_FilesManager{
                 'parentId' => $file->getParent()->getId(),
                 'projectId' => $file->getParent()->getProjectId(),
                 'type' => $file->getType(),
-                'url' => $file->getUrl(),
                 'date_creation' => time(),
                 'date_modification' => 0,
                 'public' => $file->isPublic(),
@@ -115,9 +112,8 @@ class Wx_Std_FilesManager{
 
     /**
      * @param Wx_Std_File $file
-     * @param $url
      */
-    public static function update(Wx_Std_File $file, $url){
+    public static function update(Wx_Std_File $file){
         Wx_Query::query(
             '
                 UPDATE std_files
@@ -127,10 +123,9 @@ class Wx_Std_FilesManager{
                     parentType = :parentType,
                     parentId = :parentId,
                     type = :type,
-                    url = :url,
                     date_modification = :date_modification,
                     public = :public
-                WHERE url = :urlfind
+                WHERE uniqId = :uniqId
             ',
             [
                 'name' => $file->getName(),
@@ -139,25 +134,29 @@ class Wx_Std_FilesManager{
                 'parentType' => $file->getParent()->getType(),
                 'parentId' => $file->getParent()->getId(),
                 'type' => $file->getType(),
-                'url' => $file->getUrl(),
-                'urlfind' => $url,
                 'date_modification' => time(),
                 'public' => $file->isPublic(),
+                'uniqId' => $file->getUniqId(),
             ]
         );
     }
 
     /**
-     * @param $url
+     * @param Wx_Std_File $file
      */
-    public static function remove($url){
+    public static function remove(Wx_Std_File $file){
+        $path = __DIR__.'/../../../media/users/'.Wx_Session::getUser()->getId().'/projects/'.$file->getProjectId().'/files/'.$file->getUniqId().'.wx';
+
+        if(file_exists($path))
+            unlink($path);
+
         Wx_Query::query(
             '
                 DELETE FROM std_files
-                WHERE url = :url
+                WHERE uniqId = :uniqId
             ',
             [
-                'url' => $url,
+                'uniqId' => $file->getUniqId(),
             ]
         );
     }
