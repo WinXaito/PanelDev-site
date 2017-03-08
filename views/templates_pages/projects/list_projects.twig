@@ -12,8 +12,8 @@
     {% endif %}
 {% endfor %}
 
-{% if typeWebsite == 1 %}
-    <h4 style="margin-bottom:0">Sites Web</h4>
+{% if typeWebsite == 1 and (type == 'website' or type == 'all') %}
+    <h4 style="margin-bottom:0"><a href="{{ URL }}/projects/website" style="color:black">Sites Web</a></h4>
     <table class="table table-striped">
         {% block head %}
             <thead>
@@ -25,7 +25,15 @@
         {% endblock %}
         <tbody>
         {% for project in projects if project.owner == user.id and project.type == 'website' %}
-            <tr>
+            {% if loop.index == 11 and type != 'website' %}
+                <tr>
+                    <td><a href="{{ URL }}/projects/website">Voir d'avantages de projets du groupe Général...</a></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+            {% elseif loop.index < 11 or type == 'website' %}
+                <tr>
                     <td><a href="{{ URL }}/project/{{ project.url }}/view">{{ project.name }}</a></td>
                     <td class="table-column-date">{{ project.date_creation|date('d/m/Y') }}</td>
                     {% if project.date_modification == 0 %}
@@ -34,70 +42,98 @@
                         <td class="table-column-date">{{ project.date_modification|date('d/m/Y') }}</td>
                     {% endif %}
                     <td class="table-column-remove"><a href="{{ URL }}/project/{{ project.url }}/remove">Supprimer</a></td>
-            </tr>
+                </tr>
+            {% endif %}
         {% endfor %}
         </tbody>
     </table>
 {% endif %}
 
-{% if typeGeneral == 1 %}
-    <h4 style="margin-bottom:0">Général</h4>
+{% if typeGeneral == 1 and (type == 'general' or type == 'all') %}
+    <h4 style="margin-bottom:0"><a href="{{ URL }}/projects/general" style="color:black">Général</a></h4>
     <table class="table table-striped">
         {{ block('head') }}
         <tbody>
         {% for project in projects if project.owner == user.id and project.type == 'general' %}
-            <tr>
-                <td><a href="{{ URL }}/project/{{ project.url }}/view">{{ project.name }}</a></td>
-                <td class="table-column-date">{{ project.date_creation|date('d/m/Y') }}</td>
-                {% if project.date_modification == 0 %}
-                    <td class="table-column-date">-</td>
-                {% else %}
-                    <td class="table-column-date">{{ project.date_modification|date('d/m/Y') }}</td>
-                {% endif %}
-                <td class="table-column-remove"><a href="{{ URL }}/project/{{ project.url }}/remove">Supprimer</a></td>
-            </tr>
+            {% if loop.index == 11 and type != 'general' %}
+                <tr>
+                    <td><a href="{{ URL }}/projects/general">Voir d'avantages de projets du groupe Général...</a></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+            {% elseif loop.index < 11 or type == 'general' %}
+                <tr>
+                    <td><a href="{{ URL }}/project/{{ project.url }}/view">{{ project.name }}</a></td>
+                    <td class="table-column-date">{{ project.date_creation|date('d/m/Y') }}</td>
+                    {% if project.date_modification == 0 %}
+                        <td class="table-column-date">-</td>
+                    {% else %}
+                        <td class="table-column-date">{{ project.date_modification|date('d/m/Y') }}</td>
+                    {% endif %}
+                    <td class="table-column-remove"><a href="{{ URL }}/project/{{ project.url }}/remove">Supprimer</a></td>
+                </tr>
+            {% endif %}
         {% endfor %}
         </tbody>
     </table>
 {% endif %}
 
-{% if typeGame == 1 %}
-    <h4 style="margin-bottom:0">Jeu</h4>
+{% if typeGame == 1 and (type == 'game' or type == 'all') %}
+    <h4 style="margin-bottom:0"><a href="{{ URL }}/projects/game" style="color:black">Jeu</a></h4>
     <table class="table table-striped">
         {{ block('head') }}
         <tbody>
         {% for project in projects if project.owner == user.id and project.type == 'game' %}
-            <tr>
-                <td><a href="{{ URL }}/project/{{ project.url }}/view">{{ project.name }}</a></td>
-                <td class="table-column-date">{{ project.date_creation|date('d/m/Y') }}</td>
-                {% if project.date_modification == 0 %}
-                    <td class="table-column-date">-</td>
-                {% else %}
-                    <td class="table-column-date">{{ project.date_modification|date('d/m/Y') }}</td>
-                {% endif %}
-                <td class="table-column-remove"><a href="{{ URL }}/project/{{ project.url }}/remove">Supprimer</a></td>
-            </tr>
+            {% if loop.index == 11 and type != 'game '%}
+                <tr>
+                    <td><a href="{{ URL }}/projects/game">Voir d'avantages de projets du groupe Général...</a></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+            {% elseif loop.index < 11 or type == 'game' %}
+                <tr>
+                    <td><a href="{{ URL }}/project/{{ project.url }}/view">{{ project.name }}</a></td>
+                    <td class="table-column-date">{{ project.date_creation|date('d/m/Y') }}</td>
+                    {% if project.date_modification == 0 %}
+                        <td class="table-column-date">-</td>
+                    {% else %}
+                        <td class="table-column-date">{{ project.date_modification|date('d/m/Y') }}</td>
+                    {% endif %}
+                    <td class="table-column-remove"><a href="{{ URL }}/project/{{ project.url }}/remove">Supprimer</a></td>
+                </tr>
+            {% endif %}
         {% endfor %}
         </tbody>
     </table>
 {% endif %}
 
-{% if typePrint3d == 1 %}
-    <h4 style="margin-bottom:0">Impression 3D</h4>
+{% if typePrint3d == 1 and (type == 'print3d' or type == 'all') %}
+    <h4 style="margin-bottom:0"><a href="{{ URL }}/projects/print3d" style="color:black">Impression 3D</a></h4>
     <table class="table table-striped">
         {{ block('head') }}
         <tbody>
         {% for project in projects if project.owner == user.id and project.type == 'print3d' %}
-            <tr>
-                <td><a href="{{ URL }}/project/{{ project.url }}/view">{{ project.name }}</a></td>
-                <td class="table-column-date">{{ project.date_creation|date('d/m/Y') }}</td>
-                {% if project.date_modification == 0 %}
-                    <td class="table-column-date">-</td>
-                {% else %}
-                    <td class="table-column-date">{{ project.date_modification|date('d/m/Y') }}</td>
-                {% endif %}
-                <td class="table-column-remove"><a href="{{ URL }}/project/{{ project.url }}/remove">Supprimer</a></td>
-            </tr>
+            {% if loop.index == 11 and type != 'print3d' %}
+                <tr>
+                    <td><a href="{{ URL }}/projects/print3d">Voir d'avantages de projets du groupe Général...</a></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+            {% elseif loop.index < 11 or type == 'print3d' %}
+                <tr>
+                    <td><a href="{{ URL }}/project/{{ project.url }}/view">{{ project.name }}</a></td>
+                    <td class="table-column-date">{{ project.date_creation|date('d/m/Y') }}</td>
+                    {% if project.date_modification == 0 %}
+                        <td class="table-column-date">-</td>
+                    {% else %}
+                        <td class="table-column-date">{{ project.date_modification|date('d/m/Y') }}</td>
+                    {% endif %}
+                    <td class="table-column-remove"><a href="{{ URL }}/project/{{ project.url }}/remove">Supprimer</a></td>
+                </tr>
+            {% endif %}
         {% endfor %}
         </tbody>
     </table>

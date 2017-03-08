@@ -39,13 +39,13 @@
         #Projects
             RewriteRule ^projects$ controllers/projects/projects.php [L]
             RewriteRule ^projects/associate$ controllers/projects/projects_associate.php [L]
+            RewriteRule ^projects/(\w+)$ controllers/projects/projects.php?type=$1 [L]
             RewriteRule ^project/new$ controllers/projects/newproject.php [L]
                 RewriteRule ^project/(\w+)/new$ controllers/apps/new_module.php?url=$1 [L]
 
             #General projects
             RewriteRule ^project/(\w+)/(\w+)/(\w+)$ controllers/apps/urls_module.php?url=$1&type=$2&action=$3 [L]
             RewriteRule ^project/(\w+)/(\w+)$ controllers/apps/urls_module.php?url=$1&type=$2 [L]
-                #RewriteRule ^project/(\w+)/view/users$ controllers/projects/usersproject.php?url=$1 [L]
             RewriteRule ^project/(\w+)/update$ controllers/projects/updateproject.php?url=$1 [L]
             RewriteRule ^project/(\w+)/remove$ controllers/projects/removeproject.php?url=$1 [L]
 
